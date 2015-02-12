@@ -1,2 +1,2 @@
-# formula-one-api
-Formula 1 api
+# Formula-one-api
+Java-Spring-Hibernate/JPA-Rest-project
