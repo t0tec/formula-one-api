@@ -7,13 +7,90 @@
     <groupId>org.formula-one</groupId>
     <artifactId>parent</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>core</module>
-        <module>services</module>
-        <module>rest</module>
-    </modules>
     <packaging>pom</packaging>
 
     <name>formula-one-api</name>
+    <description>
+        This project will be an api for getting formula one data in a restful representation
+        It uses Spring IO platform to manage our dependencies
+    </description>
+    <url>https://github.com/t0tec/formula-one-api</url>
+
+    <modules>
+        <module>core</module>
+        <module>repositories</module>
+        <module>services</module>
+        <module>rest</module>
+    </modules>
+
+    <dependencyManagement>
+        <!-- Dependencies that might be used by children -->
+        <dependencies>
+            <dependency>
+                <groupId>io.spring.platform</groupId>
+                <artifactId>platform-bom</artifactId>
+                <version>1.1.1.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Apache Commons -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+            </dependency>
+            <!-- Use SLF4J with LogBack for all application logging -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+            </dependency>
+            <!-- Testing dependencies -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jdk.version>1.7</jdk.version>
+    </properties>
+
+    <dependencies>
+        <!-- HikariCP DataSource connection pooling -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP-java6</artifactId>
+        </dependency>
+        <!-- JPA Provider -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+        </dependency>
+        <!-- Adds support for Java 8 dates -->
+        <dependency>
+            <groupId>org.jadira.usertype</groupId>
+            <artifactId>usertype.extended</artifactId>
+            <version>3.2.0.GA</version>
+        </dependency>
+        <!-- Spring Data JPA -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
