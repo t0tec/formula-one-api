@@ -1,2 +1,8 @@
 # Formula-one-api
-Java-Spring-Hibernate/JPA-Rest-project
+This project will be an api for getting formula one data in a restful representation
+
+keywords:
+* Java
+* Spring IO
+* Spring Data JPA
+* REST
