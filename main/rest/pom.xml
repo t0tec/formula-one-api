@@ -22,12 +22,12 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>services</artifactId>
             <version>${project.parent.version}</version>
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<groupId>${project.groupId}</groupId>-->
-                    <!--<artifactId>repositories</artifactId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
+            <exclusions>
+                <exclusion>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>repositories</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

@@ -1,10 +1,9 @@
 package org.formulaone.rest;
 
-import org.formulaone.repository.CircuitRepository;
 import org.formulaone.service.CircuitReadOnlyService;
-import org.formulaone.service.RepositoryCircuitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author t0tec (t0tec.olmec@gmail.com)
@@ -13,24 +12,21 @@ import org.slf4j.LoggerFactory;
  */
 public class Main {
 
-  private CircuitReadOnlyService service;
-
-  private CircuitRepository repository;
-
-  private RepositoryCircuitService repoCircuitService;
-
-  private static final Logger logger = LoggerFactory.getLogger(Main.class);
-
-  public static void main(String[] args) {
-    Main main = new Main();
-    main.temp();
-  }
-
-  private void temp() {
-    // TODO: hide implementation
-    // Hide with excluding the repositories dependency in maven???
-    repoCircuitService = new RepositoryCircuitService(repository);
-
-    service.findByName("Albert Park Grand Prix Circuit"); // this is ok
-  }
+//  private final CircuitReadOnlyService service;
+//
+//  // TODO: autowire this in Spring for using service in rest module
+//  @Autowired
+//  public Main(CircuitReadOnlyService service) {
+//    this.service = service;
+//  }
+//
+//  private static final Logger logger = LoggerFactory.getLogger(Main.class);
+//
+//  public static void main(String[] args) {
+//
+//  }
+//
+//  private void temp() {
+//    service.findByName("Albert Park Grand Prix Circuit"); // this is ok
+//  }
 }

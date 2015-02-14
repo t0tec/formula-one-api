@@ -19,7 +19,7 @@ import java.util.List;
  * @since 1.0
  */
 @Service
-public final class RepositoryCircuitService implements CircuitReadOnlyService {
+final class RepositoryCircuitService implements CircuitReadOnlyService {
 
   private static final Logger logger = LoggerFactory.getLogger(RepositoryCircuitService.class);
 

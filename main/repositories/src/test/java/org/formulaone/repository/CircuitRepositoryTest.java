@@ -7,9 +7,7 @@ import org.formulaone.core.model.Circuit;
 import org.formulaone.repository.config.ApplicationContext;
 import org.formulaone.repository.config.Profiles;
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
@@ -73,13 +71,10 @@ public class CircuitRepositoryTest {
     Assert.assertEquals(NAME, circuit.getName());
   }
 
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
   @Test
-  @DatabaseSetup("classpath:circuit-no-data.xml")
+  @DatabaseSetup("classpath:circuit-data.xml")
   public void testReturnNullCircuitWithCorrectId() {
-    Circuit circuit = circuitRepository.findOne(ID);
+    Circuit circuit = circuitRepository.findOne(NON_EXISTING_ID);
 
     Assert.assertNull(circuit);
   }
