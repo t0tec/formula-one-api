@@ -20,7 +20,7 @@
               class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"/>
     </beans>
 
-    <beans profile="integrationtest">
+    <beans profile="integration-test">
         <context:property-placeholder location="classpath:integration-test.properties"/>
 
         <bean id="propertyPlaceHolderConfigurer"

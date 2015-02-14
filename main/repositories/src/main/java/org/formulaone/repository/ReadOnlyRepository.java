@@ -1,5 +1,6 @@
 package org.formulaone.repository;
 
+import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.Repository;
 
 import java.io.Serializable;
@@ -9,6 +10,7 @@ import java.io.Serializable;
  * @version $Id$
  * @since 1.0
  */
+@NoRepositoryBean
 public interface ReadOnlyRepository<T, ID extends Serializable> extends Repository<T, ID> {
 
   T findOne(ID id);

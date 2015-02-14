@@ -54,7 +54,7 @@ public final class RepositoryCircuitService implements CircuitReadOnlyService {
     Circuit circuitEntry = repository.findOne(id);
 
     if (circuitEntry == null) {
-      throw new CircuitNotFoundException(id);
+      throw new CircuitNotFoundException("Did not found circuit with id " + id);
     }
 
     logger.info("Found circuit entry: {}", circuitEntry);
@@ -62,7 +62,22 @@ public final class RepositoryCircuitService implements CircuitReadOnlyService {
     return convertIntoDto(circuitEntry);
   }
 
-  public CircuitDto convertIntoDto(Circuit entity) {
+  @Override
+  public CircuitDto findByName(String name) {
+    logger.info("Finding circuit entry by using name: {}", name);
+
+    Circuit circuitEntry = repository.findByName(name);
+
+    if (circuitEntry == null) {
+      throw new CircuitNotFoundException("Did not found circuit with name " + name);
+    }
+
+    logger.info("Found circuit entry: {}", circuitEntry);
+
+    return convertIntoDto(circuitEntry);
+  }
+
+  private CircuitDto convertIntoDto(Circuit entity) {
     CircuitDto dto = new CircuitDto();
 
     dto.setId(entity.getId());

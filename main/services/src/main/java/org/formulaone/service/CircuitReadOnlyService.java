@@ -25,4 +25,14 @@ public interface CircuitReadOnlyService {
    *                                                                with the given id.
    */
   CircuitDto findById(Long id);
+
+  /**
+   * Finds a circuit entry by using the name given as a method parameter.
+   *
+   * @param name The name of the wanted circuit entry.
+   * @return The information of the requested circuit entry.
+   * @throws org.formulaone.core.exception.CircuitNotFoundException if no circuit entry is found
+   *                                                                with the given id.
+   */
+  CircuitDto findByName(String name);
 }

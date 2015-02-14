@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <circuit id="1" reference_name="albert_park" name="Albert Park Grand Prix Circuit" country="Australia" location="Albert Park" lat="-37.849722" lng="144.968333" length="5.303" turns="16" url="http://en.wikipedia.org/wiki/Melbourne_Grand_Prix_Circuit"/>
+</dataset>

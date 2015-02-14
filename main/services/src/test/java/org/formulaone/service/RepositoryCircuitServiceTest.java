@@ -34,14 +34,14 @@ public class RepositoryCircuitServiceTest {
 
   private static final Long NON_EXISTING_ID = 20L;
 
-  private CircuitRepository repository;
+  private CircuitRepository circuitRepository;
 
-  private RepositoryCircuitService service;
+  private RepositoryCircuitService circuitService;
 
   @Before
   public void setUp() {
-    repository = mock(CircuitRepository.class);
-    service = new RepositoryCircuitService(repository);
+    circuitRepository = mock(CircuitRepository.class);
+    circuitService = new RepositoryCircuitService(circuitRepository);
   }
 
   public class FindAll {
@@ -50,9 +50,9 @@ public class RepositoryCircuitServiceTest {
 
       @Test
       public void shouldReturnEmptyList() {
-        given(repository.findAll()).willReturn(new ArrayList<Circuit>());
+        given(circuitRepository.findAll()).willReturn(new ArrayList<Circuit>());
 
-        List<CircuitDto> circuitEntries = service.findAll();
+        List<CircuitDto> circuitEntries = circuitService.findAll();
 
         assertThat(circuitEntries).isEmpty();
       }
@@ -67,9 +67,9 @@ public class RepositoryCircuitServiceTest {
               .name(NAME)
               .build();
 
-          given(repository.findAll()).willReturn(Arrays.asList(found));
+          given(circuitRepository.findAll()).willReturn(Arrays.asList(found));
 
-          List<CircuitDto> circuitEntries = service.findAll();
+          List<CircuitDto> circuitEntries = circuitService.findAll();
 
           assertThat(circuitEntries).hasSize(1);
           CircuitDto circuitEntry = circuitEntries.iterator().next();
@@ -94,7 +94,7 @@ public class RepositoryCircuitServiceTest {
       @Test
       public void shouldThrowExceptionWithCorrectId() {
         thrown.expect(CircuitNotFoundException.class);
-        repository.findOne(NON_EXISTING_ID);
+        circuitRepository.findOne(NON_EXISTING_ID);
       }
     }
 
@@ -108,9 +108,42 @@ public class RepositoryCircuitServiceTest {
             .name(NAME)
             .build();
 
-        given(repository.findOne(ID)).willReturn(found);
+        given(circuitRepository.findOne(ID)).willReturn(found);
 
-        CircuitDto returned = service.findById(ID);
+        CircuitDto returned = circuitService.findById(ID);
+
+        CircuitDtoAssert.assertThatCircuitEntry(returned)
+            .hasId(ID)
+            .hasReferenceName(REFERENCE_NAME)
+            .hasName(NAME);
+      }
+    }
+  }
+
+  public class FindByName {
+
+    public class WhenCircuitEntryIsNotFound {
+
+      @Test
+      public void shouldThrowExceptionWithCorrectId() {
+        thrown.expect(CircuitNotFoundException.class);
+        circuitRepository.findByName(NAME);
+      }
+    }
+
+    public class WhenCircuitEntryIsFound {
+
+      @Test
+      public void shouldReturnInformationOfFoundCircuitEntry() {
+        Circuit found = new CircuitBuilder()
+            .id(ID)
+            .referenceName(REFERENCE_NAME)
+            .name(NAME)
+            .build();
+
+        given(circuitRepository.findByName(NAME)).willReturn(found);
+
+        CircuitDto returned = circuitService.findByName(NAME);
 
         CircuitDtoAssert.assertThatCircuitEntry(returned)
             .hasId(ID)
