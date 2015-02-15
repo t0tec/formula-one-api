@@ -38,6 +38,16 @@ public class CircuitDto {
   public CircuitDto() {
   }
 
+  private CircuitDto(Builder builder) {
+    this.id = builder.id;
+    this.referenceName = builder.referenceName;
+    this.name = builder.name;
+  }
+
+  public static Builder getBuilder() {
+    return new Builder();
+  }
+
   public Long getId() {
     return id;
   }
@@ -125,5 +135,40 @@ public class CircuitDto {
         .append("latitude", this.latitude).append("longitude", this.longitude)
         .append("length", this.length).append("turns", this.turns).append("url", this.url)
         .toString();
+  }
+
+  /**
+   * The builder pattern makes it easier to create objects
+   */
+  public static class Builder {
+
+    private Long id;
+    private String referenceName;
+    private String name;
+
+    public Builder() {
+    }
+
+    public Builder id(Long id) {
+      this.id = id;
+      return this;
+    }
+
+    public Builder referenceName(String referenceName) {
+      this.referenceName = referenceName;
+      return this;
+    }
+
+    public Builder name(String name) {
+      this.name = name;
+      return this;
+    }
+
+
+    public CircuitDto build() {
+      CircuitDto build = new CircuitDto(this);
+
+      return build;
+    }
   }
 }

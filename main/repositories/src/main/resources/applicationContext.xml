@@ -5,11 +5,14 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-    <import resource="applicationContext-persistence.xml"/>
+    <import resource="../../../../repositories/src/main/resources/applicationContext-persistence.xml"/>
 
-    <context:component-scan base-package="org.formulaone.repository.config"/>
+    <context:component-scan base-package="org.formulaone.*"/>
 
-    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+    <context:annotation-config/>
+
+    <bean id="messageSource"
+          class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="useCodeAsDefaultMessage" value="true"/>
     </bean>
 
