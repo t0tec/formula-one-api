@@ -40,6 +40,7 @@ public class CircuitController {
     logger.info("Finding all circuit entries");
 
     List<CircuitDto> circuitEntries = circuitReadOnlyService.findAll();
+
     logger.info("Found {} circuit entries.", circuitEntries.size());
 
     return circuitEntries;
