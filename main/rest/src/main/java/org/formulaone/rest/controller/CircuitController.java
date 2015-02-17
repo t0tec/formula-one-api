@@ -1,7 +1,7 @@
 package org.formulaone.rest.controller;
 
-import org.formulaone.core.dto.CircuitDto;
 import org.formulaone.service.CircuitReadOnlyService;
+import org.formulaone.service.dto.CircuitDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +36,10 @@ public class CircuitController {
    * @return The information of all circuit entries.
    */
   @RequestMapping(method = RequestMethod.GET)
+//  headers = {
+//    MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces = {
+//    MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+//  @ResponseBody
   List<CircuitDto> findAll() {
     logger.info("Finding all circuit entries");
 

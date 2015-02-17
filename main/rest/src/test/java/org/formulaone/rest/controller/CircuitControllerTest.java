@@ -2,7 +2,7 @@ package org.formulaone.rest.controller;
 
 import com.nitorcreations.junit.runners.NestedRunner;
 
-import org.formulaone.core.dto.CircuitDto;
+import org.formulaone.service.dto.CircuitDto;
 import org.formulaone.core.exception.CircuitNotFoundException;
 import org.formulaone.service.CircuitReadOnlyService;
 import org.junit.Before;
@@ -97,8 +97,7 @@ public class CircuitControllerTest {
             .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
             .andExpect(jsonPath("$", hasSize(1)))
             .andExpect(jsonPath("$[0].referenceName", is(REFERENCE_NAME)))
-            .andExpect(jsonPath("$[0].name", is(NAME)))
-            .andExpect(jsonPath("$[0].id", is(ID.intValue())));
+            .andExpect(jsonPath("$[0].name", is(NAME)));
       }
     }
   }
@@ -110,7 +109,7 @@ public class CircuitControllerTest {
       @Test
       public void shouldReturnResponseStatusNotFound() throws Exception {
         given(circuitReadOnlyService.findById(NON_EXISTING_ID))
-            .willThrow(new CircuitNotFoundException("Did not found circuit with id " + NON_EXISTING_ID));
+            .willThrow(new CircuitNotFoundException(NON_EXISTING_ID));
 
         mockMvc.perform(get("/api/circuits/{id}", NON_EXISTING_ID))
             .andExpect(status().isNotFound());
@@ -119,7 +118,7 @@ public class CircuitControllerTest {
       @Test
       public void shouldReturnErrorMessageAsJson() throws Exception {
         given(circuitReadOnlyService.findById(ID))
-            .willThrow(new CircuitNotFoundException("Did not found circuit with id " + NON_EXISTING_ID));
+            .willThrow(new CircuitNotFoundException(NON_EXISTING_ID));
 
 //        mockMvc.perform(get("/api/circuits/{id}", NON_EXISTING_ID))
 //            .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
@@ -153,8 +152,7 @@ public class CircuitControllerTest {
         mockMvc.perform(get("/api/circuits/{id}", ID))
             .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
             .andExpect(jsonPath("$.referenceName", is(REFERENCE_NAME)))
-            .andExpect(jsonPath("$.name", is(NAME)))
-            .andExpect(jsonPath("$.id", is(ID.intValue())));
+            .andExpect(jsonPath("$.name", is(NAME)));
       }
     }
   }

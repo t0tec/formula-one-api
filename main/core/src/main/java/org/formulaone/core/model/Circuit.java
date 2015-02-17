@@ -43,10 +43,10 @@ public final class Circuit implements Serializable {
   private double longitude;
 
   @Column(name = "length", precision = 5, scale = 3, columnDefinition = "decimal(5,3)")
-  private double length;
+  private Double length;
 
   @Column(name = "turns", columnDefinition = "smallint")
-  private int turns;
+  private Integer turns;
 
   @Column(name = "url", length = MAX_LENGTH_URL)
   private String url;
@@ -56,7 +56,7 @@ public final class Circuit implements Serializable {
 
   public Circuit(String referenceName, String name, String country, String location,
                  double latitude,
-                 double longitude, double length, int turns, String url) {
+                 double longitude, Double length, Integer turns, String url) {
     this.referenceName = referenceName;
     this.name = name;
     this.country = country;
@@ -106,11 +106,11 @@ public final class Circuit implements Serializable {
     return this.longitude;
   }
 
-  public double getLength() {
+  public Double getLength() {
     return this.length;
   }
 
-  public int getTurns() {
+  public Integer getTurns() {
     return this.turns;
   }
 

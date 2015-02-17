@@ -1,4 +1,6 @@
-package org.formulaone.core.dto;
+package org.formulaone.service.dto;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.formulaone.core.model.Circuit;
@@ -13,6 +15,7 @@ import javax.validation.constraints.Size;
  */
 public class CircuitDto {
 
+  @JsonIgnore
   private Long id;
 
   @NotEmpty
@@ -28,9 +31,9 @@ public class CircuitDto {
 
   private double longitude;
 
-  private double length;
+  private Double length;
 
-  private int turns;
+  private Integer turns;
 
   @Size(max = Circuit.MAX_LENGTH_URL)
   private String url;
@@ -104,19 +107,19 @@ public class CircuitDto {
     this.longitude = longitude;
   }
 
-  public double getLength() {
+  public Double getLength() {
     return this.length;
   }
 
-  public void setLength(double length) {
+  public void setLength(Double length) {
     this.length = length;
   }
 
-  public int getTurns() {
+  public Integer getTurns() {
     return this.turns;
   }
 
-  public void setTurns(int turns) {
+  public void setTurns(Integer turns) {
     this.turns = turns;
   }
 

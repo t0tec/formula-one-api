@@ -8,7 +8,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,33 +47,20 @@ final class RestErrorHandler {
   @ResponseStatus(HttpStatus.NOT_FOUND)
   @ResponseBody
   ErrorDTO handleCircuitEntryNotFound(CircuitNotFoundException ex, Locale currentLocale) {
-    logger.error("Circuit entry was not found by using id: {}", ex.getMessage());
+    logger.error("Circuit entry was not found by using id: {}", ex.getId());
 
     MessageSourceResolvable errorMessageRequest = createSingleErrorMessageRequest(
         ERROR_CODE_CIRCUIT_ENTRY_NOT_FOUND,
-        ex.getMessage()
+        ex.getId()
     );
 
     String errorMessage = messageSource.getMessage(errorMessageRequest, currentLocale);
+
     return new ErrorDTO(HttpStatus.NOT_FOUND.name(), errorMessage);
   }
 
   private DefaultMessageSourceResolvable createSingleErrorMessageRequest(String errorMessageCode,
                                                                          Object... params) {
     return new DefaultMessageSourceResolvable(new String[]{errorMessageCode}, params);
-  }
-
-
-  private String getValidationErrorMessage(FieldError fieldError, Locale currentLocale) {
-    String localizedErrorMessage = messageSource.getMessage(fieldError, currentLocale);
-
-    //If the message was not found, return the most accurate field error code instead.
-    //You can remove this check if you prefer to get the default error message.
-    if (localizedErrorMessage.equals(fieldError.getDefaultMessage())) {
-      String[] fieldErrorCodes = fieldError.getCodes();
-      localizedErrorMessage = fieldErrorCodes[0];
-    }
-
-    return localizedErrorMessage;
   }
 }

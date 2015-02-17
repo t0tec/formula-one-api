@@ -14,6 +14,7 @@
     <bean id="messageSource"
           class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="useCodeAsDefaultMessage" value="true"/>
+        <property name="basename" value="i18n.messages"/>
     </bean>
 
     <beans profile="application">

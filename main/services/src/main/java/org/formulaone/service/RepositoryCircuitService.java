@@ -1,6 +1,6 @@
 package org.formulaone.service;
 
-import org.formulaone.core.dto.CircuitDto;
+import org.formulaone.service.dto.CircuitDto;
 import org.formulaone.core.exception.CircuitNotFoundException;
 import org.formulaone.core.model.Circuit;
 import org.formulaone.repository.CircuitRepository;
@@ -19,7 +19,7 @@ import java.util.List;
  * @since 1.0
  */
 @Service
-public final class RepositoryCircuitService implements CircuitReadOnlyService {
+final class RepositoryCircuitService implements CircuitReadOnlyService {
 
   private static final Logger logger = LoggerFactory.getLogger(RepositoryCircuitService.class);
 
@@ -54,7 +54,7 @@ public final class RepositoryCircuitService implements CircuitReadOnlyService {
     Circuit circuitEntry = repository.findOne(id);
 
     if (circuitEntry == null) {
-      throw new CircuitNotFoundException("Did not found circuit with id " + id);
+      throw new CircuitNotFoundException(id);
     }
 
     logger.info("Found circuit entry: {}", circuitEntry);
@@ -69,7 +69,7 @@ public final class RepositoryCircuitService implements CircuitReadOnlyService {
     Circuit circuitEntry = repository.findByName(name);
 
     if (circuitEntry == null) {
-      throw new CircuitNotFoundException("Did not found circuit with name " + name);
+      throw new CircuitNotFoundException(0L);
     }
 
     logger.info("Found circuit entry: {}", circuitEntry);

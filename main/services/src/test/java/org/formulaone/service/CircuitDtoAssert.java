@@ -1,7 +1,7 @@
 package org.formulaone.service;
 
 import org.assertj.core.api.AbstractAssert;
-import org.formulaone.core.dto.CircuitDto;
+import org.formulaone.service.dto.CircuitDto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

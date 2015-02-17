@@ -1,6 +1,6 @@
 package org.formulaone.rest.controller;
 
-import org.formulaone.core.dto.CircuitDto;
+import org.formulaone.service.dto.CircuitDto;
 import org.springframework.test.util.ReflectionTestUtils;
 
 public class CircuitDtoBuilder {
