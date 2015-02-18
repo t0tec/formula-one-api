@@ -54,10 +54,13 @@ final class WebTestConfig {
 
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
     objectMapper.registerModule(new Jdk7Module());
 
     MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
     converter.setObjectMapper(objectMapper);
+
+
     return converter;
   }
 
@@ -93,6 +96,7 @@ final class WebTestConfig {
   exceptionResolver.setMessageConverters(
       Arrays.<HttpMessageConverter<?>>asList(new HttpMessageConverter[]{messageConverter}));
     exceptionResolver.afterPropertiesSet();
+    
     return exceptionResolver;
   }
 

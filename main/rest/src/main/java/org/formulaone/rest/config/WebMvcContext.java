@@ -30,7 +30,6 @@ class WebMvcContext extends WebMvcConfigurationSupport {
     configurer.enable();
   }
 
-
   @Override
   public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
     ObjectMapper objectMapper = new ObjectMapper();

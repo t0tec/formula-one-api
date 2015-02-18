@@ -2,10 +2,10 @@ package org.formulaone.service;
 
 import com.nitorcreations.junit.runners.NestedRunner;
 
-import org.formulaone.service.dto.CircuitDto;
 import org.formulaone.core.exception.CircuitNotFoundException;
 import org.formulaone.core.model.Circuit;
 import org.formulaone.repository.CircuitRepository;
+import org.formulaone.service.dto.CircuitDto;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

@@ -2,14 +2,17 @@ package org.formulaone.rest.controller;
 
 import com.nitorcreations.junit.runners.NestedRunner;
 
-import org.formulaone.service.dto.CircuitDto;
 import org.formulaone.core.exception.CircuitNotFoundException;
 import org.formulaone.service.CircuitReadOnlyService;
+import org.formulaone.service.dto.CircuitDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.StaticMessageSource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
@@ -28,16 +31,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(NestedRunner.class)
 public class CircuitControllerTest {
 
-  private static final Locale CURRENT_LOCALE = Locale.US;
+  private static final Logger logger = LoggerFactory.getLogger(CircuitControllerTest.class);
 
-  private static final String ERROR_MESSAGE_KEY_CIRCUIT_ENTRY_NOT_FOUND
-      = "error.circuit.entry.not.found";
+  private static final Locale CURRENT_LOCALE = Locale.US;
 
   private static final Long ID = 1L;
   private static final String REFERENCE_NAME = "albert_park";
   private static final String NAME = "Albert Park Grand Prix Circuit";
 
   private static final Long NON_EXISTING_ID = 20L;
+
+  private static final String ERROR_MESSAGE_KEY_CIRCUIT_ENTRY_NOT_FOUND
+      = "No circuit entry was found by using id: " + NON_EXISTING_ID;
 
   private MockMvc mockMvc;
 
@@ -77,7 +82,7 @@ public class CircuitControllerTest {
 
         mockMvc.perform(get("/api/circuits"))
             .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
-            .andExpect(jsonPath("$", hasSize(0)));
+            .andExpect(jsonPath("$MyList.circuit", hasSize(0)));
       }
     }
 
@@ -95,9 +100,9 @@ public class CircuitControllerTest {
 
         mockMvc.perform(get("/api/circuits"))
             .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
-            .andExpect(jsonPath("$", hasSize(1)))
-            .andExpect(jsonPath("$[0].referenceName", is(REFERENCE_NAME)))
-            .andExpect(jsonPath("$[0].name", is(NAME)));
+            .andExpect(jsonPath("$MyList.circuit", hasSize(1)))
+            .andExpect(jsonPath("$MyList.circuit[0].referenceName", is(REFERENCE_NAME)))
+            .andExpect(jsonPath("$MyList.circuit[0].name", is(NAME)));
       }
     }
   }
@@ -120,10 +125,17 @@ public class CircuitControllerTest {
         given(circuitReadOnlyService.findById(ID))
             .willThrow(new CircuitNotFoundException(NON_EXISTING_ID));
 
+        MvcResult result = mockMvc.perform(get("/api/circuits/{id}", NON_EXISTING_ID)).andReturn();
+
+        String content = result.getResponse().getContentAsString();
+
+        logger.info("{}", content);
+
+        // TODO: need to fix this test to get error message
 //        mockMvc.perform(get("/api/circuits/{id}", NON_EXISTING_ID))
 //            .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
 //            .andExpect(jsonPath("$.code", is(WebTestConstants.ERROR_CODE_CIRCUIT_ENTRY_NOT_FOUND)))
-//            .andExpect(jsonPath("message", is(ERROR_MESSAGE_KEY_CIRCUIT_ENTRY_NOT_FOUND)));
+//            .andExpect(jsonPath("$.message", is(ERROR_MESSAGE_KEY_CIRCUIT_ENTRY_NOT_FOUND)));
       }
     }
 
@@ -151,8 +163,8 @@ public class CircuitControllerTest {
 
         mockMvc.perform(get("/api/circuits/{id}", ID))
             .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
-            .andExpect(jsonPath("$.referenceName", is(REFERENCE_NAME)))
-            .andExpect(jsonPath("$.name", is(NAME)));
+            .andExpect(jsonPath("$circuit.referenceName", is(REFERENCE_NAME)))
+            .andExpect(jsonPath("$circuit.name", is(NAME)));
       }
     }
   }

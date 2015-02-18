@@ -3,6 +3,7 @@ package org.formulaone.repository.config;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import org.dozer.DozerBeanMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -118,5 +119,10 @@ public class PersistenceJpaConfig {
     JpaTransactionManager transactionManager = new JpaTransactionManager();
     transactionManager.setEntityManagerFactory(entityManagerFactory);
     return transactionManager;
+  }
+
+  @Bean
+  public DozerBeanMapper getMapper() {
+    return new DozerBeanMapper();
   }
 }
