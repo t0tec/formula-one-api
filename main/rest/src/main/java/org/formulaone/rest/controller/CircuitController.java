@@ -5,9 +5,11 @@ import org.formulaone.service.dto.CircuitDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -35,11 +37,9 @@ public class CircuitController {
    *
    * @return The information of all circuit entries.
    */
-  @RequestMapping(method = RequestMethod.GET)
-//  headers = {
-//    MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces = {
-//    MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
-//  @ResponseBody
+  @RequestMapping(method = RequestMethod.GET, produces = {
+      MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+  @ResponseBody
   List<CircuitDto> findAll() {
     logger.info("Finding all circuit entries");
 
@@ -58,7 +58,9 @@ public class CircuitController {
    * @throws org.formulaone.core.exception.CircuitNotFoundException if no circuit entry is found by
    *                                                                using the given id.
    */
-  @RequestMapping(value = "{id}", method = RequestMethod.GET)
+  @RequestMapping(value = "{id}", method = RequestMethod.GET, produces = {
+      MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+  @ResponseBody
   CircuitDto findById(@PathVariable("id") Long id) {
     logger.info("Finding circuit entry by using id: {}", id);
 
