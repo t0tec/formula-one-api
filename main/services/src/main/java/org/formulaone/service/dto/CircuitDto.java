@@ -1,6 +1,7 @@
 package org.formulaone.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.formulaone.core.model.Circuit;
@@ -13,6 +14,7 @@ import javax.validation.constraints.Size;
  * @version $Id$
  * @since 1.0
  */
+@JsonRootName("circuit")
 public class CircuitDto {
 
   @JsonIgnore

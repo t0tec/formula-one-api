@@ -40,14 +40,17 @@ public class CircuitController {
   @RequestMapping(method = RequestMethod.GET, produces = {
       MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   @ResponseBody
-  List<CircuitDto> findAll() {
+  MyList findAll() {
     logger.info("Finding all circuit entries");
 
     List<CircuitDto> circuitEntries = circuitReadOnlyService.findAll();
 
     logger.info("Found {} circuit entries.", circuitEntries.size());
 
-    return circuitEntries;
+    MyList list = new MyList();
+    list.setList(circuitEntries);
+
+    return list;
   }
 
   /**
