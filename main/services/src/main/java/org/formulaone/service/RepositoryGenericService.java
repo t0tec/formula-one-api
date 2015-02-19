@@ -26,8 +26,15 @@ class RepositoryGenericService<T, D, ID extends Serializable> implements Generic
 
   protected Class<D> dtoClass;
 
-  @SuppressWarnings("unchecked")
   public RepositoryGenericService() {
+    ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
+    this.entityClass = (Class<T>) genericSuperclass.getActualTypeArguments()[0];
+    this.dtoClass = (Class<D>) genericSuperclass.getActualTypeArguments()[1];
+  }
+
+  @SuppressWarnings("unchecked")
+  public RepositoryGenericService(ReadOnlyRepository<T, ID> repository) {
+    this.repository = repository;
     ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
     this.entityClass = (Class<T>) genericSuperclass.getActualTypeArguments()[0];
     this.dtoClass = (Class<D>) genericSuperclass.getActualTypeArguments()[1];

@@ -6,7 +6,6 @@ import org.formulaone.repository.CircuitRepository;
 import org.formulaone.service.dto.CircuitDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,9 +19,15 @@ public class RepositoryCircuitService extends RepositoryGenericService<Circuit, 
 
   private static final Logger logger = LoggerFactory.getLogger(RepositoryCircuitService.class);
 
-  @Autowired
-  public RepositoryCircuitService(CircuitRepository circuitRepository) {
-    this.repository = circuitRepository;
+  private CircuitRepository circuitRepository;
+
+  public RepositoryCircuitService() {
+    super();
+  }
+
+  public RepositoryCircuitService(CircuitRepository repository) {
+    super(repository);
+    this.circuitRepository = repository;
   }
 
   @Override
@@ -44,7 +49,7 @@ public class RepositoryCircuitService extends RepositoryGenericService<Circuit, 
   public CircuitDto findByName(String name) {
     logger.info("Finding circuit entry by using name: {}", name);
 
-    Circuit circuitEntry = ((CircuitRepository)(repository)).findByName(name);
+    Circuit circuitEntry = circuitRepository.findByName(name);
 
     if (circuitEntry == null) {
       throw new CircuitNotFoundException(0L);
