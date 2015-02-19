@@ -29,7 +29,7 @@
             <dependency>
                 <groupId>io.spring.platform</groupId>
                 <artifactId>platform-bom</artifactId>
-                <version>1.1.1.RELEASE</version>
+                <version>${platform-bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -40,6 +40,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <skip.unit.tests>true</skip.unit.tests>
         <jdk.version>1.7</jdk.version>
+        <platform-bom.version>1.1.1.RELEASE</platform-bom.version>
         <logback.version>1.1.2</logback.version>
         <usertype.extended.version>3.2.0.GA</usertype.extended.version>
         <dozer.version>5.5.1</dozer.version>

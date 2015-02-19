@@ -47,16 +47,16 @@ final class RestErrorHandler {
   @ResponseStatus(HttpStatus.NOT_FOUND)
   @ResponseBody
   ErrorDto handleCircuitEntryNotFound(CircuitNotFoundException ex, Locale currentLocale) {
-    logger.error("Circuit entry was not found by using id: {}", ex.getId());
+    logger.error("Circuit entry was not found by using id: {}", ex.getValue());
 
     MessageSourceResolvable errorMessageRequest = createSingleErrorMessageRequest(
         ERROR_CODE_CIRCUIT_ENTRY_NOT_FOUND,
-        ex.getId()
+        ex.getPropertyName(), ex.getValue()
     );
 
     String errorMessage = messageSource.getMessage(errorMessageRequest, currentLocale);
 
-    return new ErrorDto(HttpStatus.NOT_FOUND.name(), errorMessage);
+    return new ErrorDto(HttpStatus.NOT_FOUND, errorMessage);
   }
 
   private DefaultMessageSourceResolvable createSingleErrorMessageRequest(String errorMessageCode,

@@ -39,7 +39,7 @@ public class RepositoryCircuitService extends RepositoryGenericService<Circuit, 
     Circuit circuitEntry = repository.findOne(id);
 
     if (circuitEntry == null) {
-      throw new CircuitNotFoundException(id);
+      throw new CircuitNotFoundException("id", id);
     }
 
     logger.info("Found circuit entry: {}", circuitEntry);
@@ -54,7 +54,7 @@ public class RepositoryCircuitService extends RepositoryGenericService<Circuit, 
     Circuit circuitEntry = circuitRepository.findByReferenceName(referenceName);
 
     if (circuitEntry == null) {
-      throw new CircuitNotFoundException(-1L);
+      throw new CircuitNotFoundException("referenceName", referenceName);
     }
 
     logger.info("Found circuit entry: {}", circuitEntry);

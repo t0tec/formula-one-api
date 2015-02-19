@@ -115,7 +115,7 @@ public class CircuitControllerTest {
       @Test
       public void shouldReturnResponseStatusNotFound() throws Exception {
         given(circuitReadOnlyService.findById(NON_EXISTING_ID))
-            .willThrow(new CircuitNotFoundException(NON_EXISTING_ID));
+            .willThrow(new CircuitNotFoundException("id", NON_EXISTING_ID));
 
         mockMvc.perform(get("/api/circuits/{id}", NON_EXISTING_ID))
             .andExpect(status().isNotFound());
@@ -124,7 +124,7 @@ public class CircuitControllerTest {
       @Test
       public void shouldReturnErrorMessageAsJson() throws Exception {
         given(circuitReadOnlyService.findById(ID))
-            .willThrow(new CircuitNotFoundException(NON_EXISTING_ID));
+            .willThrow(new CircuitNotFoundException("id", NON_EXISTING_ID));
 
         MvcResult result = mockMvc.perform(get("/api/circuits/id/{id}", NON_EXISTING_ID)).andReturn();
 
@@ -177,7 +177,7 @@ public class CircuitControllerTest {
       @Test
       public void shouldReturnResponseStatusNotFound() throws Exception {
         given(circuitReadOnlyService.findByReferenceName(NON_REFERENCE_NAME))
-            .willThrow(new CircuitNotFoundException(-1L));
+            .willThrow(new CircuitNotFoundException("referenceName", NON_REFERENCE_NAME));
 
         mockMvc.perform(get("/api/circuits/referenceName/{referenceName}", NON_REFERENCE_NAME))
             .andExpect(status().isNotFound());
@@ -186,7 +186,7 @@ public class CircuitControllerTest {
       @Test
       public void shouldReturnErrorMessageAsJson() throws Exception {
         given(circuitReadOnlyService.findByReferenceName(NON_REFERENCE_NAME))
-            .willThrow(new CircuitNotFoundException(-1L));
+            .willThrow(new CircuitNotFoundException("referenceName", NON_REFERENCE_NAME));
 
         MvcResult result =
             mockMvc.perform(get("/api/circuits/referenceName/{referenceName}", NON_REFERENCE_NAME)).andReturn();
