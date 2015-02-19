@@ -60,7 +60,6 @@ final class WebTestConfig {
     MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
     converter.setObjectMapper(objectMapper);
 
-
     return converter;
   }
 
@@ -93,10 +92,19 @@ final class WebTestConfig {
 
     HttpMessageConverter<?> messageConverter = jacksonDateTimeConverter();
 
-  exceptionResolver.setMessageConverters(
-      Arrays.<HttpMessageConverter<?>>asList(new HttpMessageConverter[]{messageConverter}));
+    exceptionResolver.setMessageConverters(
+        Arrays.<HttpMessageConverter<?>>asList(new HttpMessageConverter[]{messageConverter}));
     exceptionResolver.afterPropertiesSet();
-    
+
+//    HttpMessageConverter<?> converter = jacksonDateTimeConverter();
+//
+//    List<HttpMessageConverter<?>> listHttpMessageConverter =
+//        new ArrayList<HttpMessageConverter<?>>();
+//
+//    listHttpMessageConverter.add(converter);
+//
+//    exceptionResolver.setMessageConverters(listHttpMessageConverter);
+
     return exceptionResolver;
   }
 

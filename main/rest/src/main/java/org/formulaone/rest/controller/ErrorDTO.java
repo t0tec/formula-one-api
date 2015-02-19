@@ -1,5 +1,7 @@
 package org.formulaone.rest.controller;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 /**
  * This class contains the information of an error that occurred when the API tried to perform the
  * operation requested by the client.
@@ -8,6 +10,7 @@ package org.formulaone.rest.controller;
  * @version $Id$
  * @since 1.0
  */
+@JsonRootName("error")
 final class ErrorDTO {
 
   private final String code;

@@ -131,7 +131,7 @@ public class CircuitControllerTest {
 
         logger.info("{}", content);
 
-        // TODO: need to fix this test to get error message
+//        TODO: need to fix this test to get error message
 //        mockMvc.perform(get("/api/circuits/{id}", NON_EXISTING_ID))
 //            .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
 //            .andExpect(jsonPath("$.code", is(WebTestConstants.ERROR_CODE_CIRCUIT_ENTRY_NOT_FOUND)))

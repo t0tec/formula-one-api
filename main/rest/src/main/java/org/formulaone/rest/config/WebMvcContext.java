@@ -3,16 +3,19 @@ package org.formulaone.rest.config;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.jdk7.Jdk7Module;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.List;
 
@@ -23,7 +26,7 @@ import java.util.List;
  */
 @Configuration
 @EnableWebMvc
-class WebMvcContext extends WebMvcConfigurationSupport {
+class WebMvcContext extends WebMvcConfigurerAdapter {
 
   @Override
   public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
@@ -31,7 +34,18 @@ class WebMvcContext extends WebMvcConfigurationSupport {
   }
 
   @Override
+  public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+    configurer.defaultContentType(MediaType.APPLICATION_JSON);
+    configurer.favorPathExtension(true);
+  }
+
+  @Override
   public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+    converters.add(jackson2HttpMessageConverter());
+    converters.add(jackson2XmlHttpMessageConverter());
+  }
+
+  private MappingJackson2HttpMessageConverter jackson2HttpMessageConverter() {
     ObjectMapper objectMapper = new ObjectMapper();
 
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
@@ -42,9 +56,24 @@ class WebMvcContext extends WebMvcConfigurationSupport {
     MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
     converter.setObjectMapper(objectMapper);
 
-    Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-    converters.add(new MappingJackson2XmlHttpMessageConverter(builder.createXmlMapper(true).build()));
-
-    converters.add(converter);
+    return converter;
   }
+
+  private MappingJackson2XmlHttpMessageConverter jackson2XmlHttpMessageConverter() {
+    JacksonXmlModule module = new JacksonXmlModule();
+
+    module.setDefaultUseWrapper(false);
+    XmlMapper xmlMapper = new XmlMapper(module);
+    xmlMapper.registerModule(module);
+
+//    Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
+//    builder.createXmlMapper(true).configure(xmlMapper);
+//    builder.build()
+
+    MappingJackson2XmlHttpMessageConverter converter = new MappingJackson2XmlHttpMessageConverter();
+    converter.setObjectMapper(xmlMapper);
+
+    return converter;
+  }
+
 }
