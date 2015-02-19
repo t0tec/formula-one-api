@@ -2,6 +2,7 @@ package org.formulaone.service;
 
 import com.nitorcreations.junit.runners.NestedRunner;
 
+import org.dozer.DozerBeanMapper;
 import org.formulaone.core.exception.CircuitNotFoundException;
 import org.formulaone.core.model.Circuit;
 import org.formulaone.repository.CircuitRepository;
@@ -42,6 +43,7 @@ public class RepositoryCircuitServiceTest {
   public void setUp() {
     circuitRepository = mock(CircuitRepository.class);
     circuitService = new RepositoryCircuitService(circuitRepository);
+    circuitService.mapper = new DozerBeanMapper();
   }
 
   public class FindAll {

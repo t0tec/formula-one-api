@@ -20,18 +20,16 @@ public class RepositoryCircuitService extends RepositoryGenericService<Circuit, 
 
   private static final Logger logger = LoggerFactory.getLogger(RepositoryCircuitService.class);
 
-  private CircuitRepository circuitRepository;
-
   @Autowired
   public RepositoryCircuitService(CircuitRepository circuitRepository) {
-    this.circuitRepository = circuitRepository;
+    this.repository = circuitRepository;
   }
 
   @Override
   public CircuitDto findById(Long id) {
     logger.info("Finding circuit entry by using id: {}", id);
 
-    Circuit circuitEntry = circuitRepository.findOne(id);
+    Circuit circuitEntry = repository.findOne(id);
 
     if (circuitEntry == null) {
       throw new CircuitNotFoundException(id);
@@ -42,12 +40,11 @@ public class RepositoryCircuitService extends RepositoryGenericService<Circuit, 
     return mapper.map(circuitEntry, dtoClass);
   }
 
-
   @Override
   public CircuitDto findByName(String name) {
     logger.info("Finding circuit entry by using name: {}", name);
 
-    Circuit circuitEntry = circuitRepository.findByName(name);
+    Circuit circuitEntry = ((CircuitRepository)(repository)).findByName(name);
 
     if (circuitEntry == null) {
       throw new CircuitNotFoundException(0L);
@@ -55,7 +52,6 @@ public class RepositoryCircuitService extends RepositoryGenericService<Circuit, 
 
     logger.info("Found circuit entry: {}", circuitEntry);
 
-    return mapper.map(circuitRepository.findByName(name), dtoClass);
-
+    return mapper.map(circuitEntry, dtoClass);
   }
 }
