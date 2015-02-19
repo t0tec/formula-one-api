@@ -9,5 +9,5 @@ import org.formulaone.core.model.Circuit;
  */
 public interface CircuitRepository extends ReadOnlyRepository<Circuit, Long> {
 
-  Circuit findByName(String name);
+  Circuit findByReferenceName(String referenceName);
 }

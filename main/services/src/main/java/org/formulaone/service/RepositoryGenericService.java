@@ -16,7 +16,6 @@ import java.util.List;
  */
 class RepositoryGenericService<T, D, ID extends Serializable> implements GenericService<T, D, ID> {
 
-  @Autowired
   protected ReadOnlyRepository<T, ID> repository;
 
   @Autowired
@@ -26,6 +25,7 @@ class RepositoryGenericService<T, D, ID extends Serializable> implements Generic
 
   protected Class<D> dtoClass;
 
+  @SuppressWarnings("unchecked")
   public RepositoryGenericService() {
     ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
     this.entityClass = (Class<T>) genericSuperclass.getActualTypeArguments()[0];
@@ -33,6 +33,7 @@ class RepositoryGenericService<T, D, ID extends Serializable> implements Generic
   }
 
   @SuppressWarnings("unchecked")
+  @Autowired
   public RepositoryGenericService(ReadOnlyRepository<T, ID> repository) {
     this.repository = repository;
     ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();

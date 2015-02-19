@@ -40,6 +40,7 @@ public class CircuitControllerTest {
   private static final String NAME = "Albert Park Grand Prix Circuit";
 
   private static final Long NON_EXISTING_ID = 20L;
+  private static final String NON_REFERENCE_NAME = "NOT_IMPORTANT";
 
   private static final String ERROR_MESSAGE_KEY_CIRCUIT_ENTRY_NOT_FOUND
       = "No circuit entry was found by using id: " + NON_EXISTING_ID;
@@ -82,7 +83,7 @@ public class CircuitControllerTest {
 
         mockMvc.perform(get("/api/circuits"))
             .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
-            .andExpect(jsonPath("$MyList.circuit", hasSize(0)));
+            .andExpect(jsonPath("$CircuitTable.circuits", hasSize(0)));
       }
     }
 
@@ -100,9 +101,9 @@ public class CircuitControllerTest {
 
         mockMvc.perform(get("/api/circuits"))
             .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
-            .andExpect(jsonPath("$MyList.circuit", hasSize(1)))
-            .andExpect(jsonPath("$MyList.circuit[0].referenceName", is(REFERENCE_NAME)))
-            .andExpect(jsonPath("$MyList.circuit[0].name", is(NAME)));
+            .andExpect(jsonPath("$CircuitTable.circuits", hasSize(1)))
+            .andExpect(jsonPath("$CircuitTable.circuits[0].referenceName", is(REFERENCE_NAME)))
+            .andExpect(jsonPath("$CircuitTable.circuits[0].name", is(NAME)));
       }
     }
   }
@@ -125,7 +126,7 @@ public class CircuitControllerTest {
         given(circuitReadOnlyService.findById(ID))
             .willThrow(new CircuitNotFoundException(NON_EXISTING_ID));
 
-        MvcResult result = mockMvc.perform(get("/api/circuits/{id}", NON_EXISTING_ID)).andReturn();
+        MvcResult result = mockMvc.perform(get("/api/circuits/id/{id}", NON_EXISTING_ID)).andReturn();
 
         String content = result.getResponse().getContentAsString();
 
@@ -147,7 +148,7 @@ public class CircuitControllerTest {
 
         given(circuitReadOnlyService.findById(ID)).willReturn(found);
 
-        mockMvc.perform(get("/api/circuits/{id}", ID))
+        mockMvc.perform(get("/api/circuits/id/{id}", ID))
             .andExpect(status().isOk());
       }
 
@@ -161,7 +162,70 @@ public class CircuitControllerTest {
 
         given(circuitReadOnlyService.findById(ID)).willReturn(found);
 
-        mockMvc.perform(get("/api/circuits/{id}", ID))
+        mockMvc.perform(get("/api/circuits/id/{id}", ID))
+            .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
+            .andExpect(jsonPath("$circuit.referenceName", is(REFERENCE_NAME)))
+            .andExpect(jsonPath("$circuit.name", is(NAME)));
+      }
+    }
+  }
+
+  public class FindByReferenceName {
+
+    public class WhenCircuitEntryIsNotFound {
+
+      @Test
+      public void shouldReturnResponseStatusNotFound() throws Exception {
+        given(circuitReadOnlyService.findByReferenceName(NON_REFERENCE_NAME))
+            .willThrow(new CircuitNotFoundException(-1L));
+
+        mockMvc.perform(get("/api/circuits/referenceName/{referenceName}", NON_REFERENCE_NAME))
+            .andExpect(status().isNotFound());
+      }
+
+      @Test
+      public void shouldReturnErrorMessageAsJson() throws Exception {
+        given(circuitReadOnlyService.findByReferenceName(NON_REFERENCE_NAME))
+            .willThrow(new CircuitNotFoundException(-1L));
+
+        MvcResult result =
+            mockMvc.perform(get("/api/circuits/referenceName/{referenceName}", NON_REFERENCE_NAME)).andReturn();
+
+        String content = result.getResponse().getContentAsString();
+
+        logger.info("{}", content);
+
+//        TODO: need to fix this test to get error message
+//        mockMvc.perform(get("/api/circuits/{id}", NON_EXISTING_ID))
+//            .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
+//            .andExpect(jsonPath("$.code", is(WebTestConstants.ERROR_CODE_CIRCUIT_ENTRY_NOT_FOUND)))
+//            .andExpect(jsonPath("$.message", is(ERROR_MESSAGE_KEY_CIRCUIT_ENTRY_NOT_FOUND)));
+      }
+    }
+
+    public class WhenCircuitEntryIsFound {
+
+      @Test
+      public void shouldReturnResponseStatusOk() throws Exception {
+        CircuitDto found = new CircuitDto();
+
+        given(circuitReadOnlyService.findByReferenceName(REFERENCE_NAME)).willReturn(found);
+
+        mockMvc.perform(get("/api/circuits/referenceName/{referenceName}", REFERENCE_NAME))
+            .andExpect(status().isOk());
+      }
+
+      @Test
+      public void shouldReturnInformationOfFoundCircuitEntryAsJson() throws Exception {
+        CircuitDto found = new CircuitDtoBuilder()
+            .referenceName(REFERENCE_NAME)
+            .name(NAME)
+            .id(ID)
+            .build();
+
+        given(circuitReadOnlyService.findByReferenceName(REFERENCE_NAME)).willReturn(found);
+
+        mockMvc.perform(get("/api/circuits/referenceName/{referenceName}", REFERENCE_NAME))
             .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
             .andExpect(jsonPath("$circuit.referenceName", is(REFERENCE_NAME)))
             .andExpect(jsonPath("$circuit.name", is(NAME)));

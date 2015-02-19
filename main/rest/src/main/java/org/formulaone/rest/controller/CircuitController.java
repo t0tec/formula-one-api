@@ -38,33 +38,51 @@ public class CircuitController {
    */
   @RequestMapping(method = RequestMethod.GET)
   @ResponseBody
-  MyList findAll() {
+  CircuitTable findAll() {
     logger.info("Finding all circuit entries");
 
     List<CircuitDto> circuitEntries = circuitReadOnlyService.findAll();
-
     logger.info("Found {} circuit entries.", circuitEntries.size());
 
-    MyList list = new MyList();
-    list.setList(circuitEntries);
+    CircuitTable circuitTable = new CircuitTable();
+    circuitTable.setList(circuitEntries);
 
-    return list;
+    return circuitTable;
   }
 
   /**
-   * Finds a single circuit entry.
+   * Finds a single circuit entry by id.
    *
    * @param id The id of the requested circuit entry.
    * @return The information of the requested circuit entry.
    * @throws org.formulaone.core.exception.CircuitNotFoundException if no circuit entry is found by
    *                                                                using the given id.
    */
-  @RequestMapping(value = "{id}", method = RequestMethod.GET)
+  @RequestMapping(value = "/id/{id}", method = RequestMethod.GET) // {id:[d]+}
   @ResponseBody
   CircuitDto findById(@PathVariable("id") Long id) {
     logger.info("Finding circuit entry by using id: {}", id);
 
     CircuitDto circuitEntry = circuitReadOnlyService.findById(id);
+    logger.info("Found circuit entry: {}", circuitEntry);
+
+    return circuitEntry;
+  }
+
+  /**
+   * Finds a single circuit entry by reference name.
+   *
+   * @param referenceName The referenceName of the requested circuit entry.
+   * @return The information of the requested circuit entry.
+   * @throws org.formulaone.core.exception.CircuitNotFoundException if no circuit entry is found by
+   *                                                                using the given referenceName.
+   */
+  @RequestMapping(value = "/referenceName/{referenceName}", method = RequestMethod.GET)
+  @ResponseBody
+  CircuitDto findByReferenceName(@PathVariable("referenceName") String referenceName) {
+    logger.info("Finding circuit entry by using referenceName: {}", referenceName);
+
+    CircuitDto circuitEntry = circuitReadOnlyService.findByReferenceName(referenceName);
     logger.info("Found circuit entry: {}", circuitEntry);
 
     return circuitEntry;

@@ -11,12 +11,12 @@ import com.fasterxml.jackson.annotation.JsonRootName;
  * @since 1.0
  */
 @JsonRootName("error")
-final class ErrorDTO {
+final class ErrorDto {
 
   private final String code;
   private final String message;
 
-  public ErrorDTO(String code, String message) {
+  public ErrorDto(String code, String message) {
     this.code = code;
     this.message = message;
   }

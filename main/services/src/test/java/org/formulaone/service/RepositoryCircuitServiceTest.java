@@ -122,14 +122,14 @@ public class RepositoryCircuitServiceTest {
     }
   }
 
-  public class FindByName {
+  public class FindByReferenceName {
 
     public class WhenCircuitEntryIsNotFound {
 
       @Test
       public void shouldThrowExceptionWithCorrectId() {
         thrown.expect(CircuitNotFoundException.class);
-        circuitRepository.findByName(NAME);
+        circuitRepository.findByReferenceName(NAME);
       }
     }
 
@@ -143,9 +143,9 @@ public class RepositoryCircuitServiceTest {
             .name(NAME)
             .build();
 
-        given(circuitRepository.findByName(NAME)).willReturn(found);
+        given(circuitRepository.findByReferenceName(REFERENCE_NAME)).willReturn(found);
 
-        CircuitDto returned = circuitService.findByName(NAME);
+        CircuitDto returned = circuitService.findByReferenceName(REFERENCE_NAME);
 
         CircuitDtoAssert.assertThatCircuitEntry(returned)
             .hasId(ID)

@@ -81,8 +81,8 @@ public class CircuitRepositoryTest {
 
   @Test
   @DatabaseSetup("classpath:circuit-data.xml")
-  public void testFindCircuitByName() {
-    Circuit circuit = circuitRepository.findByName(NAME);
+  public void testFindCircuitByReferenceName() {
+    Circuit circuit = circuitRepository.findByReferenceName(REFERENCE_NAME);
 
     Assert.assertNotNull(circuit);
     Assert.assertEquals(REFERENCE_NAME, circuit.getReferenceName());

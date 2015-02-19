@@ -7,10 +7,10 @@ import org.formulaone.service.dto.CircuitDto;
 
 import java.util.List;
 
-class MyList {
+class CircuitTable {
 
-  @JacksonXmlElementWrapper(localName = "circuit", useWrapping = false)
-  @JsonProperty("circuit")
+  @JacksonXmlElementWrapper(localName = "circuits", useWrapping = false)
+  @JsonProperty("circuits")
   private List<CircuitDto> list;
 
   public List<CircuitDto> getList() {

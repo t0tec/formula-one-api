@@ -11,12 +11,12 @@ import org.formulaone.service.dto.CircuitDto;
 public interface CircuitReadOnlyService extends GenericService<Circuit, CircuitDto, Long> {
 
   /**
-   * Finds a circuit entry by using the name given as a method parameter.
+   * Finds a circuit entry by using the referenceName given as a method parameter.
    *
-   * @param name The name of the wanted circuit entry.
+   * @param referenceName The referenceName of the wanted circuit entry.
    * @return The information of the requested circuit entry.
    * @throws org.formulaone.core.exception.CircuitNotFoundException if no circuit entry is found
-   *                                                                with the given id.
+   *                                                                with the given referenceName.
    */
-  CircuitDto findByName(String name);
+  CircuitDto findByReferenceName(String referenceName);
 }
