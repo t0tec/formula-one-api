@@ -1,4 +1,4 @@
-package org.formulaone.rest.controller;
+package org.formulaone.rest.error;
 
 import org.formulaone.core.exception.CircuitNotFoundException;
 import org.slf4j.Logger;
@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
  * @since 1.0
  */
 @ControllerAdvice
-final class RestErrorHandler {
+public final class RestErrorHandler {
 
   private static final Logger logger = LoggerFactory.getLogger(RestErrorHandler.class);
 
@@ -38,10 +38,18 @@ final class RestErrorHandler {
   private final MessageSource messageSource;
 
   @Autowired
-  RestErrorHandler(MessageSource messageSource) {
+  public RestErrorHandler(MessageSource messageSource) {
     this.messageSource = messageSource;
   }
 
+  /**
+   * Processes an error that occurs when a no handler is found to process the request
+   *
+   * @param req           HttpServletRequest provides request information for HTTP servlets
+   * @param ex            The exception that was thrown when the circuit entry was not found.
+   * @param currentLocale The current locale.
+   * @return An error object that contains the error code, status, message and url.
+   */
   @ExceptionHandler(NoHandlerFoundException.class)
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   @ResponseBody
@@ -60,6 +68,14 @@ final class RestErrorHandler {
     return new ErrorDto(HttpStatus.BAD_REQUEST, errorMessage, errorURL);
   }
 
+  /**
+   * Processes an error that occurs when a TypeMismatchException occurs.
+   *
+   * @param req           HttpServletRequest provides request information for HTTP servlets
+   * @param ex            The exception that was thrown when the circuit entry was not found.
+   * @param currentLocale The current locale.
+   * @return An error object that contains the error code, status, message and url.
+   */
   @ExceptionHandler(TypeMismatchException.class)
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   @ResponseBody
@@ -78,13 +94,13 @@ final class RestErrorHandler {
     return new ErrorDto(HttpStatus.BAD_REQUEST, errorMessage, errorURL);
   }
 
-
   /**
    * Processes an error that occurs when the requested circuit entry is not found.
    *
+   * @param req           HttpServletRequest provides request information for HTTP servlets
    * @param ex            The exception that was thrown when the circuit entry was not found.
    * @param currentLocale The current locale.
-   * @return An error object that contains the error code and message.
+   * @return An error object that contains the error code, status, message and url.
    */
   @ExceptionHandler(CircuitNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk7.Jdk7Module;
 
+import org.formulaone.rest.error.RestErrorHandler;
 import org.springframework.context.MessageSource;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -64,13 +65,13 @@ final class WebTestConfig {
   }
 
   /**
-   * This method ensures that the {@link org.formulaone.rest.controller.RestErrorHandler} class is
+   * This method ensures that the {@link org.formulaone.rest.error.RestErrorHandler} class is
    * used to handle the exceptions thrown by the tested controller. I borrowed this idea from <a
    * href="http://stackoverflow.com/a/27195332/313554" target="_blank">this StackOverflow
    * answer</a>.
    *
    * @return an error handler component that delegates relevant exceptions forward to the {@link
-   * org.formulaone.rest.controller.RestErrorHandler} class.
+   * org.formulaone.rest.error.RestErrorHandler} class.
    */
   static ExceptionHandlerExceptionResolver restErrorHandler(final MessageSource messageSource) {
     final ExceptionHandlerExceptionResolver

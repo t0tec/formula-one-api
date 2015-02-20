@@ -1,4 +1,4 @@
-package org.formulaone.rest.controller;
+package org.formulaone.rest.error;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 

@@ -1,5 +1,6 @@
 package org.formulaone.rest.controller;
 
+import org.formulaone.rest.wrapper.CircuitTable;
 import org.formulaone.service.CircuitReadOnlyService;
 import org.formulaone.service.dto.CircuitDto;
 import org.slf4j.Logger;

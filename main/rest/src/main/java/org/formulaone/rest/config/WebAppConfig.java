@@ -47,7 +47,7 @@ public class WebAppConfig implements WebApplicationInitializer {
     DispatcherServlet dispatcherServlet = new DispatcherServlet(rootContext);
     // if setThrowExceptionIfNoHandlerFound set to true,
     // you can't use configureDefaultServletHandling
-    // as it will consume 404 errors before it gets to the DispatcherServlet
+    // as it will consume 4xx errors before it gets to the DispatcherServlet
     dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
 
     ServletRegistration.Dynamic dispatcher = servletContext.addServlet(

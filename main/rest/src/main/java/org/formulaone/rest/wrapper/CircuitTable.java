@@ -1,4 +1,4 @@
-package org.formulaone.rest.controller;
+package org.formulaone.rest.wrapper;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -7,7 +7,7 @@ import org.formulaone.service.dto.CircuitDto;
 
 import java.util.List;
 
-class CircuitTable {
+public class CircuitTable {
 
   @JacksonXmlElementWrapper(localName = "circuits", useWrapping = false)
   @JsonProperty("circuits")
