@@ -58,7 +58,7 @@ public class CircuitController {
    * @throws org.formulaone.core.exception.CircuitNotFoundException if no circuit entry is found by
    *                                                                using the given id.
    */
-  @RequestMapping(value = "/id/{id}", method = RequestMethod.GET) // {id:[d]+}
+  @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
   @ResponseBody
   CircuitDto findById(@PathVariable("id") Long id) {
     logger.info("Finding circuit entry by using id: {}", id);

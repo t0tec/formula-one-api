@@ -19,12 +19,14 @@ final class ErrorDto {
   private final String code;
   private final int status;
   private final String message;
+  private final String url;
 
-  public ErrorDto(HttpStatus httpStatus, String message) {
+  public ErrorDto(HttpStatus httpStatus, String message, String url) {
     this.httpStatus = httpStatus;
     this.code = httpStatus.name();
     this.status = httpStatus.value();
     this.message = message;
+    this.url = url;
   }
 
   public int getStatus() {
@@ -37,5 +39,9 @@ final class ErrorDto {
 
   public String getMessage() {
     return message;
+  }
+
+  public String getUrl() {
+    return this.url;
   }
 }

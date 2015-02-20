@@ -44,10 +44,18 @@ public class WebAppConfig implements WebApplicationInitializer {
 
   private void configureDispatcherServlet(ServletContext servletContext,
                                           WebApplicationContext rootContext) {
+    DispatcherServlet dispatcherServlet = new DispatcherServlet(rootContext);
+    // if setThrowExceptionIfNoHandlerFound set to true,
+    // you can't use configureDefaultServletHandling
+    // as it will consume 404 errors before it gets to the DispatcherServlet
+    dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
+
     ServletRegistration.Dynamic dispatcher = servletContext.addServlet(
         DISPATCHER_SERVLET_NAME,
-        new DispatcherServlet(rootContext)
+        dispatcherServlet
     );
+
+    dispatcher.setAsyncSupported(true);
     dispatcher.setLoadOnStartup(1);
     dispatcher.addMapping(DISPATCHER_SERVLET_MAPPING);
   }
