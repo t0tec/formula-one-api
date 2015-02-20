@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import com.fasterxml.jackson.datatype.jdk7.Jdk7Module;
 
 import org.springframework.context.annotation.Configuration;
@@ -58,6 +59,7 @@ class WebMvcContext extends WebMvcConfigurerAdapter {
 
     module.setDefaultUseWrapper(false);
     XmlMapper xmlMapper = new XmlMapper(module);
+    xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
     xmlMapper.registerModule(module);
 
 //    Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
