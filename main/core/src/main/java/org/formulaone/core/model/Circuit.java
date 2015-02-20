@@ -1,5 +1,7 @@
 package org.formulaone.core.model;
 
+import org.dozer.Mapping;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -30,15 +32,19 @@ public final class Circuit implements Serializable {
   @Column(name = "name", nullable = false)
   private String name;
 
+  @Mapping("location.country")
   @Column(name = "country")
   private String country;
 
+  @Mapping("location.locality")
   @Column(name = "location")
   private String location;
 
+  @Mapping("location.latitude")
   @Column(name = "lat", precision = 8, scale = 6, columnDefinition = "decimal(8,6)")
   private double latitude;
 
+  @Mapping("location.longitude")
   @Column(name = "lng", precision = 9, scale = 6, columnDefinition = "decimal(9,6)")
   private double longitude;
 

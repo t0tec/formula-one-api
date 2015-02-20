@@ -2,6 +2,7 @@ package org.formulaone.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.formulaone.core.model.Circuit;
@@ -20,23 +21,19 @@ public class CircuitDto {
   @JsonIgnore
   private Long id;
 
+  @JacksonXmlProperty(isAttribute = true)
   @NotEmpty
   private String referenceName;
 
   private String name;
 
-  private String location;
-
-  private String country;
-
-  private double latitude;
-
-  private double longitude;
+  private Location location;
 
   private Double length;
 
   private Integer turns;
 
+  @JacksonXmlProperty(isAttribute = true)
   @Size(max = Circuit.MAX_LENGTH_URL)
   private String url;
 
@@ -77,36 +74,12 @@ public class CircuitDto {
     this.name = name;
   }
 
-  public String getLocation() {
+  public Location getLocation() {
     return this.location;
   }
 
-  public void setLocation(String location) {
+  public void setLocation(Location location) {
     this.location = location;
-  }
-
-  public String getCountry() {
-    return this.country;
-  }
-
-  public void setCountry(String country) {
-    this.country = country;
-  }
-
-  public double getLatitude() {
-    return this.latitude;
-  }
-
-  public void setLatitude(double latitude) {
-    this.latitude = latitude;
-  }
-
-  public double getLongitude() {
-    return this.longitude;
-  }
-
-  public void setLongitude(double longitude) {
-    this.longitude = longitude;
   }
 
   public Double getLength() {
@@ -136,9 +109,8 @@ public class CircuitDto {
   @Override
   public String toString() {
     return new ToStringBuilder(this).append("referenceName", this.referenceName)
-        .append("name", this.name).append("country", this.country).append("location", location)
-        .append("latitude", this.latitude).append("longitude", this.longitude)
-        .append("length", this.length).append("turns", this.turns).append("url", this.url)
+        .append("name", this.name).append("location", location).append("length", this.length)
+        .append("turns", this.turns).append("url", this.url)
         .toString();
   }
 

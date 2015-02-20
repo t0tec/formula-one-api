@@ -16,7 +16,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
     </bean>
 
     <!-- Creates the datasource bean. -->
-    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="shutdown">
         <constructor-arg index="0" ref="hikariConfig"/>
     </bean>
 
