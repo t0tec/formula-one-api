@@ -97,17 +97,18 @@ public class CircuitController {
   /**
    * Finds all circuit entries sorted by a property.
    *
-   * @param sortOn The parameter to sort the entries on
+   * @param sort The parameter to sort the entries on
    * @return The information of all circuit entries sorted by sortOn.
    */
   @RequestMapping(value = "/sort", method = RequestMethod.GET)
   @ResponseBody
-  CircuitTable findAllSortable(@RequestParam String sortOn) {
-    Sort sort = new Sort(
-        sortOn
+  CircuitTable findAllSortable(@RequestParam(defaultValue = "name") String sort,
+                               @RequestParam(defaultValue = "ASC") String direction) {
+    Sort sortening = new Sort(
+        Sort.Direction.fromStringOrNull(direction), sort
     );
 
-    List<CircuitDto> circuitEntries = circuitReadOnlyService.findAll(sort);
+    List<CircuitDto> circuitEntries = circuitReadOnlyService.findAll(sortening);
 
     CircuitTable circuitTable = new CircuitTable();
     circuitTable.setList(circuitEntries);
@@ -124,7 +125,8 @@ public class CircuitController {
    */
   @RequestMapping(value = "/pages", method = RequestMethod.GET)
   @ResponseBody
-  Page<CircuitDto> findAllPageable(@RequestParam int page, @RequestParam int size) {
+  Page<CircuitDto> findAllPageable(@RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "30") int size) {
     Pageable pageable = new PageRequest(
         page, size
     );
