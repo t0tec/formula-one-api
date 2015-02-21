@@ -1,5 +1,8 @@
 package org.formulaone.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.Repository;
 
@@ -16,4 +19,8 @@ public interface ReadOnlyRepository<T, ID extends Serializable> extends Reposito
   T findOne(ID id);
 
   Iterable<T> findAll();
+
+  Iterable<T> findAll(Sort sort);
+
+  Page<T> findAll(Pageable pageable);
 }

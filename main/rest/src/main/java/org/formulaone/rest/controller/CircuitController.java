@@ -6,9 +6,14 @@ import org.formulaone.service.dto.CircuitDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,25 +35,6 @@ public class CircuitController {
   @Autowired
   CircuitController(CircuitReadOnlyService circuitReadOnlyService) {
     this.circuitReadOnlyService = circuitReadOnlyService;
-  }
-
-  /**
-   * Finds all circuit entries.
-   *
-   * @return The information of all circuit entries.
-   */
-  @RequestMapping(method = RequestMethod.GET)
-  @ResponseBody
-  CircuitTable findAll() {
-    logger.info("Finding all circuit entries");
-
-    List<CircuitDto> circuitEntries = circuitReadOnlyService.findAll();
-    logger.info("Found {} circuit entries.", circuitEntries.size());
-
-    CircuitTable circuitTable = new CircuitTable();
-    circuitTable.setList(circuitEntries);
-
-    return circuitTable;
   }
 
   /**
@@ -87,5 +73,64 @@ public class CircuitController {
     logger.info("Found circuit entry: {}", circuitEntry);
 
     return circuitEntry;
+  }
+
+  /**
+   * Finds all circuit entries.
+   *
+   * @return The information of all circuit entries.
+   */
+  @RequestMapping(method = RequestMethod.GET)
+  @ResponseBody
+  CircuitTable findAll() {
+    logger.info("Finding all circuit entries");
+
+    List<CircuitDto> circuitEntries = circuitReadOnlyService.findAll();
+    logger.info("Found {} circuit entries.", circuitEntries.size());
+
+    CircuitTable circuitTable = new CircuitTable();
+    circuitTable.setList(circuitEntries);
+
+    return circuitTable;
+  }
+
+  /**
+   * Finds all circuit entries sorted by a property.
+   *
+   * @param sortOn The parameter to sort the entries on
+   * @return The information of all circuit entries sorted by sortOn.
+   */
+  @RequestMapping(value = "/sort", method = RequestMethod.GET)
+  @ResponseBody
+  CircuitTable findAllSortable(@RequestParam String sortOn) {
+    Sort sort = new Sort(
+        sortOn
+    );
+
+    List<CircuitDto> circuitEntries = circuitReadOnlyService.findAll(sort);
+
+    CircuitTable circuitTable = new CircuitTable();
+    circuitTable.setList(circuitEntries);
+
+    return circuitTable;
+  }
+
+  /**
+   * Finds all circuit entries paginated.
+   *
+   * @param page the page you are requesting
+   * @param size the size of entries per page
+   * @return The information of all circuit entries paginated.
+   */
+  @RequestMapping(value = "/pages", method = RequestMethod.GET)
+  @ResponseBody
+  Page<CircuitDto> findAllPageable(@RequestParam int page, @RequestParam int size) {
+    Pageable pageable = new PageRequest(
+        page, size
+    );
+
+    Page<CircuitDto> pageResult = circuitReadOnlyService.findAll(pageable);
+
+    return pageResult;
   }
 }

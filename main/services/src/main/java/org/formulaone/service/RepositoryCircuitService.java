@@ -8,12 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author t0tec (t0tec.olmec@gmail.com)
  * @version $Id$
  * @since 1.0
  */
+@Transactional(readOnly = true)
 @Service
 public class RepositoryCircuitService extends RepositoryGenericService<Circuit, CircuitDto, Long>
     implements CircuitReadOnlyService {

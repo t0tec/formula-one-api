@@ -3,6 +3,10 @@ package org.formulaone.service;
 import org.dozer.DozerBeanMapper;
 import org.formulaone.repository.ReadOnlyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -41,10 +45,12 @@ class RepositoryGenericService<T, D, ID extends Serializable> implements Generic
     this.dtoClass = (Class<D>) genericSuperclass.getActualTypeArguments()[1];
   }
 
+  @Override
   public D findById(ID id) {
     return mapper.map(repository.findOne(id), dtoClass);
   }
 
+  @Override
   public List<D> findAll() {
     List<D> result = new ArrayList<D>();
     for (T t : repository.findAll()) {
@@ -52,4 +58,27 @@ class RepositoryGenericService<T, D, ID extends Serializable> implements Generic
     }
     return result;
   }
+
+  @Override
+  public List<D> findAll(Sort sort) {
+    List<D> result = new ArrayList<D>();
+    for (T t : repository.findAll(sort)) {
+      result.add(mapper.map(t, dtoClass));
+    }
+    return result;
+  }
+
+  @Override
+  public Page<D> findAll(Pageable pageable) {
+    List<D> result = new ArrayList<D>();
+    Page<T> pageSource = repository.findAll(pageable);
+
+    for (T t : pageSource.getContent()) {
+      result.add(mapper.map(t, dtoClass));
+    }
+    Page<D> pageTarget = new PageImpl<D>(result, pageable, pageSource.getTotalElements());
+
+    return pageTarget;
+  }
+
 }
