@@ -65,7 +65,7 @@ public final class RestErrorHandler {
 
     String errorMessage = messageSource.getMessage(errorMessageRequest, currentLocale);
 
-    return new ErrorDto(HttpStatus.BAD_REQUEST, errorMessage, getFullErrorUrl(request));
+    return new ErrorDto(HttpStatus.BAD_REQUEST, errorMessage, getFullErrorURL(request));
   }
 
   /**
@@ -89,7 +89,7 @@ public final class RestErrorHandler {
 
     String errorMessage = messageSource.getMessage(errorMessageRequest, currentLocale);
 
-    return new ErrorDto(HttpStatus.BAD_REQUEST, errorMessage, getFullErrorUrl(request));
+    return new ErrorDto(HttpStatus.BAD_REQUEST, errorMessage, getFullErrorURL(request));
   }
 
   /**
@@ -105,7 +105,7 @@ public final class RestErrorHandler {
   @ResponseBody
   ErrorDto handlerPropertyNotFound(HttpServletRequest request, PropertyReferenceException ex,
                                    Locale currentLocale) {
-    logger.error("Request parameter with property {} not found for type: {}", ex.getPropertyName(),
+    logger.error("Request parameter with property {} not found for type {}", ex.getPropertyName(),
                  ex.getBaseProperty(), ex.getType().getRawTypeInformation());
 
     MessageSourceResolvable errorMessageRequest = createSingleErrorMessageRequest(
@@ -115,7 +115,7 @@ public final class RestErrorHandler {
     String errorMessage = messageSource.getMessage(errorMessageRequest, currentLocale);
 
 
-    return new ErrorDto(HttpStatus.BAD_REQUEST, errorMessage, getFullErrorUrl(request));
+    return new ErrorDto(HttpStatus.BAD_REQUEST, errorMessage, getFullErrorURL(request));
   }
 
   /**
@@ -140,7 +140,7 @@ public final class RestErrorHandler {
 
     String errorMessage = messageSource.getMessage(errorMessageRequest, currentLocale);
 
-    return new ErrorDto(HttpStatus.NOT_FOUND, errorMessage, getFullErrorUrl(request));
+    return new ErrorDto(HttpStatus.NOT_FOUND, errorMessage, getFullErrorURL(request));
   }
 
   private DefaultMessageSourceResolvable createSingleErrorMessageRequest(String errorMessageCode,
@@ -148,7 +148,7 @@ public final class RestErrorHandler {
     return new DefaultMessageSourceResolvable(new String[]{errorMessageCode}, params);
   }
 
-  private String getFullErrorUrl(HttpServletRequest request) {
+  private String getFullErrorURL(HttpServletRequest request) {
     StringBuilder errorURL = new StringBuilder();
     errorURL.append(request.getRequestURL());
 

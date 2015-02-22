@@ -59,12 +59,10 @@ class WebMvcContext extends WebMvcConfigurerAdapter {
 
     module.setDefaultUseWrapper(false);
     XmlMapper xmlMapper = new XmlMapper(module);
+    xmlMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    xmlMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
     xmlMapper.registerModule(module);
-
-//    Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-//    builder.createXmlMapper(true).configure(xmlMapper);
-//    builder.build()
 
     MappingJackson2XmlHttpMessageConverter converter = new MappingJackson2XmlHttpMessageConverter();
     converter.setObjectMapper(xmlMapper);
