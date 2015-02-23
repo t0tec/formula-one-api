@@ -43,12 +43,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                          TransactionalTestExecutionListener.class,
                          DbUnitTestExecutionListener.class})
 @WebAppConfiguration
-public class ITFindAllCircuitsTest {
+public class ITFindAllCircuitsPageableTest {
 
   private static final String REFERENCE_NAME = "albert_park";
   private static final String NAME = "Albert Park Grand Prix Circuit";
 
+  private static final int pageNumber = 0;
+  private static final int pageSize = 30;
   private static final int totalEntries = 72;
+
+  private static final int linkSize = 4;
 
   @Autowired
   private WebApplicationContext webAppContext;
@@ -62,26 +66,32 @@ public class ITFindAllCircuitsTest {
 
   @Test
   public void findAllShouldReturnResponseStatusOk() throws Exception {
-    mockMvc.perform(get("/api/circuits/all"))
+    mockMvc.perform(get("/api/circuits"))
         .andExpect(status().isOk());
   }
 
   @Test
   @DatabaseSetup("classpath:circuit-no-data.xml")
-  public void findAllNoCircuitEntriesFoundShouldReturnEmptyListAsJson() throws Exception {
-    mockMvc.perform(get("/api/circuits/all"))
+  public void findAllPageableNoCircuitEntriesFoundShouldReturnEmptyListAsJson() throws Exception {
+    mockMvc.perform(get("/api/circuits"))
         .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
         .andExpect(jsonPath("$CircuitTable.circuits", hasSize(0)));
   }
 
   @Test
   @DatabaseSetup("classpath:circuit-data.xml")
-  public void findAllOneCircuitShouldReturnInformationOfOneCircuitEntryAsJson()
+  public void findAllPageableAsJson()
       throws Exception {
-    mockMvc.perform(get("/api/circuits/all"))
+    mockMvc.perform(get("/api/circuits"))
         .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$CircuitTable.circuits", hasSize(totalEntries)))
+        .andExpect(jsonPath("$CircuitTable.number", is(pageNumber)))
+        .andExpect(jsonPath("$CircuitTable.totalElements", is(totalEntries)))
+        .andExpect(jsonPath("$CircuitTable.totalPages", is((int)Math.ceil((double) totalEntries / pageSize))))
+        .andExpect(jsonPath("$CircuitTable.size", is(pageSize)))
+        .andExpect(jsonPath("$CircuitTable.links", hasSize(linkSize)))
+        .andExpect(jsonPath("$CircuitTable.circuits", hasSize(pageSize)))
         .andExpect(jsonPath("$CircuitTable.circuits[0].referenceName", is(REFERENCE_NAME)))
         .andExpect(jsonPath("$CircuitTable.circuits[0].name", is(NAME)));
+
   }
 }

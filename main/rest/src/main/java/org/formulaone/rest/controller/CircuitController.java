@@ -81,7 +81,7 @@ public class CircuitController {
    *
    * @return The information of all circuit entries.
    */
-  @RequestMapping(method = RequestMethod.GET)
+  @RequestMapping(value = "/all", method = RequestMethod.GET)
   @ResponseBody
   CircuitTable findAll() {
     logger.info("Finding all circuit entries");
@@ -119,7 +119,7 @@ public class CircuitController {
    * @param size the size of entries per page
    * @return The information of all circuit entries paginated.
    */
-  @RequestMapping(value = "/pages", method = RequestMethod.GET)
+  @RequestMapping(method = RequestMethod.GET)
   @ResponseBody
   CircuitsPage findAllPageable(@RequestParam(defaultValue = "0") int page,
                                            @RequestParam(defaultValue = "30") int size) {

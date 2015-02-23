@@ -17,9 +17,6 @@ public class CircuitTable {
 
   private List<CircuitDto> circuits;
 
-  public CircuitTable() {
-  }
-
   public CircuitTable(List<CircuitDto> circuits) {
     this.circuits = circuits;
   }
