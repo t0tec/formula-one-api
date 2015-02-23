@@ -9,16 +9,16 @@ import java.nio.charset.Charset;
  * @version $Id$
  * @since 1.0
  */
-final class WebTestConstants {
+public final class WebTestConstants {
 
-  static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(),
+  public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(),
                                                                MediaType.APPLICATION_JSON
                                                                    .getSubtype(),
                                                                Charset.forName("utf8")
   );
 
-  static final String ERROR_CODE_CIRCUIT_ENTRY_NOT_FOUND = "NOT_FOUND";
-  static final String ERROR_CODE_VALIDATION_FAILED = "BAD_REQUEST";
+  public static final String ERROR_CODE_ENTRY_NOT_FOUND = "NOT_FOUND";
+  public static final String ERROR_CODE_VALIDATION_FAILED = "BAD_REQUEST";
 
   /**
    * Prevents instantiation.

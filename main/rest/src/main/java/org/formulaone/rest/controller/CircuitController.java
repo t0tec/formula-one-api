@@ -1,5 +1,6 @@
 package org.formulaone.rest.controller;
 
+import org.formulaone.rest.wrapper.CircuitsPage;
 import org.formulaone.rest.wrapper.CircuitTable;
 import org.formulaone.service.CircuitReadOnlyService;
 import org.formulaone.service.dto.CircuitDto;
@@ -64,7 +65,7 @@ public class CircuitController {
    * @throws org.formulaone.core.exception.CircuitNotFoundException if no circuit entry is found by
    *                                                                using the given referenceName.
    */
-  @RequestMapping(value = "/referenceName/{referenceName}", method = RequestMethod.GET)
+  @RequestMapping(value = "/{referenceName}", method = RequestMethod.GET)
   @ResponseBody
   CircuitDto findByReferenceName(@PathVariable("referenceName") String referenceName) {
     logger.info("Finding circuit entry by using referenceName: {}", referenceName);
@@ -88,10 +89,7 @@ public class CircuitController {
     List<CircuitDto> circuitEntries = circuitReadOnlyService.findAll();
     logger.info("Found {} circuit entries.", circuitEntries.size());
 
-    CircuitTable circuitTable = new CircuitTable();
-    circuitTable.setList(circuitEntries);
-
-    return circuitTable;
+    return new CircuitTable(circuitEntries);
   }
 
   /**
@@ -104,16 +102,14 @@ public class CircuitController {
   @ResponseBody
   CircuitTable findAllSortable(@RequestParam(defaultValue = "name") String sort,
                                @RequestParam(defaultValue = "ASC") String direction) {
-    Sort sortening = new Sort(
+    Sort sortOn = new Sort(
         Sort.Direction.fromStringOrNull(direction), sort
     );
 
-    List<CircuitDto> circuitEntries = circuitReadOnlyService.findAll(sortening);
+    List<CircuitDto> circuitEntries = circuitReadOnlyService.findAll(sortOn);
+    logger.info("Found {} circuit entries sort on {} {}.", circuitEntries.size(), sort, direction);
 
-    CircuitTable circuitTable = new CircuitTable();
-    circuitTable.setList(circuitEntries);
-
-    return circuitTable;
+    return new CircuitTable(circuitEntries);
   }
 
   /**
@@ -125,14 +121,16 @@ public class CircuitController {
    */
   @RequestMapping(value = "/pages", method = RequestMethod.GET)
   @ResponseBody
-  Page<CircuitDto> findAllPageable(@RequestParam(defaultValue = "0") int page,
-                                   @RequestParam(defaultValue = "30") int size) {
+  CircuitsPage findAllPageable(@RequestParam(defaultValue = "0") int page,
+                                           @RequestParam(defaultValue = "30") int size) {
     Pageable pageable = new PageRequest(
         page, size
     );
 
     Page<CircuitDto> pageResult = circuitReadOnlyService.findAll(pageable);
+    logger.info("Found {} circuit entries paged by {} {}.", pageResult.getNumberOfElements(), page,
+                size);
 
-    return pageResult;
+    return new CircuitsPage(pageResult, "page", "size");
   }
 }

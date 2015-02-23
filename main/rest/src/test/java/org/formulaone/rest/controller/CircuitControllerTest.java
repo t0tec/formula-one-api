@@ -29,6 +29,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * @author t0tec (t0tec.olmec@gmail.com)
+ * @version $Id$
+ * @since 1.0
+ */
 @RunWith(NestedRunner.class)
 public class CircuitControllerTest {
 
@@ -40,7 +45,7 @@ public class CircuitControllerTest {
   private static final String REFERENCE_NAME = "albert_park";
   private static final String NAME = "Albert Park Grand Prix Circuit";
 
-  private static final Long NON_EXISTING_ID = 20L;
+  private static final Long NON_EXISTING_ID = -1L;
   private static final String NON_REFERENCE_NAME = "NOT_IMPORTANT";
 
   private static final String ERROR_MESSAGE_KEY_CIRCUIT_ENTRY_NOT_FOUND
@@ -118,7 +123,7 @@ public class CircuitControllerTest {
         given(circuitReadOnlyService.findById(NON_EXISTING_ID))
             .willThrow(new CircuitNotFoundException("id", NON_EXISTING_ID));
 
-        mockMvc.perform(get("/api/circuits/{id}", NON_EXISTING_ID))
+        mockMvc.perform(get("/api/circuits/id/{id}", NON_EXISTING_ID))
             .andExpect(status().isNotFound());
       }
 
@@ -137,7 +142,7 @@ public class CircuitControllerTest {
 //        TODO: need to fix this test to get error message
         mockMvc.perform(get("/api/circuits/{id}", NON_EXISTING_ID))
             .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
-            .andExpect(jsonPath("$error.code", is(WebTestConstants.ERROR_CODE_CIRCUIT_ENTRY_NOT_FOUND)))
+            .andExpect(jsonPath("$error.code", is(WebTestConstants.ERROR_CODE_ENTRY_NOT_FOUND)))
             .andExpect(jsonPath("$error.message", is(ERROR_MESSAGE_KEY_CIRCUIT_ENTRY_NOT_FOUND)));
       }
     }
@@ -181,7 +186,7 @@ public class CircuitControllerTest {
         given(circuitReadOnlyService.findByReferenceName(NON_REFERENCE_NAME))
             .willThrow(new CircuitNotFoundException("referenceName", NON_REFERENCE_NAME));
 
-        mockMvc.perform(get("/api/circuits/referenceName/{referenceName}", NON_REFERENCE_NAME))
+        mockMvc.perform(get("/api/circuits/{referenceName}", NON_REFERENCE_NAME))
             .andExpect(status().isNotFound());
       }
 
@@ -192,7 +197,7 @@ public class CircuitControllerTest {
             .willThrow(new CircuitNotFoundException("referenceName", NON_REFERENCE_NAME));
 
         MvcResult result =
-            mockMvc.perform(get("/api/circuits/referenceName/{referenceName}", NON_REFERENCE_NAME)).andReturn();
+            mockMvc.perform(get("/api/circuits/{referenceName}", NON_REFERENCE_NAME)).andReturn();
 
         String content = result.getResponse().getContentAsString();
 
@@ -201,7 +206,7 @@ public class CircuitControllerTest {
 //        TODO: need to fix this test to get error message
         mockMvc.perform(get("/api/circuits/{id}", NON_EXISTING_ID))
             .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
-            .andExpect(jsonPath("$error.code", is(WebTestConstants.ERROR_CODE_CIRCUIT_ENTRY_NOT_FOUND)))
+            .andExpect(jsonPath("$error.code", is(WebTestConstants.ERROR_CODE_ENTRY_NOT_FOUND)))
             .andExpect(jsonPath("$error.message", is(ERROR_MESSAGE_KEY_CIRCUIT_ENTRY_NOT_FOUND)));
       }
     }
@@ -214,7 +219,7 @@ public class CircuitControllerTest {
 
         given(circuitReadOnlyService.findByReferenceName(REFERENCE_NAME)).willReturn(found);
 
-        mockMvc.perform(get("/api/circuits/referenceName/{referenceName}", REFERENCE_NAME))
+        mockMvc.perform(get("/api/circuits/{referenceName}", REFERENCE_NAME))
             .andExpect(status().isOk());
       }
 
@@ -228,7 +233,7 @@ public class CircuitControllerTest {
 
         given(circuitReadOnlyService.findByReferenceName(REFERENCE_NAME)).willReturn(found);
 
-        mockMvc.perform(get("/api/circuits/referenceName/{referenceName}", REFERENCE_NAME))
+        mockMvc.perform(get("/api/circuits/{referenceName}", REFERENCE_NAME))
             .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
             .andExpect(jsonPath("$circuit.referenceName", is(REFERENCE_NAME)))
             .andExpect(jsonPath("$circuit.name", is(NAME)));

@@ -1,10 +1,12 @@
 package org.formulaone.rest.wrapper;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import org.formulaone.service.dto.CircuitDto;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -13,21 +15,18 @@ import java.util.List;
  * @version $Id$
  * @since 1.0
  */
-public class CircuitTable {
+@JsonRootName("CircuitTable")
+public class CircuitsPage extends PageResource<CircuitDto> {
 
-  private List<CircuitDto> circuits;
-
-  public CircuitTable() {
-  }
-
-  public CircuitTable(List<CircuitDto> circuits) {
-    this.circuits = circuits;
+  public CircuitsPage(Page<CircuitDto> page, String pageParam, String sizeParam) {
+    super(page, pageParam, sizeParam);
   }
 
   @JacksonXmlElementWrapper(localName = "circuits", useWrapping = false)
   @JacksonXmlProperty(localName = "circuit")
   @JsonProperty("circuits")
-  public List<CircuitDto> getCircuits() {
-    return circuits;
+  @Override
+  public List<CircuitDto> getContent() {
+    return page.getContent();
   }
 }

@@ -3,6 +3,11 @@ package org.formulaone.rest.controller;
 import org.formulaone.service.dto.CircuitDto;
 import org.springframework.test.util.ReflectionTestUtils;
 
+/**
+ * @author t0tec (t0tec.olmec@gmail.com)
+ * @version $Id$
+ * @since 1.0
+ */
 public class CircuitDtoBuilder {
 
   private Long id;

@@ -2,6 +2,11 @@ package org.formulaone.core.model;
 
 import org.springframework.test.util.ReflectionTestUtils;
 
+/**
+ * @author t0tec (t0tec.olmec@gmail.com)
+ * @version $Id$
+ * @since 1.0
+ */
 public class CircuitBuilder {
 
   private Long id;
