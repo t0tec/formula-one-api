@@ -1,7 +1,8 @@
 package org.formulaone.rest.controller;
 
-import org.formulaone.rest.wrapper.CircuitsPage;
+import org.formulaone.rest.wrapper.CircuitResource;
 import org.formulaone.rest.wrapper.CircuitTable;
+import org.formulaone.rest.wrapper.CircuitsPage;
 import org.formulaone.service.CircuitReadOnlyService;
 import org.formulaone.service.dto.CircuitDto;
 import org.slf4j.Logger;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
  * @author t0tec (t0tec.olmec@gmail.com)
@@ -48,13 +51,16 @@ public class CircuitController {
    */
   @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
   @ResponseBody
-  CircuitDto findById(@PathVariable("id") Long id) {
+  CircuitResource findById(@PathVariable("id") Long id) {
     logger.info("Finding circuit entry by using id: {}", id);
 
     CircuitDto circuitEntry = circuitReadOnlyService.findById(id);
     logger.info("Found circuit entry: {}", circuitEntry);
 
-    return circuitEntry;
+    CircuitResource resource = new CircuitResource(circuitEntry);
+    resource.add(linkTo(CircuitController.class).slash(circuitEntry.getId()).withSelfRel());
+
+    return resource;
   }
 
   /**
@@ -67,13 +73,16 @@ public class CircuitController {
    */
   @RequestMapping(value = "/{referenceName}", method = RequestMethod.GET)
   @ResponseBody
-  CircuitDto findByReferenceName(@PathVariable("referenceName") String referenceName) {
+  CircuitResource  findByReferenceName(@PathVariable("referenceName") String referenceName) {
     logger.info("Finding circuit entry by using referenceName: {}", referenceName);
 
     CircuitDto circuitEntry = circuitReadOnlyService.findByReferenceName(referenceName);
     logger.info("Found circuit entry: {}", circuitEntry);
 
-    return circuitEntry;
+    CircuitResource resource = new CircuitResource(circuitEntry);
+    resource.add(linkTo(CircuitController.class).slash(circuitEntry.getReferenceName()).withSelfRel());
+
+    return resource;
   }
 
   /**

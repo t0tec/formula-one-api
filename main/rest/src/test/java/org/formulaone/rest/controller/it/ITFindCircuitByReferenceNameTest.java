@@ -85,7 +85,7 @@ public class ITFindCircuitByReferenceNameTest {
     mockMvc.perform(get("/api/circuits/{$referenceName}", REFERENCE_NAME))
         .andExpect(status().isOk())
         .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$circuit.referenceName", is(REFERENCE_NAME)))
-        .andExpect(jsonPath("$circuit.name", is(NAME)));
+        .andExpect(jsonPath("$CircuitTable.circuit.referenceName", is(REFERENCE_NAME)))
+        .andExpect(jsonPath("$CircuitTable.circuit.name", is(NAME)));
   }
 }

@@ -97,15 +97,6 @@ final class WebTestConfig {
         Arrays.<HttpMessageConverter<?>>asList(new HttpMessageConverter[]{messageConverter}));
     exceptionResolver.afterPropertiesSet();
 
-//    HttpMessageConverter<?> converter = jacksonDateTimeConverter();
-//
-//    List<HttpMessageConverter<?>> listHttpMessageConverter =
-//        new ArrayList<HttpMessageConverter<?>>();
-//
-//    listHttpMessageConverter.add(converter);
-//
-//    exceptionResolver.setMessageConverters(listHttpMessageConverter);
-
     return exceptionResolver;
   }
 
