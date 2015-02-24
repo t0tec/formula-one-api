@@ -19,8 +19,6 @@ import javax.persistence.Table;
 @Table(name = "circuit")
 public final class Circuit implements Serializable {
 
-  public static final int MAX_LENGTH_URL = 500;
-
   @Id
   @GeneratedValue
   @Column(name = "id")
@@ -54,7 +52,7 @@ public final class Circuit implements Serializable {
   @Column(name = "turns", columnDefinition = "smallint")
   private Integer turns;
 
-  @Column(name = "url", length = MAX_LENGTH_URL)
+  @Column(name = "url", length = ConstrainConstants.MAX_LENGTH_URL)
   private String url;
 
   public Circuit() {

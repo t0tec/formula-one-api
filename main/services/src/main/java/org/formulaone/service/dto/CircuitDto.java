@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.formulaone.core.model.Circuit;
+import org.formulaone.core.model.ConstrainConstants;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Size;
@@ -34,7 +34,7 @@ public class CircuitDto {
   private Integer turns;
 
   @JacksonXmlProperty(isAttribute = true)
-  @Size(max = Circuit.MAX_LENGTH_URL)
+  @Size(max = ConstrainConstants.MAX_LENGTH_URL)
   private String url;
 
   public CircuitDto() {
