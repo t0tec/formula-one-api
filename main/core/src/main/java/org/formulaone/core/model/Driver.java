@@ -28,7 +28,7 @@ public final class Driver implements Serializable {
   @Id
   @GeneratedValue
   @Column(name = "id")
-  private long id;
+  private Long id;
 
   @Column(name = "reference_name", nullable = false, unique = true)
   private String referenceName;
@@ -36,7 +36,7 @@ public final class Driver implements Serializable {
   @Column(name = "number")
   private Integer number;
 
-  @Column(name = "code", columnDefinition = "character(3)")
+  @Column(name = "code", columnDefinition = "char(3)")
   private String code;
 
   @Column(name = "forename", nullable = false)
@@ -90,7 +90,18 @@ public final class Driver implements Serializable {
     this.url = url;
   }
 
-  public long getId() {
+  private Driver(Builder builder) {
+    this.id = builder.id;
+    this.referenceName = builder.referenceName;
+    this.forename = builder.forename;
+    this.surname = builder.surname;
+  }
+
+  public static Builder getBuilder() {
+    return new Builder();
+  }
+
+  public Long getId() {
     return this.id;
   }
 
@@ -151,5 +162,45 @@ public final class Driver implements Serializable {
   @Override
   public int hashCode() {
     return this.referenceName.hashCode();
+  }
+
+  /**
+   * The builder pattern makes it easier to create objects
+   */
+  public static class Builder {
+
+    private Long id;
+    private String referenceName;
+    private String forename;
+    private String surname;
+
+    public Builder() {
+    }
+
+    public Builder id(Long id) {
+      this.id = id;
+      return this;
+    }
+
+    public Builder referenceName(String referenceName) {
+      this.referenceName = referenceName;
+      return this;
+    }
+
+    public Builder forename(String forename) {
+      this.forename = forename;
+      return this;
+    }
+
+    public Builder surname(String surname) {
+      this.surname = surname;
+      return this;
+    }
+
+    public Driver build() {
+      Driver build = new Driver(this);
+
+      return build;
+    }
   }
 }

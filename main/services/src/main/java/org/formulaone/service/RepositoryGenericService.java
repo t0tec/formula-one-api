@@ -1,6 +1,7 @@
 package org.formulaone.service;
 
 import org.dozer.DozerBeanMapper;
+import org.formulaone.core.exception.NotFoundException;
 import org.formulaone.repository.ReadOnlyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -47,7 +48,13 @@ class RepositoryGenericService<T, D, ID extends Serializable> implements Generic
 
   @Override
   public D findById(ID id) {
-    return mapper.map(repository.findOne(id), dtoClass);
+    T entry = repository.findOne(id);
+
+    if (entry == null) {
+      throw new NotFoundException(this.entityClass, "id", id);
+    }
+
+    return mapper.map(entry, dtoClass);
   }
 
   @Override

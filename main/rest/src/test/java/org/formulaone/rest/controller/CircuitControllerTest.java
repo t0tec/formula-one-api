@@ -2,7 +2,8 @@ package org.formulaone.rest.controller;
 
 import com.nitorcreations.junit.runners.NestedRunner;
 
-import org.formulaone.core.exception.CircuitNotFoundException;
+import org.formulaone.core.exception.NotFoundException;
+import org.formulaone.core.model.Circuit;
 import org.formulaone.service.CircuitReadOnlyService;
 import org.formulaone.service.dto.CircuitDto;
 import org.junit.Before;
@@ -117,9 +118,11 @@ public class CircuitControllerTest {
       @Test
       public void shouldReturnErrorMessageAsJson() throws Exception {
         given(circuitReadOnlyService.findById(ID))
-            .willThrow(new CircuitNotFoundException("id", NON_EXISTING_ID));
+            .willThrow(new NotFoundException(Circuit.class, "id", NON_EXISTING_ID));
 
-        MvcResult result = mockMvc.perform(get("/api/circuits/id/{id}", NON_EXISTING_ID)).andReturn();
+        MvcResult
+            result =
+            mockMvc.perform(get("/api/circuits/id/{id}", NON_EXISTING_ID)).andReturn();
 
         String content = result.getResponse().getContentAsString();
 
@@ -163,7 +166,7 @@ public class CircuitControllerTest {
       @Test
       public void shouldReturnErrorMessageAsJson() throws Exception {
         given(circuitReadOnlyService.findByReferenceName(NON_REFERENCE_NAME))
-            .willThrow(new CircuitNotFoundException("referenceName", NON_REFERENCE_NAME));
+            .willThrow(new NotFoundException(Circuit.class, "referenceName", NON_REFERENCE_NAME));
 
         MvcResult result =
             mockMvc.perform(get("/api/circuits/{referenceName}", NON_REFERENCE_NAME)).andReturn();

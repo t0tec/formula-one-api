@@ -22,7 +22,7 @@ public final class DriverStandings implements Serializable {
   @Id
   @GeneratedValue
   @Column(name = "id")
-  private long id;
+  private Long id;
 
   @ManyToOne
   @JoinColumn(name = "race_id", referencedColumnName = "id", nullable = false)
@@ -57,7 +57,7 @@ public final class DriverStandings implements Serializable {
     this.wins = wins;
   }
 
-  public long getId() {
+  public Long getId() {
     return this.id;
   }
 

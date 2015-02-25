@@ -1,8 +1,8 @@
 package org.formulaone.rest.controller;
 
+import org.formulaone.rest.wrapper.CircuitPage;
 import org.formulaone.rest.wrapper.CircuitResource;
 import org.formulaone.rest.wrapper.CircuitTable;
-import org.formulaone.rest.wrapper.CircuitsPage;
 import org.formulaone.service.CircuitReadOnlyService;
 import org.formulaone.service.dto.CircuitDto;
 import org.slf4j.Logger;
@@ -44,10 +44,10 @@ public class CircuitController {
   /**
    * Finds a single circuit entry by id.
    *
-   * @param id The id of the requested circuit entry.
-   * @return The information of the requested circuit entry.
-   * @throws org.formulaone.core.exception.CircuitNotFoundException if no circuit entry is found by
-   *                                                                using the given id.
+   * @param id The id of the requested entry.
+   * @return The information of the requested entry.
+   * @throws org.formulaone.core.exception.NotFoundException if no entry is found by using the given
+   *                                                         id.
    */
   @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
   @ResponseBody
@@ -66,21 +66,22 @@ public class CircuitController {
   /**
    * Finds a single circuit entry by reference name.
    *
-   * @param referenceName The referenceName of the requested circuit entry.
-   * @return The information of the requested circuit entry.
-   * @throws org.formulaone.core.exception.CircuitNotFoundException if no circuit entry is found by
-   *                                                                using the given referenceName.
+   * @param referenceName The referenceName of the requested entry.
+   * @return The information of the requested entry.
+   * @throws org.formulaone.core.exception.NotFoundException if no entry is found by using the given
+   *                                                         referenceName.
    */
   @RequestMapping(value = "/{referenceName}", method = RequestMethod.GET)
   @ResponseBody
-  CircuitResource  findByReferenceName(@PathVariable("referenceName") String referenceName) {
+  CircuitResource findByReferenceName(@PathVariable("referenceName") String referenceName) {
     logger.info("Finding circuit entry by using referenceName: {}", referenceName);
 
     CircuitDto circuitEntry = circuitReadOnlyService.findByReferenceName(referenceName);
     logger.info("Found circuit entry: {}", circuitEntry);
 
     CircuitResource resource = new CircuitResource(circuitEntry);
-    resource.add(linkTo(CircuitController.class).slash(circuitEntry.getReferenceName()).withSelfRel());
+    resource
+        .add(linkTo(CircuitController.class).slash(circuitEntry.getReferenceName()).withSelfRel());
 
     return resource;
   }
@@ -88,7 +89,7 @@ public class CircuitController {
   /**
    * Finds all circuit entries.
    *
-   * @return The information of all circuit entries.
+   * @return The information of all entries.
    */
   @RequestMapping(value = "/all", method = RequestMethod.GET)
   @ResponseBody
@@ -105,7 +106,7 @@ public class CircuitController {
    * Finds all circuit entries sorted by a property.
    *
    * @param sort The parameter to sort the entries on
-   * @return The information of all circuit entries sorted by sortOn.
+   * @return The information of all entries sorted by sortOn.
    */
   @RequestMapping(value = "/sort", method = RequestMethod.GET)
   @ResponseBody
@@ -126,12 +127,12 @@ public class CircuitController {
    *
    * @param page the page you are requesting
    * @param size the size of entries per page
-   * @return The information of all circuit entries paginated.
+   * @return The information of all entries paginated.
    */
   @RequestMapping(method = RequestMethod.GET)
   @ResponseBody
-  CircuitsPage findAllPageable(@RequestParam(defaultValue = "0") int page,
-                                           @RequestParam(defaultValue = "30") int size) {
+  CircuitPage findAllPageable(@RequestParam(defaultValue = "0") int page,
+                              @RequestParam(defaultValue = "30") int size) {
     Pageable pageable = new PageRequest(
         page, size
     );
@@ -140,6 +141,6 @@ public class CircuitController {
     logger.info("Found {} circuit entries paged by {} {}.", pageResult.getNumberOfElements(), page,
                 size);
 
-    return new CircuitsPage(pageResult, "page", "size");
+    return new CircuitPage(pageResult, "page", "size");
   }
 }

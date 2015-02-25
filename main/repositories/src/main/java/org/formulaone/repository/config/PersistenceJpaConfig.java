@@ -38,6 +38,7 @@ public class PersistenceJpaConfig {
   private static final String PROPERTY_NAME_DB_PASSWORD = "db.password";
   private static final String PROPERTY_NAME_DB_URL = "db.url";
   private static final String PROPERTY_NAME_DB_USER = "db.username";
+  private static final String PROPERTY_NAME_DB_ZERO_DATE_TIME = "zeroDateTimeBehavior";
   private static final String PROPERTY_NAME_HIBERNATE_DIALECT = "hibernate.dialect";
   private static final String PROPERTY_NAME_HIBERNATE_FORMAT_SQL = "hibernate.format_sql";
   private static final String PROPERTY_NAME_HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto";
@@ -57,6 +58,8 @@ public class PersistenceJpaConfig {
     dataSourceConfig.setJdbcUrl(env.getRequiredProperty(PROPERTY_NAME_DB_URL));
     dataSourceConfig.setUsername(env.getRequiredProperty(PROPERTY_NAME_DB_USER));
     dataSourceConfig.setPassword(env.getRequiredProperty(PROPERTY_NAME_DB_PASSWORD));
+    dataSourceConfig.addDataSourceProperty(PROPERTY_NAME_DB_ZERO_DATE_TIME, env.getRequiredProperty(
+        PROPERTY_NAME_DB_ZERO_DATE_TIME));
 
     return new HikariDataSource(dataSourceConfig);
   }
@@ -69,7 +72,7 @@ public class PersistenceJpaConfig {
    */
   @Bean
   public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
-                                                                      Environment env) {
+                                                                     Environment env) {
     LocalContainerEntityManagerFactoryBean entityManagerFactoryBean =
         new LocalContainerEntityManagerFactoryBean();
     entityManagerFactoryBean.setDataSource(dataSource);

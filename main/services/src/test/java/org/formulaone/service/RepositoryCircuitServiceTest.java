@@ -3,7 +3,7 @@ package org.formulaone.service;
 import com.nitorcreations.junit.runners.NestedRunner;
 
 import org.dozer.DozerBeanMapper;
-import org.formulaone.core.exception.CircuitNotFoundException;
+import org.formulaone.core.exception.NotFoundException;
 import org.formulaone.core.model.Circuit;
 import org.formulaone.repository.CircuitRepository;
 import org.formulaone.service.dto.CircuitDto;
@@ -95,7 +95,7 @@ public class RepositoryCircuitServiceTest {
 
       @Test
       public void shouldThrowExceptionWithCorrectId() {
-        thrown.expect(CircuitNotFoundException.class);
+        thrown.expect(NotFoundException.class);
         circuitRepository.findOne(NON_EXISTING_ID);
       }
     }
@@ -128,7 +128,7 @@ public class RepositoryCircuitServiceTest {
 
       @Test
       public void shouldThrowExceptionWithCorrectId() {
-        thrown.expect(CircuitNotFoundException.class);
+        thrown.expect(NotFoundException.class);
         circuitRepository.findByReferenceName(NAME);
       }
     }

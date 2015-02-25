@@ -23,7 +23,7 @@ public final class Result implements Serializable {
   @Id
   @GeneratedValue
   @Column(name = "id")
-  private long id;
+  private Long id;
 
   @Column(name = "number")
   private int driverNumber;
@@ -104,7 +104,7 @@ public final class Result implements Serializable {
     this.status = status;
   }
 
-  public long getId() {
+  public Long getId() {
     return this.id;
   }
 

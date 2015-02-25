@@ -28,7 +28,7 @@ public final class Race implements Serializable {
   @Id
   @GeneratedValue
   @Column(name = "id")
-  private long id;
+  private Long id;
 
   @OneToOne
   @JoinColumn(name = "year", nullable = false)
@@ -87,7 +87,7 @@ public final class Race implements Serializable {
     this.url = url;
   }
 
-  public long getId() {
+  public Long getId() {
     return this.id;
   }
 

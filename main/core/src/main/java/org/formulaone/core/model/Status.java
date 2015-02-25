@@ -22,7 +22,7 @@ public final class Status implements Serializable {
   @Id
   @GeneratedValue
   @Column(name = "id")
-  private long id;
+  private Long id;
 
   @Enumerated(EnumType.STRING)
   @Column(name = "status", unique = true)
@@ -35,7 +35,7 @@ public final class Status implements Serializable {
     this.statusType = statusType;
   }
 
-  public long getId() {
+  public Long getId() {
     return this.id;
   }
 

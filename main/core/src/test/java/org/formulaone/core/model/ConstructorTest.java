@@ -10,14 +10,14 @@ import static org.junit.Assert.assertNull;
  * @version $Id$
  * @since 1.0
  */
-public class CircuitTest {
+public class ConstructorTest {
 
-  private static final String REFERENCE_NAME = "albert_park";
-  private static final String NAME = "Albert Park Grand Prix Circuit";
+  private static final String REFERENCE_NAME = "mclaren";
+  private static final String NAME = "McLaren";
 
   @Test
   public void build() {
-    Circuit built = Circuit.getBuilder().referenceName(REFERENCE_NAME).name(NAME).build();
+    Constructor built = Constructor.getBuilder().referenceName(REFERENCE_NAME).name(NAME).build();
 
     assertEquals(REFERENCE_NAME, built.getReferenceName());
     assertEquals(NAME, built.getName());

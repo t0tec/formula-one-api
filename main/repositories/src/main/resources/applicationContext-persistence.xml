@@ -10,9 +10,25 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
     <!-- Configures the database connection. -->
     <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
         <property name="driverClassName" value="${db.driver}"/>
-        <property name="jdbcUrl" value="${db.url}"/>
-        <property name="username" value="${db.username}"/>
-        <property name="password" value="${db.password}"/>
+        <property name="poolName" value="Spring-HK-CP" />
+        <property name="connectionTestQuery" value="SELECT 1" />
+        <property name="dataSourceClassName" value="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" />
+        <property name="dataSourceProperties">
+            <props>
+                <prop key="url">${db.url}</prop>
+                <prop key="user">${db.username}</prop>
+                <prop key="password">${db.password}</prop>
+                <prop key="maximumPoolSize">50</prop>
+                <prop key="maxLifetime">28000</prop>
+                <prop key="idleTimeout">30000</prop>
+
+                <prop key="prepStmtCacheSize">250</prop>
+                <prop key="prepStmtCacheSqlLimit">2048</prop>
+                <prop key="cachePrepStmts">true</prop>
+                <prop key="useServerPrepStmts">true</prop>
+                <prop key="zeroDateTimeBehavior">convertToNull</prop>
+            </props>
+        </property>
     </bean>
 
     <!-- Creates the datasource bean. -->

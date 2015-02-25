@@ -15,8 +15,8 @@ import javax.validation.constraints.Size;
  * @version $Id$
  * @since 1.0
  */
-@JsonRootName("circuit")
-public class CircuitDto {
+@JsonRootName("constructor")
+public class ConstructorDto {
 
   @JsonIgnore
   private Long id;
@@ -27,20 +27,16 @@ public class CircuitDto {
 
   private String name;
 
-  private Location location;
-
-  private Double length;
-
-  private Integer turns;
+  private String country;
 
   @JacksonXmlProperty(isAttribute = true)
   @Size(max = ConstrainConstants.MAX_LENGTH_URL)
   private String url;
 
-  public CircuitDto() {
+  public ConstructorDto() {
   }
 
-  private CircuitDto(Builder builder) {
+  private ConstructorDto(Builder builder) {
     this.id = builder.id;
     this.referenceName = builder.referenceName;
     this.name = builder.name;
@@ -74,28 +70,12 @@ public class CircuitDto {
     this.name = name;
   }
 
-  public Location getLocation() {
-    return this.location;
+  public String getCountry() {
+    return this.country;
   }
 
-  public void setLocation(Location location) {
-    this.location = location;
-  }
-
-  public Double getLength() {
-    return this.length;
-  }
-
-  public void setLength(Double length) {
-    this.length = length;
-  }
-
-  public Integer getTurns() {
-    return this.turns;
-  }
-
-  public void setTurns(Integer turns) {
-    this.turns = turns;
+  public void setCountry(String country) {
+    this.country = country;
   }
 
   public String getUrl() {
@@ -109,9 +89,8 @@ public class CircuitDto {
   @Override
   public String toString() {
     return new ToStringBuilder(this).append("referenceName", this.referenceName)
-        .append("name", this.name).append("location", location).append("length", this.length)
-        .append("turns", this.turns).append("url", this.url)
-        .toString();
+        .append("name", this.name).append("country", this.country)
+        .append("url", this.url).toString();
   }
 
   /**
@@ -141,8 +120,8 @@ public class CircuitDto {
       return this;
     }
 
-    public CircuitDto build() {
-      CircuitDto build = new CircuitDto(this);
+    public ConstructorDto build() {
+      ConstructorDto build = new ConstructorDto(this);
 
       return build;
     }

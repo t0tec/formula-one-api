@@ -8,8 +8,8 @@
     </appender>
 
     <logger name="org.formulaone" level="DEBUG"/>
-    <logger name="org.hibernate" level="DEBUG"/>
-    <logger name="org.springframework" level="DEBUG"/>
+    <logger name="org.hibernate" level="INFO"/>
+    <logger name="org.springframework" level="INFO"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>

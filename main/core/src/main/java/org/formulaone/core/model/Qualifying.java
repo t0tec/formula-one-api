@@ -22,7 +22,7 @@ public final class Qualifying implements Serializable {
   @Id
   @GeneratedValue
   @Column(name = "id")
-  private long id;
+  private Long id;
 
   @ManyToOne
   @JoinColumn(name = "race_id", referencedColumnName = "id", nullable = false)
@@ -67,7 +67,7 @@ public final class Qualifying implements Serializable {
     this.q3 = q3;
   }
 
-  public long getId() {
+  public Long getId() {
     return this.id;
   }
 

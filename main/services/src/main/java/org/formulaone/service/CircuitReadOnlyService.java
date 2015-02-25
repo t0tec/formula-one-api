@@ -13,10 +13,10 @@ public interface CircuitReadOnlyService extends GenericService<Circuit, CircuitD
   /**
    * Finds a circuit entry by using the referenceName given as a method parameter.
    *
-   * @param referenceName The referenceName of the wanted circuit entry.
-   * @return The information of the requested circuit entry.
-   * @throws org.formulaone.core.exception.CircuitNotFoundException if no circuit entry is found
-   *                                                                with the given referenceName.
+   * @param referenceName The referenceName of the wanted entry.
+   * @return The information of the requested entry.
+   * @throws org.formulaone.core.exception.NotFoundException if no entry is found
+   * with the given referenceName.
    */
   CircuitDto findByReferenceName(String referenceName);
 }

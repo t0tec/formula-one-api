@@ -1,6 +1,6 @@
 package org.formulaone.rest.error;
 
-import org.formulaone.core.exception.CircuitNotFoundException;
+import org.formulaone.core.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.TypeMismatchException;
@@ -35,7 +35,7 @@ public final class RestErrorHandler {
   private static final String ERROR_CODE_BAD_URL = "error.bad.url";
   private static final String ERROR_CODE_TYPE_MISMATCH = "error.type.mismatch";
   private static final String ERROR_NO_PROPERTY_FOUND = "error.no.property.found";
-  private static final String ERROR_CODE_CIRCUIT_ENTRY_NOT_FOUND = "error.circuit.entry.not.found";
+  private static final String ERROR_CODE_ENTRY_NOT_FOUND = "error.entry.not.found";
 
   private final MessageSource messageSource;
 
@@ -114,28 +114,28 @@ public final class RestErrorHandler {
 
     String errorMessage = messageSource.getMessage(errorMessageRequest, currentLocale);
 
-
     return new ErrorDto(HttpStatus.BAD_REQUEST, errorMessage, getFullErrorURL(request));
   }
 
   /**
-   * Processes an error that occurs when the requested circuit entry is not found.
+   * Processes an error that occurs when the requested entry is not found.
    *
-   * @param request         HttpServletRequest provides request information for HTTP servlets
-   * @param ex            The exception that was thrown when the circuit entry was not found.
+   * @param request       HttpServletRequest provides request information for HTTP servlets
+   * @param ex            The exception that was thrown when an entry was not found.
    * @param currentLocale The current locale.
    * @return An error object that contains the error code, status, message and url.
    */
-  @ExceptionHandler(CircuitNotFoundException.class)
+  @ExceptionHandler(NotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
   @ResponseBody
-  ErrorDto handleCircuitEntryNotFound(HttpServletRequest request, CircuitNotFoundException ex,
-                                      Locale currentLocale) {
-    logger.error("Circuit entry was not found by using id: {}", ex.getValue());
+  ErrorDto handleEntryNotFound(HttpServletRequest request, NotFoundException ex,
+                               Locale currentLocale) {
+    String entityClassSimpleName = ex.getEntityClass().getSimpleName().toLowerCase();
+    logger.error("{} entry was not found by using id: {}", entityClassSimpleName, ex.getValue());
 
     MessageSourceResolvable errorMessageRequest = createSingleErrorMessageRequest(
-        ERROR_CODE_CIRCUIT_ENTRY_NOT_FOUND,
-        ex.getPropertyName(), ex.getValue()
+        ERROR_CODE_ENTRY_NOT_FOUND,
+        entityClassSimpleName, ex.getPropertyName(), ex.getValue()
     );
 
     String errorMessage = messageSource.getMessage(errorMessageRequest, currentLocale);

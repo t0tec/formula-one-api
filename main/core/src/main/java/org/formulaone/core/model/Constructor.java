@@ -23,7 +23,7 @@ public final class Constructor implements Serializable {
   @Id
   @GeneratedValue
   @Column(name = "id")
-  private long id;
+  private Long id;
 
   @Column(name = "reference_name", nullable = false)
   private String referenceName;
@@ -56,7 +56,17 @@ public final class Constructor implements Serializable {
     this.url = url;
   }
 
-  public long getId() {
+  private Constructor(Builder builder) {
+    this.id = builder.id;
+    this.referenceName = builder.referenceName;
+    this.name = builder.name;
+  }
+
+  public static Builder getBuilder() {
+    return new Builder();
+  }
+
+  public Long getId() {
     return this.id;
   }
 
@@ -97,5 +107,40 @@ public final class Constructor implements Serializable {
   @Override
   public int hashCode() {
     return this.referenceName.hashCode();
+  }
+
+  /**
+   * The builder pattern makes it easier to create objects
+   */
+  public static class Builder {
+
+    private Long id;
+    private String referenceName;
+    private String name;
+
+    public Builder() {
+    }
+
+    public Builder id(Long id) {
+      this.id = id;
+      return this;
+    }
+
+    public Builder referenceName(String referenceName) {
+      this.referenceName = referenceName;
+      return this;
+    }
+
+    public Builder name(String name) {
+      this.name = name;
+      return this;
+    }
+
+
+    public Constructor build() {
+      Constructor build = new Constructor(this);
+
+      return build;
+    }
   }
 }

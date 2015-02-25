@@ -5,15 +5,21 @@ package org.formulaone.core.exception;
  * @version $Id$
  * @since 1.0
  */
-public class CircuitNotFoundException extends RuntimeException {
+public class NotFoundException extends RuntimeException {
 
+  private final Class entityClass;
   private final String propertyName;
   private final Object value;
 
-  public CircuitNotFoundException(String propertyName, Object value) {
+  public NotFoundException(Class entityClass, String propertyName, Object value) {
     super();
+    this.entityClass = entityClass;
     this.propertyName = propertyName;
     this.value = value;
+  }
+
+  public Class getEntityClass() {
+    return this.entityClass;
   }
 
   public String getPropertyName() {

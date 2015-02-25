@@ -3,7 +3,7 @@ package org.formulaone.repository;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 
-import org.formulaone.core.model.Circuit;
+import org.formulaone.core.model.Constructor;
 import org.formulaone.repository.config.ExampleApplicationContext;
 import org.formulaone.repository.config.Profiles;
 import org.junit.Test;
@@ -21,7 +21,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
                          DirtiesContextTestExecutionListener.class,
                          TransactionalTestExecutionListener.class,
                          DbUnitTestExecutionListener.class})
-public class CircuitRepositoryTest {
+public class ConstructorRepositoryTest {
 
   private static final Long ID = 1L;
-  private static final String REFERENCE_NAME = "albert_park";
-  private static final String NAME = "Albert Park Grand Prix Circuit";
+  private static final String REFERENCE_NAME = "mclaren";
+  private static final String NAME = "McLaren";
 
-  private static final int totalEntries = 72;
+  private static final int totalEntries = 206;
 
   private static final Long NON_EXISTING_ID = -1L;
   private static final String WRONG_REFERENCE_NAME = "unknown";
@@ -57,63 +56,63 @@ public class CircuitRepositoryTest {
   private static final Pageable pageable = new PageRequest(pageNumber, pageSize);
 
   @Autowired
-  private CircuitRepository circuitRepository;
+  private ConstructorRepository constructorRepository;
 
   @Test
-  @DatabaseSetup("classpath:circuit-data.xml")
-  public void testFindCircuitById() {
-    Circuit circuit = circuitRepository.findOne(ID);
+  @DatabaseSetup("classpath:constructor-data.xml")
+  public void testFindConstructorById() {
+    Constructor constructor = constructorRepository.findOne(ID);
 
-    assertThat(circuit).isNotNull();
-    assertThat(circuit.getId()).isEqualTo(ID);
-    assertThat(circuit.getReferenceName()).isEqualTo(REFERENCE_NAME);
-    assertThat(circuit.getName()).isEqualTo(NAME);
+    assertThat(constructor).isNotNull();
+    assertThat(constructor.getId()).isEqualTo(ID);
+    assertThat(constructor.getReferenceName()).isEqualTo(REFERENCE_NAME);
+    assertThat(constructor.getName()).isEqualTo(NAME);
   }
 
   @Test
-  @DatabaseSetup("classpath:circuit-data.xml")
-  public void testReturnNullCircuitWithCorrectId() {
-    Circuit circuit = circuitRepository.findOne(NON_EXISTING_ID);
+  @DatabaseSetup("classpath:constructor-data.xml")
+  public void testReturnNullConstructorWithCorrectId() {
+    Constructor constructor = constructorRepository.findOne(NON_EXISTING_ID);
 
-    assertThat(circuit).isNull();
+    assertThat(constructor).isNull();
   }
 
   @Test
-  @DatabaseSetup("classpath:circuit-no-data.xml")
+  @DatabaseSetup("classpath:constructor-no-data.xml")
   public void testReturnEmptyList() {
-    List<Circuit> circuitEntries = new ArrayList<Circuit>();
+    List<Constructor> constructorEntries = (List<Constructor>) constructorRepository.findAll();
 
-    circuitEntries = (List<Circuit>) circuitRepository.findAll();
-
-    assertThat(circuitEntries).isEmpty();
+    assertThat(constructorEntries).isEmpty();
   }
 
   @Test
-  @DatabaseSetup("classpath:circuit-data.xml")
+  @DatabaseSetup("classpath:constructor-data.xml")
   public void testReturnList() {
-    List<Circuit> circuitEntries = (List<Circuit>) circuitRepository.findAll();
+    List<Constructor> constructorEntries = (List<Constructor>) constructorRepository.findAll();
 
-    assertThat(circuitEntries).hasSize(totalEntries);
+    assertThat(constructorEntries).hasSize(totalEntries);
   }
 
   @Test
-  @DatabaseSetup("classpath:circuit-data.xml")
+  @DatabaseSetup("classpath:constructor-data.xml")
   public void testReturnListSorted() {
 
     Sort sort = new Sort(directionDesc, sortById);
 
-    List<Circuit> sortedCircuitEntries = (List<Circuit>) circuitRepository.findAll(sort);
+    List<Constructor> sortedConstructorEntries =
+        (List<Constructor>) constructorRepository.findAll(sort);
 
-    assertThat(sortedCircuitEntries).hasSize(totalEntries);
-    assertThat(sortedCircuitEntries.get(sortedCircuitEntries.size() - 1).getId()).isEqualTo(ID);
+    assertThat(sortedConstructorEntries).hasSize(totalEntries);
+    assertThat(sortedConstructorEntries.get(sortedConstructorEntries.size() - 1).getId())
+        .isEqualTo(ID);
   }
 
   @Test
-  @DatabaseSetup("classpath:circuit-data.xml")
-  public void testReturnsCircuitPage() {
-    Page<Circuit> circuitPage = circuitRepository.findAll(pageable);
+  @DatabaseSetup("classpath:constructor-data.xml")
+  public void testReturnsConstructorPage() {
+    Page<Constructor> constructorPage = constructorRepository.findAll(pageable);
 
-    PageAssertion.assertThat(circuitPage)
+    PageAssertion.assertThat(constructorPage)
         .hasTotalPages((int) Math.ceil((double) totalEntries / pageSize))
         .hasTotalElements(totalEntries)
         .hasPageSize(pageSize)
@@ -122,21 +121,21 @@ public class CircuitRepositoryTest {
   }
 
   @Test
-  @DatabaseSetup("classpath:circuit-data.xml")
-  public void testFindCircuitByReferenceName() {
-    Circuit circuit = circuitRepository.findByReferenceName(REFERENCE_NAME);
+  @DatabaseSetup("classpath:constructor-data.xml")
+  public void testFindConstructorByReferenceName() {
+    Constructor constructor = constructorRepository.findByReferenceName(REFERENCE_NAME);
 
-    assertThat(circuit).isNotNull();
-    assertThat(circuit.getId()).isEqualTo(ID);
-    assertThat(circuit.getReferenceName()).isEqualTo(REFERENCE_NAME);
-    assertThat(circuit.getName()).isEqualTo(NAME);
+    assertThat(constructor).isNotNull();
+    assertThat(constructor.getId()).isEqualTo(ID);
+    assertThat(constructor.getReferenceName()).isEqualTo(REFERENCE_NAME);
+    assertThat(constructor.getName()).isEqualTo(NAME);
   }
 
   @Test
-  @DatabaseSetup("classpath:circuit-data.xml")
-  public void testReturnNullCircuitWithWrongReferenceName() {
-    Circuit circuit = circuitRepository.findByReferenceName(WRONG_REFERENCE_NAME);
+  @DatabaseSetup("classpath:constructor-data.xml")
+  public void testReturnNullConstructorWithWrongReferenceName() {
+    Constructor constructor = constructorRepository.findByReferenceName(WRONG_REFERENCE_NAME);
 
-    assertThat(circuit).isNull();
+    assertThat(constructor).isNull();
   }
 }
