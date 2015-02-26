@@ -10,5 +10,4 @@ import org.formulaone.core.model.Season;
 public interface SeasonRepository extends ReadOnlyRepository<Season, Long> {
 
   Season findByYear(int year);
-
 }

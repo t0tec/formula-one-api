@@ -96,7 +96,6 @@ public class SeasonRepositoryTest {
   @Test
   @DatabaseSetup("classpath:season-data.xml")
   public void testReturnListSorted() {
-
     Sort sort = new Sort(DIRECTION_DESC, SORT_BY_ID);
 
     List<Season> sortedSeasonEntries = (List<Season>) seasonRepository.findAll(sort);

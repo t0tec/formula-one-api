@@ -98,7 +98,6 @@ public class DriverRepositoryTest {
   @Test
   @DatabaseSetup("classpath:driver-data.xml")
   public void testReturnListSorted() {
-
     Sort sort = new Sort(DIRECTION_DESC, SORT_BY_ID);
 
     List<Driver> sortedDriverEntries = (List<Driver>) driverRepository.findAll(sort);

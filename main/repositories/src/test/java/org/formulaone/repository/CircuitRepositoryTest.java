@@ -21,7 +21,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -81,9 +80,7 @@ public class CircuitRepositoryTest {
   @Test
   @DatabaseSetup("classpath:circuit-no-data.xml")
   public void testReturnEmptyList() {
-    List<Circuit> circuitEntries = new ArrayList<Circuit>();
-
-    circuitEntries = (List<Circuit>) circuitRepository.findAll();
+    List<Circuit> circuitEntries  = (List<Circuit>) circuitRepository.findAll();
 
     assertThat(circuitEntries).isEmpty();
   }
@@ -99,7 +96,6 @@ public class CircuitRepositoryTest {
   @Test
   @DatabaseSetup("classpath:circuit-data.xml")
   public void testReturnListSorted() {
-
     Sort sort = new Sort(DIRECTION_DESC, SORT_BY_ID);
 
     List<Circuit> sortedCircuitEntries = (List<Circuit>) circuitRepository.findAll(sort);

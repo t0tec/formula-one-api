@@ -96,7 +96,6 @@ public class ConstructorRepositoryTest {
   @Test
   @DatabaseSetup("classpath:constructor-data.xml")
   public void testReturnListSorted() {
-
     Sort sort = new Sort(DIRECTION_DESC, SORT_BY_ID);
 
     List<Constructor> sortedConstructorEntries =

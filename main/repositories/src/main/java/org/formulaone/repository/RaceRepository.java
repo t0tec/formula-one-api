@@ -14,4 +14,5 @@ public interface RaceRepository extends ReadOnlyRepository<Race, Long> {
 
   List<Race> findBySeason(Season season);
 
+  Race findBySeasonAndRound(Season season, int round);
 }
