@@ -44,17 +44,17 @@ public class CircuitRepositoryTest {
   private static final String REFERENCE_NAME = "albert_park";
   private static final String NAME = "Albert Park Grand Prix Circuit";
 
-  private static final int totalEntries = 72;
+  private static final int TOTAL_ENTRIES = 72;
 
   private static final Long NON_EXISTING_ID = -1L;
   private static final String WRONG_REFERENCE_NAME = "unknown";
 
-  private static final String sortById = "id";
-  private static final Sort.Direction directionDesc = Sort.Direction.DESC;
+  private static final String SORT_BY_ID = "id";
+  private static final Sort.Direction DIRECTION_DESC = Sort.Direction.DESC;
 
-  private static final int pageNumber = 0;
-  private static final int pageSize = 30;
-  private static final Pageable pageable = new PageRequest(pageNumber, pageSize);
+  private static final int PAGE_NUMBER = 0;
+  private static final int PAGE_SIZE = 30;
+  private static final Pageable PAGEABLE = new PageRequest(PAGE_NUMBER, PAGE_SIZE);
 
   @Autowired
   private CircuitRepository circuitRepository;
@@ -93,32 +93,32 @@ public class CircuitRepositoryTest {
   public void testReturnList() {
     List<Circuit> circuitEntries = (List<Circuit>) circuitRepository.findAll();
 
-    assertThat(circuitEntries).hasSize(totalEntries);
+    assertThat(circuitEntries).hasSize(TOTAL_ENTRIES);
   }
 
   @Test
   @DatabaseSetup("classpath:circuit-data.xml")
   public void testReturnListSorted() {
 
-    Sort sort = new Sort(directionDesc, sortById);
+    Sort sort = new Sort(DIRECTION_DESC, SORT_BY_ID);
 
     List<Circuit> sortedCircuitEntries = (List<Circuit>) circuitRepository.findAll(sort);
 
-    assertThat(sortedCircuitEntries).hasSize(totalEntries);
+    assertThat(sortedCircuitEntries).hasSize(TOTAL_ENTRIES);
     assertThat(sortedCircuitEntries.get(sortedCircuitEntries.size() - 1).getId()).isEqualTo(ID);
   }
 
   @Test
   @DatabaseSetup("classpath:circuit-data.xml")
-  public void testReturnsCircuitPage() {
-    Page<Circuit> circuitPage = circuitRepository.findAll(pageable);
+  public void testReturnsPage() {
+    Page<Circuit> circuitPage = circuitRepository.findAll(PAGEABLE);
 
     PageAssertion.assertThat(circuitPage)
-        .hasTotalPages((int) Math.ceil((double) totalEntries / pageSize))
-        .hasTotalElements(totalEntries)
-        .hasPageSize(pageSize)
-        .hasPageNumber(pageNumber)
-        .hasContentSize(pageSize);
+        .hasTotalPages((int) Math.ceil((double) TOTAL_ENTRIES / PAGE_SIZE))
+        .hasTotalElements(TOTAL_ENTRIES)
+        .hasPageSize(PAGE_SIZE)
+        .hasPageNumber(PAGE_NUMBER)
+        .hasContentSize(PAGE_SIZE);
   }
 
   @Test

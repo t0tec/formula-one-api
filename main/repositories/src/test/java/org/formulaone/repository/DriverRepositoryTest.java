@@ -44,17 +44,17 @@ public class DriverRepositoryTest {
   private static final String FORENAME = "Lewis";
   private static final String SURNAME = "Hamilton";
 
-  private static final int totalEntries = 828;
+  private static final int TOTAL_ENTRIES = 828;
 
   private static final Long NON_EXISTING_ID = -1L;
   private static final String WRONG_REFERENCE_NAME = "unknown";
 
-  private static final String sortById = "id";
-  private static final Sort.Direction directionDesc = Sort.Direction.DESC;
+  private static final String SORT_BY_ID = "id";
+  private static final Sort.Direction DIRECTION_DESC = Sort.Direction.DESC;
 
-  private static final int pageNumber = 0;
-  private static final int pageSize = 30;
-  private static final Pageable pageable = new PageRequest(pageNumber, pageSize);
+  private static final int PAGE_NUMBER = 0;
+  private static final int PAGE_SIZE = 30;
+  private static final Pageable PAGEABLE = new PageRequest(PAGE_NUMBER, PAGE_SIZE);
 
   @Autowired
   private DriverRepository driverRepository;
@@ -92,32 +92,32 @@ public class DriverRepositoryTest {
   public void testReturnList() {
     List<Driver> driverEntries = (List<Driver>) driverRepository.findAll();
 
-    assertThat(driverEntries).hasSize(totalEntries);
+    assertThat(driverEntries).hasSize(TOTAL_ENTRIES);
   }
 
   @Test
   @DatabaseSetup("classpath:driver-data.xml")
   public void testReturnListSorted() {
 
-    Sort sort = new Sort(directionDesc, sortById);
+    Sort sort = new Sort(DIRECTION_DESC, SORT_BY_ID);
 
     List<Driver> sortedDriverEntries = (List<Driver>) driverRepository.findAll(sort);
 
-    assertThat(sortedDriverEntries).hasSize(totalEntries);
+    assertThat(sortedDriverEntries).hasSize(TOTAL_ENTRIES);
     assertThat(sortedDriverEntries.get(sortedDriverEntries.size() - 1).getId()).isEqualTo(ID);
   }
 
   @Test
   @DatabaseSetup("classpath:driver-data.xml")
   public void testReturnPage() {
-    Page<Driver> driverPage = driverRepository.findAll(pageable);
+    Page<Driver> driverPage = driverRepository.findAll(PAGEABLE);
 
     PageAssertion.assertThat(driverPage)
-        .hasTotalPages((int) Math.ceil((double) totalEntries / pageSize))
-        .hasTotalElements(totalEntries)
-        .hasPageSize(pageSize)
-        .hasPageNumber(pageNumber)
-        .hasContentSize(pageSize);
+        .hasTotalPages((int) Math.ceil((double) TOTAL_ENTRIES / PAGE_SIZE))
+        .hasTotalElements(TOTAL_ENTRIES)
+        .hasPageSize(PAGE_SIZE)
+        .hasPageNumber(PAGE_NUMBER)
+        .hasContentSize(PAGE_SIZE);
   }
 
   @Test

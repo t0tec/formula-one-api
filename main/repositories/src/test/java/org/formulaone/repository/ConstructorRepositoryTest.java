@@ -43,17 +43,17 @@ public class ConstructorRepositoryTest {
   private static final String REFERENCE_NAME = "mclaren";
   private static final String NAME = "McLaren";
 
-  private static final int totalEntries = 206;
+  private static final int TOTAL_ENTRIES = 206;
 
   private static final Long NON_EXISTING_ID = -1L;
   private static final String WRONG_REFERENCE_NAME = "unknown";
 
-  private static final String sortById = "id";
-  private static final Sort.Direction directionDesc = Sort.Direction.DESC;
+  private static final String SORT_BY_ID = "id";
+  private static final Sort.Direction DIRECTION_DESC = Sort.Direction.DESC;
 
-  private static final int pageNumber = 0;
-  private static final int pageSize = 30;
-  private static final Pageable pageable = new PageRequest(pageNumber, pageSize);
+  private static final int PAGE_NUMBER = 0;
+  private static final int PAGE_SIZE = 30;
+  private static final Pageable PAGEABLE = new PageRequest(PAGE_NUMBER, PAGE_SIZE);
 
   @Autowired
   private ConstructorRepository constructorRepository;
@@ -90,19 +90,19 @@ public class ConstructorRepositoryTest {
   public void testReturnList() {
     List<Constructor> constructorEntries = (List<Constructor>) constructorRepository.findAll();
 
-    assertThat(constructorEntries).hasSize(totalEntries);
+    assertThat(constructorEntries).hasSize(TOTAL_ENTRIES);
   }
 
   @Test
   @DatabaseSetup("classpath:constructor-data.xml")
   public void testReturnListSorted() {
 
-    Sort sort = new Sort(directionDesc, sortById);
+    Sort sort = new Sort(DIRECTION_DESC, SORT_BY_ID);
 
     List<Constructor> sortedConstructorEntries =
         (List<Constructor>) constructorRepository.findAll(sort);
 
-    assertThat(sortedConstructorEntries).hasSize(totalEntries);
+    assertThat(sortedConstructorEntries).hasSize(TOTAL_ENTRIES);
     assertThat(sortedConstructorEntries.get(sortedConstructorEntries.size() - 1).getId())
         .isEqualTo(ID);
   }
@@ -110,14 +110,14 @@ public class ConstructorRepositoryTest {
   @Test
   @DatabaseSetup("classpath:constructor-data.xml")
   public void testReturnsConstructorPage() {
-    Page<Constructor> constructorPage = constructorRepository.findAll(pageable);
+    Page<Constructor> constructorPage = constructorRepository.findAll(PAGEABLE);
 
     PageAssertion.assertThat(constructorPage)
-        .hasTotalPages((int) Math.ceil((double) totalEntries / pageSize))
-        .hasTotalElements(totalEntries)
-        .hasPageSize(pageSize)
-        .hasPageNumber(pageNumber)
-        .hasContentSize(pageSize);
+        .hasTotalPages((int) Math.ceil((double) TOTAL_ENTRIES / PAGE_SIZE))
+        .hasTotalElements(TOTAL_ENTRIES)
+        .hasPageSize(PAGE_SIZE)
+        .hasPageNumber(PAGE_NUMBER)
+        .hasContentSize(PAGE_SIZE);
   }
 
   @Test
