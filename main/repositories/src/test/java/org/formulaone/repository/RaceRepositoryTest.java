@@ -48,8 +48,8 @@ public class RaceRepositoryTest {
   private static final int SEASON_YEAR = 2009;
   private static final int ROUND = 1;
 
-  private static final int SEASON_TOTAL_ENTRIES = 17;
   private static final int TOTAL_ENTRIES = 916;
+  private static final int SEASON_TOTAL_ENTRIES = 17;
 
   private static final Long NON_EXISTING_ID = -1L;
   private static final int  NON_EXISTING_SEASON_YEAR = 1949;

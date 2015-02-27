@@ -49,6 +49,9 @@ public final class Result implements Serializable {
   @Column(name = "rank")
   private int rank;
 
+  @Column(name = "time")
+  private String time;
+
   @Column(name = "milliseconds")
   private int raceTime;
 
@@ -82,8 +85,8 @@ public final class Result implements Serializable {
   }
 
   public Result(int driverNumber, Integer gridPosition, Integer position,
-                String positionText, int positionOrder,
-                double points, int laps, int rank, int raceTime, int fastestLap, String fastestLapTime,
+                String positionText, int positionOrder, double points, int laps, int rank,
+                String time, int raceTime, int fastestLap, String fastestLapTime,
                 double averageSpeed, Race race, Driver driver,
                 Constructor constructor, Status status) {
     this.driverNumber = driverNumber;
@@ -94,6 +97,7 @@ public final class Result implements Serializable {
     this.points = points;
     this.laps = laps;
     this.rank = rank;
+    this.time = time;
     this.raceTime = raceTime;
     this.fastestLap = fastestLap;
     this.fastestLapTime = fastestLapTime;
@@ -138,6 +142,10 @@ public final class Result implements Serializable {
 
   public int getRank() {
     return this.rank;
+  }
+
+  public String getTime() {
+    return this.time;
   }
 
   public int getRaceTime() {

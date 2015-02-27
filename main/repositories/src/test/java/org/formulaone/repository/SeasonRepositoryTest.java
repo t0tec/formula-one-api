@@ -61,7 +61,7 @@ public class SeasonRepositoryTest {
   @Ignore("Year is PK value")
   @DatabaseSetup("classpath:season-data.xml")
   public void testFindSeasonById() {
-    Season season = seasonRepository.findOne(1950L);
+    Season season = seasonRepository.findOne(Long.valueOf(YEAR));
 
     assertThat(season).isNotNull();
     assertThat(season.getYear()).isEqualTo(YEAR);
@@ -72,7 +72,7 @@ public class SeasonRepositoryTest {
   @Ignore("Year is PK value")
   @DatabaseSetup("classpath:season-data.xml")
   public void testReturnNullSeasonWithCorrectId() {
-    Season season = seasonRepository.findOne(-1949L);
+    Season season = seasonRepository.findOne(Long.valueOf(NON_EXISTING_YEAR));
 
     assertThat(season).isNull();
   }
@@ -103,7 +103,6 @@ public class SeasonRepositoryTest {
     assertThat(sortedSeasonEntries).hasSize(TOTAL_ENTRIES);
     assertThat(sortedSeasonEntries.get(sortedSeasonEntries.size() - 1).getYear()).isEqualTo(YEAR);
     assertThat(sortedSeasonEntries.get(sortedSeasonEntries.size() - 1).getUrl()).isEqualTo(URL);
-
   }
 
   @Test
