@@ -28,9 +28,9 @@ public class RepositoryRaceService extends RepositoryGenericService<Race, RaceDt
   }
 
   @Autowired
-  public RepositoryRaceService(RaceRepository constructorRepository) {
-    super(constructorRepository);
-    this.raceRepository = constructorRepository;
+  public RepositoryRaceService(RaceRepository raceRepository) {
+    super(raceRepository);
+    this.raceRepository = raceRepository;
   }
 
   @Override

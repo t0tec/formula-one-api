@@ -116,5 +116,4 @@ public class RaceDto {
         .append("circuit", this.circuit).append("date", this.date)
         .append("startTime", this.startTime).append("url", this.url).toString();
   }
-
 }

@@ -109,7 +109,7 @@ public class SeasonController {
 
   @RequestMapping(value = "/{year}", method = RequestMethod.GET)
   @ResponseBody
-  SeasonResource findByReferenceName(@PathVariable("year") int year) {
+  SeasonResource findByYear(@PathVariable("year") int year) {
     logger.info("Finding season entry by using year: {}", year);
 
     SeasonDto seasonEntry = seasonReadOnlyService.findByYear(year);

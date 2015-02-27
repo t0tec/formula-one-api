@@ -2,6 +2,7 @@ package org.formulaone.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.formulaone.core.model.ConstrainConstants;
@@ -16,6 +17,7 @@ import javax.validation.constraints.Size;
 @JsonRootName("season")
 public class SeasonDto {
 
+  @JacksonXmlText
   private int year;
 
   @JacksonXmlProperty(isAttribute = true)
@@ -45,5 +47,4 @@ public class SeasonDto {
   public String toString() {
     return new ToStringBuilder(this).append("year", this.year).append("url", this.url).toString();
   }
-
 }

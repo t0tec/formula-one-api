@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 /**
  * @author t0tec (t0tec.olmec@gmail.com)
@@ -25,13 +24,14 @@ public final class Status implements Serializable {
   @Column(name = "id")
   private Long id;
 
-  @Column(name = "status", unique = true)
+  @Column(name = "status")
   private String status;
 
-  @Formula(value = "(select count(id) from status "
+  @Formula(value = "(select count(*) from status "
                    + "inner join result on status.id = result.status_id "
-                   + "where result.status_id = id)")
-  private int count;
+                   + "where result.status_id = id "
+                   + "group by status.id)")
+  private Integer count;
 
   public Status() {
   }
@@ -48,7 +48,11 @@ public final class Status implements Serializable {
     return this.status;
   }
 
-  public int getCount() {
+  @Formula(value = "(select count(*) from status "
+                   + "inner join result on status.id = result.status_id "
+                   + "where result.status_id = id "
+                   + "group by status.id)")
+  public Integer getCount() {
     return this.count;
   }
 

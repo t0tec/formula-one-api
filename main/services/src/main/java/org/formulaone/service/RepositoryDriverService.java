@@ -25,9 +25,9 @@ public class RepositoryDriverService extends RepositoryGenericService<Driver, Dr
   }
 
   @Autowired
-  public RepositoryDriverService(DriverRepository constructorRepository) {
-    super(constructorRepository);
-    this.driverRepository = constructorRepository;
+  public RepositoryDriverService(DriverRepository driverRepository) {
+    super(driverRepository);
+    this.driverRepository = driverRepository;
   }
 
   @Override

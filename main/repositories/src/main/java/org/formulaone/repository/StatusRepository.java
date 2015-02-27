@@ -8,5 +8,5 @@ import org.formulaone.core.model.Status;
  * @since 1.0
  */
 public interface StatusRepository extends ReadOnlyRepository<Status, Long> {
-
+  
 }
