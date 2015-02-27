@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Calendar;
 import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -133,6 +134,21 @@ public class RaceController {
   RaceTable findBySeason(@PathVariable("year") int year) {
     List<RaceDto> raceEntries = raceReadOnlyService.findBySeasonYear(year);
     logger.info("Found {} race entries for year {}.", raceEntries.size(), year);
+
+    return new RaceTable(raceEntries);
+  }
+
+  /**
+   * Finds all race entries by current year.
+   *
+   * @return The information of all entries for a year (season).
+   */
+  @RequestMapping(value = "/current", method = RequestMethod.GET)
+  @ResponseBody
+  RaceTable findByCurrentSeason() {
+    int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+    List<RaceDto> raceEntries = raceReadOnlyService.findBySeasonYear(currentYear);
+    logger.info("Found {} race entries for current({}) year.", raceEntries.size(), currentYear);
 
     return new RaceTable(raceEntries);
   }
