@@ -17,7 +17,6 @@ import org.springframework.web.servlet.config.annotation.ContentNegotiationConfi
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -44,7 +43,8 @@ class WebMvcContext extends WebMvcConfigurerAdapter {
   private MappingJackson2HttpMessageConverter jackson2HttpMessageConverter() {
     ObjectMapper objectMapper = new ObjectMapper();
 
-    objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+    objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+//    objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
     objectMapper.registerModule(new Jdk7Module());
@@ -60,7 +60,8 @@ class WebMvcContext extends WebMvcConfigurerAdapter {
 
     module.setDefaultUseWrapper(false);
     XmlMapper xmlMapper = new XmlMapper(module);
-    xmlMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+    xmlMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+//    xmlMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
     xmlMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
     xmlMapper.registerModule(module);

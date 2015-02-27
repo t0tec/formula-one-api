@@ -2,10 +2,8 @@ package org.formulaone.service;
 
 import org.formulaone.core.exception.NotFoundException;
 import org.formulaone.core.model.Race;
-import org.formulaone.core.model.Season;
 import org.formulaone.repository.RaceRepository;
 import org.formulaone.service.dto.RaceDto;
-import org.formulaone.service.dto.SeasonDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,11 +34,8 @@ public class RepositoryRaceService extends RepositoryGenericService<Race, RaceDt
   }
 
   @Override
-  public List<RaceDto> findBySeason(SeasonDto season) {
-    // TODO: need to pass (int) year instead
-    Season temp = new Season(season.getYear(), season.getUrl());
-
-    List<Race> raceEntries = raceRepository.findBySeason(temp);
+  public List<RaceDto> findBySeasonYear(int year) {
+    List<Race> raceEntries = raceRepository.findBySeasonYear(year);
 
     List<RaceDto> races = new ArrayList<RaceDto>();
     for (Race race : raceEntries) {
@@ -51,13 +46,11 @@ public class RepositoryRaceService extends RepositoryGenericService<Race, RaceDt
   }
 
   @Override
-  public RaceDto findBySeasonAndRound(SeasonDto season, int round) {
-    // TODO: need to pass (int) year instead
-    Season temp = new Season(season.getYear(), season.getUrl());
-    Race raceEntry = raceRepository.findBySeasonAndRound(temp, round);
+  public RaceDto findBySeasonYearAndRound(int year, int round) {
+    Race raceEntry = raceRepository.findBySeasonYearAndRound(year, round);
 
     if (raceEntry == null) {
-      throw new NotFoundException(Race.class, "season", season);
+      throw new NotFoundException(Race.class, "season/round", year + "/" + round);
     }
 
     return mapper.map(raceEntry, dtoClass);

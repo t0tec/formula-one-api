@@ -5,7 +5,6 @@ import org.formulaone.rest.wrapper.RaceResource;
 import org.formulaone.rest.wrapper.RaceTable;
 import org.formulaone.service.RaceReadOnlyService;
 import org.formulaone.service.dto.RaceDto;
-import org.formulaone.service.dto.SeasonDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,7 +88,7 @@ public class RaceController {
   @RequestMapping(value = "/sort", method = RequestMethod.GET)
   @ResponseBody
   RaceTable findAllSortable(@RequestParam(defaultValue = "name") String sort,
-                                   @RequestParam(defaultValue = "ASC") String direction) {
+                            @RequestParam(defaultValue = "ASC") String direction) {
     Sort sortOn = new Sort(
         Sort.Direction.fromStringOrNull(direction), sort
     );
@@ -111,7 +110,7 @@ public class RaceController {
   @RequestMapping(method = RequestMethod.GET)
   @ResponseBody
   RacePage findAllPageable(@RequestParam(defaultValue = "0") int page,
-                                  @RequestParam(defaultValue = "30") int size) {
+                           @RequestParam(defaultValue = "30") int size) {
     Pageable pageable = new PageRequest(
         page, size
     );
@@ -132,10 +131,7 @@ public class RaceController {
   @RequestMapping(value = "/{year}", method = RequestMethod.GET)
   @ResponseBody
   RaceTable findBySeason(@PathVariable("year") int year) {
-    SeasonDto seasonDto = new SeasonDto();
-    seasonDto.setYear(year);
-
-    List<RaceDto> raceEntries = raceReadOnlyService.findBySeason(seasonDto);
+    List<RaceDto> raceEntries = raceReadOnlyService.findBySeasonYear(year);
     logger.info("Found {} race entries for year {}.", raceEntries.size(), year);
 
     return new RaceTable(raceEntries);
@@ -144,20 +140,18 @@ public class RaceController {
   /**
    * Finds a race entry by year and round.
    *
-   * @param year The year of the requested entry.
+   * @param year  The year of the requested entry.
    * @param round The round of the requested entry.
    * @return The information of the requested entry.
    */
   @RequestMapping(value = "/{year}/{round}", method = RequestMethod.GET)
   @ResponseBody
   RaceResource findBySeason(@PathVariable("year") int year, @PathVariable("round") int round) {
-    SeasonDto seasonDto = new SeasonDto();
-    seasonDto.setYear(year);
-
-    RaceDto raceEntry = raceReadOnlyService.findBySeasonAndRound(seasonDto, round);
+    RaceDto raceEntry = raceReadOnlyService.findBySeasonYearAndRound(year, round);
 
     RaceResource resource = new RaceResource(raceEntry);
-    resource.add(linkTo(RaceController.class).slash(raceEntry.getId()).withSelfRel());
+    resource.add(linkTo(RaceController.class).slash(raceEntry.getSeason().getYear())
+                     .slash(raceEntry.getRound()).withSelfRel());
     logger.info("Found {} race entry by year {} and round {}.", raceEntry, year);
 
     return resource;

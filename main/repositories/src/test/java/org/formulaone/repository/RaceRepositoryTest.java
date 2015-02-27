@@ -5,7 +5,6 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 
 import org.formulaone.core.model.Race;
-import org.formulaone.core.model.Season;
 import org.formulaone.repository.config.ExampleApplicationContext;
 import org.formulaone.repository.config.Profiles;
 import org.junit.Before;
@@ -46,16 +45,14 @@ public class RaceRepositoryTest {
 
   private static final Long ID = 1L;
   private static final String NAME = "Australian Grand Prix";
-  private static final Season SEASON =
-      new Season(2009, "http://en.wikipedia.org/wiki/2009_Formula_One_season");
+  private static final int SEASON_YEAR = 2009;
   private static final int ROUND = 1;
 
   private static final int SEASON_TOTAL_ENTRIES = 17;
   private static final int TOTAL_ENTRIES = 916;
 
   private static final Long NON_EXISTING_ID = -1L;
-  private static final Season NON_EXISTING_SEASON =
-      new Season(1949, "http://en.wikipedia.org/wiki/1949_Formula_One_season");
+  private static final int  NON_EXISTING_SEASON_YEAR = 1949;
   private static final int NON_EXISTING_ROUND = -1;
 
   private static final String SORT_BY_ID = "id";
@@ -141,7 +138,7 @@ public class RaceRepositoryTest {
   @DatabaseSetup({"classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml"})
   public void testFindRacesBySeason() {
-    List<Race> raceEntries = raceRepository.findBySeason(SEASON);
+    List<Race> raceEntries = raceRepository.findBySeasonYear(SEASON_YEAR);
 
     assertThat(raceEntries).isNotNull();
     assertThat(raceEntries).hasSize(SEASON_TOTAL_ENTRIES);
@@ -150,7 +147,7 @@ public class RaceRepositoryTest {
   @Test
   @DatabaseSetup("classpath:season-data.xml")
   public void testReturnEmptyListWithNonExistingSeason() {
-    List<Race> raceEntries = raceRepository.findBySeason(NON_EXISTING_SEASON);
+    List<Race> raceEntries = raceRepository.findBySeasonYear(NON_EXISTING_SEASON_YEAR);
 
     assertThat(raceEntries).isEmpty();
   }
@@ -159,7 +156,7 @@ public class RaceRepositoryTest {
   @DatabaseSetup({"classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml"})
   public void testFindRaceBySeasonAndRound() {
-    Race race = raceRepository.findBySeasonAndRound(SEASON, ROUND);
+    Race race = raceRepository.findBySeasonYearAndRound(SEASON_YEAR, ROUND);
 
     assertThat(race).isNotNull();
     assertThat(race.getId()).isEqualTo(ID);
@@ -169,7 +166,7 @@ public class RaceRepositoryTest {
   @Test
   @DatabaseSetup({"classpath:race-no-data.xml"})
   public void testReturnNullRaceWithWrongSeasonAndRound() {
-    Race race = raceRepository.findBySeasonAndRound(NON_EXISTING_SEASON, NON_EXISTING_ROUND);
+    Race race = raceRepository.findBySeasonYearAndRound(NON_EXISTING_SEASON_YEAR, NON_EXISTING_ROUND);
 
     assertThat(race).isNull();
   }

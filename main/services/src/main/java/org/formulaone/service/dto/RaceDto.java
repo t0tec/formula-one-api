@@ -1,5 +1,6 @@
 package org.formulaone.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -22,16 +23,19 @@ public class RaceDto {
   @JsonIgnore
   private Long id;
 
+  private String name;
+
   private SeasonDto season;
+
+  @JacksonXmlProperty(isAttribute = true)
+  private int round;
 
   private CircuitDto circuit;
 
-  private int round;
-
-  private String name;
-
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private Date date;
 
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss'Z'", timezone = "CET")
   private Date startTime;
 
   @JacksonXmlProperty(isAttribute = true)
@@ -107,10 +111,10 @@ public class RaceDto {
 
   @Override
   public String toString() {
-    return new ToStringBuilder(this).append("season", this.season).append("round", this.round)
-        .append("circuit", this.circuit).append("name", this.name)
-        .append("startTime", this.startTime).append("date", this.date)
-        .append("url", this.url).toString();
+    return new ToStringBuilder(this).append("name", this.name)
+        .append("season", this.season).append("round", this.round)
+        .append("circuit", this.circuit).append("date", this.date)
+        .append("startTime", this.startTime).append("url", this.url).toString();
   }
 
 }

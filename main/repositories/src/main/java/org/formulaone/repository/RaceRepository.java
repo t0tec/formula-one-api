@@ -1,7 +1,6 @@
 package org.formulaone.repository;
 
 import org.formulaone.core.model.Race;
-import org.formulaone.core.model.Season;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ import java.util.List;
  */
 public interface RaceRepository extends ReadOnlyRepository<Race, Long> {
 
-  List<Race> findBySeason(Season season);
+  List<Race> findBySeasonYear(int year);
 
-  Race findBySeasonAndRound(Season season, int round);
+  Race findBySeasonYearAndRound(int year, int round);
 }
