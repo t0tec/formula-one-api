@@ -50,8 +50,11 @@ public class SeasonController {
   @ResponseBody
   SeasonTable findAll() {
     logger.info("Finding all season entries");
+    Sort sortOn = new Sort(
+        Sort.Direction.ASC, "year"
+    );
 
-    List<SeasonDto> seasonEntries = seasonReadOnlyService.findAll();
+    List<SeasonDto> seasonEntries = seasonReadOnlyService.findAll(sortOn);
     logger.info("Found {} season entries.", seasonEntries.size());
 
     return new SeasonTable(seasonEntries);
@@ -89,8 +92,12 @@ public class SeasonController {
   @ResponseBody
   SeasonPage findAllPageable(@RequestParam(defaultValue = "0") int page,
                                   @RequestParam(defaultValue = "30") int size) {
+    Sort sortOn = new Sort(
+        Sort.Direction.ASC, "year"
+    );
+
     Pageable pageable = new PageRequest(
-        page, size
+        page, size, sortOn
     );
 
     Page<SeasonDto> pageResult = seasonReadOnlyService.findAll(pageable);
