@@ -3,11 +3,13 @@ package org.formulaone.core.model;
 import org.hibernate.annotations.Formula;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -33,11 +35,16 @@ public final class Status implements Serializable {
                    + "group by status.id)")
   private Integer count;
 
+  @OneToMany(mappedBy = "status")
+  private List<Result> results;
+
   public Status() {
   }
 
-  public Status(String status) {
+  public Status(Long id, String status, Long count) {
+    this.id = id;
     this.status = status;
+    this.count = count.intValue();
   }
 
   public Long getId() {
@@ -50,6 +57,10 @@ public final class Status implements Serializable {
 
   public Integer getCount() {
     return this.count;
+  }
+
+  public List<Result> getResults() {
+    return this.results;
   }
 
   @Override

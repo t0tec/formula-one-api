@@ -77,7 +77,7 @@ public final class Result implements Serializable {
   @JoinColumn(name = "constructor_id", referencedColumnName = "id", nullable = false)
   private Constructor constructor;
 
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "status_id", referencedColumnName = "id", nullable = false)
   private Status status;
 

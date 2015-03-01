@@ -136,4 +136,24 @@ public class StatusRepositoryTest {
         .hasPageNumber(PAGE_NUMBER)
         .hasContentSize(PAGE_SIZE);
   }
+
+  @Test
+  @DatabaseSetup({"classpath:status-data.xml", "classpath:season-data.xml",
+                  "classpath:circuit-data.xml", "classpath:race-data.xml",
+                  "classpath:driver-data.xml", "classpath:constructor-data.xml",
+                  "classpath:result-data.xml"})
+  public void testReturnListBySeasonYear() {
+    List<Status> statusEntries = statusRepository.findAllBySeasonYear(2007);
+    assertThat(statusEntries).hasSize(30);
+  }
+
+  @Test
+  @DatabaseSetup({"classpath:status-data.xml", "classpath:season-data.xml",
+                  "classpath:circuit-data.xml", "classpath:race-data.xml",
+                  "classpath:driver-data.xml", "classpath:constructor-data.xml",
+                  "classpath:result-data.xml"})
+  public void testReturnListBySeasonYearAndRound() {
+    List<Status> statusEntries = statusRepository.findAllBySeasonYearAndRound(2007, 1);
+    assertThat(statusEntries).hasSize(7);
+  }
 }

@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author t0tec (t0tec.olmec@gmail.com)
  * @version $Id$
@@ -27,5 +30,23 @@ public class RepositoryStatusService extends RepositoryGenericService<Status, St
   public RepositoryStatusService(StatusRepository statusRepository) {
     super(statusRepository);
     this.statusRepository = statusRepository;
+  }
+
+  @Override
+  public List<StatusDto> findAllBySeasonYear(int year) {
+    List<StatusDto> result = new ArrayList<StatusDto>();
+    for (Status status : statusRepository.findAllBySeasonYear(year)) {
+      result.add(mapper.map(status, dtoClass));
+    }
+    return result;
+  }
+
+  @Override
+  public List<StatusDto> findAllBySeasonYearAndRound(int year, int round) {
+    List<StatusDto> result = new ArrayList<StatusDto>();
+    for (Status status : statusRepository.findAllBySeasonYearAndRound(year, round)) {
+      result.add(mapper.map(status, dtoClass));
+    }
+    return result;
   }
 }

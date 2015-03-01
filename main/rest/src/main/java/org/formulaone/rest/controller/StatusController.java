@@ -29,7 +29,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @since 1.0
  */
 @RestController
-@RequestMapping("/api/status")
+@RequestMapping("/api")
 public class StatusController {
 
   private static final Logger logger = LoggerFactory.getLogger(StatusController.class);
@@ -49,7 +49,7 @@ public class StatusController {
    * @throws org.formulaone.core.exception.NotFoundException if no entry is found by using the given
    *                                                         id.
    */
-  @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+  @RequestMapping(value = "/status/{id}", method = RequestMethod.GET)
   @ResponseBody
   StatusResource findById(@PathVariable("id") Long id) {
     logger.info("Finding status entry by using id: {}", id);
@@ -68,7 +68,7 @@ public class StatusController {
    *
    * @return The information of all entries.
    */
-  @RequestMapping(value = "/all", method = RequestMethod.GET)
+  @RequestMapping(value = "/status/all", method = RequestMethod.GET)
   @ResponseBody
   StatusTable findAll() {
     logger.info("Finding all status entries");
@@ -85,10 +85,10 @@ public class StatusController {
    * @param sort The parameter to sort the entries on
    * @return The information of all entries sorted by sortOn.
    */
-  @RequestMapping(value = "/sort", method = RequestMethod.GET)
+  @RequestMapping(value = "/status/sort", method = RequestMethod.GET)
   @ResponseBody
   StatusTable findAllSortable(@RequestParam(defaultValue = "name") String sort,
-                               @RequestParam(defaultValue = "ASC") String direction) {
+                              @RequestParam(defaultValue = "ASC") String direction) {
     Sort sortOn = new Sort(
         Sort.Direction.fromStringOrNull(direction), sort
     );
@@ -106,10 +106,10 @@ public class StatusController {
    * @param size the size of entries per page
    * @return The information of all entries paginated.
    */
-  @RequestMapping(method = RequestMethod.GET)
+  @RequestMapping(value = "/status", method = RequestMethod.GET)
   @ResponseBody
   StatusPage findAllPageable(@RequestParam(defaultValue = "0") int page,
-                              @RequestParam(defaultValue = "30") int size) {
+                             @RequestParam(defaultValue = "30") int size) {
     Pageable pageable = new PageRequest(
         page, size
     );
@@ -119,5 +119,38 @@ public class StatusController {
                 size);
 
     return new StatusPage(pageResult, "page", "size");
+  }
+
+  /**
+   * Finds all status entries by season year.
+   *
+   * @return The information of all entries.
+   */
+  @RequestMapping(value = "/{year}/status", method = RequestMethod.GET)
+  @ResponseBody
+  StatusTable findAllBySeasonYear(@PathVariable("year") int year) {
+    logger.info("Finding all status entries by season year: {}", year);
+
+    List<StatusDto> statusEntries = statusReadOnlyService.findAllBySeasonYear(year);
+    logger.info("Found {} status entries.", statusEntries.size());
+
+    return new StatusTable(statusEntries);
+  }
+
+  /**
+   * Finds all status entries by season year and round.
+   *
+   * @return The information of all entries.
+   */
+  @RequestMapping(value = "/{year}/{round}/status", method = RequestMethod.GET)
+  @ResponseBody
+  StatusTable findAllBySeasonYearAndRound(@PathVariable("year") int year,
+                                          @PathVariable("round") int round) {
+    logger.info("Finding all status entries by season year and round: {}, {}", year, round);
+
+    List<StatusDto> statusEntries = statusReadOnlyService.findAllBySeasonYearAndRound(year, round);
+    logger.info("Found {} status entries.", statusEntries.size());
+
+    return new StatusTable(statusEntries);
   }
 }
