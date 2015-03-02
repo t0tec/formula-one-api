@@ -124,8 +124,12 @@ public class PersistenceJpaConfig {
     return transactionManager;
   }
 
+  /**
+   * Creates a mapper for mapping source entities to target dto objects
+   *
+   */
   @Bean
-  public DozerBeanMapper getMapper() {
+  public DozerBeanMapper dozerBeanMapper() {
     DozerBeanMapper mapper = new DozerBeanMapper();
     mapper.setCustomFieldMapper(new LazyLoadSensitiveMapper());
     return mapper;

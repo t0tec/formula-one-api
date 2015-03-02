@@ -10,9 +10,9 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
     <!-- Configures the database connection. -->
     <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
         <property name="driverClassName" value="${db.driver}"/>
-        <property name="poolName" value="Spring-HK-CP" />
-        <property name="connectionTestQuery" value="SELECT 1" />
-        <property name="dataSourceClassName" value="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" />
+        <property name="poolName" value="Spring-HK-CP"/>
+        <property name="connectionTestQuery" value="SELECT 1"/>
+        <property name="dataSourceClassName" value="com.mysql.jdbc.jdbc2.optional.MysqlDataSource"/>
         <property name="dataSourceProperties">
             <props>
                 <prop key="url">${db.url}</prop>
@@ -50,13 +50,15 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
     <!--
         Specifies the default settings that are compatible with Hibernate.
     -->
-    <bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+    <bean id="hibernateJpaVendorAdapter"
+          class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
 
     <!-- Creates the bean that creates the JPA entity manager factory. -->
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
-        <property name="packagesToScan" value="org.formulaone.core" />
+        <property name="packagesToScan" value="org.formulaone.core"/>
         <property name="jpaProperties">
             <props>
 
@@ -94,4 +96,11 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
     </bean>
 
     <jpa:repositories base-package="org.formulaone.repository"/>
+
+    <bean id="dozerBeanMapper" class="org.dozer.DozerBeanMapper" lazy-init="false">
+        <property name="customFieldMapper" ref="lazyLoadSensitiveMapper"/>
+    </bean>
+
+    <bean id="lazyLoadSensitiveMapper"
+          class="org.formulaone.repository.config.LazyLoadSensitiveMapper"/>
 </beans>
