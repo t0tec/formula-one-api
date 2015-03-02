@@ -119,6 +119,30 @@ public final class Race implements Serializable {
     return this.url;
   }
 
+  public Set<LapTime> getLapTimes() {
+    return this.lapTimes;
+  }
+
+  public Set<PitStop> getPitStops() {
+    return this.pitStops;
+  }
+
+  public Set<Qualifying> getQualifyings() {
+    return this.qualifyings;
+  }
+
+  public Set<Result> getResults() {
+    return this.results;
+  }
+
+  public Set<DriverStandings> getDriverStandings() {
+    return this.driverStandings;
+  }
+
+  public Set<ConstructorStandings> getConstructorStandings() {
+    return this.constructorStandings;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

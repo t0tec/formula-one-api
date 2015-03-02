@@ -126,6 +126,8 @@ public class PersistenceJpaConfig {
 
   @Bean
   public DozerBeanMapper getMapper() {
-    return new DozerBeanMapper();
+    DozerBeanMapper mapper = new DozerBeanMapper();
+    mapper.setCustomFieldMapper(new LazyLoadSensitiveMapper());
+    return mapper;
   }
 }

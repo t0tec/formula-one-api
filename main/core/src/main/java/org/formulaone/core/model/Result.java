@@ -1,9 +1,12 @@
 package org.formulaone.core.model;
 
+import org.dozer.Mapping;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -46,38 +49,42 @@ public final class Result implements Serializable {
   @Column(name = "laps")
   private int laps;
 
-  @Column(name = "rank")
-  private int rank;
-
   @Column(name = "time")
   private String time;
 
   @Column(name = "milliseconds")
-  private int raceTime;
+  private Integer raceTime;
+
+  @Mapping("fastestLap.rank")
+  @Column(name = "rank")
+  private Integer rank;
 
   // TODO: remove fastestLap and fastestLapTime and introduce LapTime to reference it?
+  @Mapping("fastestLap.lap")
   @Column(name = "fastest_lap")
-  private int fastestLap;
+  private Integer fastestLap;
 
+  @Mapping("fastestLap.time")
   @Column(name = "fastest_lap_time")
   private String fastestLapTime;
 
-  @Column(name = "average_speed", columnDefinition = "decimal(5,2)")
-  private double averageSpeed;
+  @Mapping("fastestLap.averageSpeed")
+  @Column(name = "average_speed", columnDefinition = "decimal(6,3)")
+  private Double averageSpeed;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "race_id", referencedColumnName = "id", nullable = false)
   private Race race;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "driver_id", referencedColumnName = "id", nullable = false)
   private Driver driver;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "constructor_id", referencedColumnName = "id", nullable = false)
   private Constructor constructor;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "status_id", referencedColumnName = "id", nullable = false)
   private Status status;
 
@@ -85,9 +92,9 @@ public final class Result implements Serializable {
   }
 
   public Result(int driverNumber, Integer gridPosition, Integer position,
-                String positionText, int positionOrder, double points, int laps, int rank,
-                String time, int raceTime, int fastestLap, String fastestLapTime,
-                double averageSpeed, Race race, Driver driver,
+                String positionText, int positionOrder, double points, int laps, Integer rank,
+                String time, Integer raceTime, Integer fastestLap, String fastestLapTime,
+                Double averageSpeed, Race race, Driver driver,
                 Constructor constructor, Status status) {
     this.driverNumber = driverNumber;
     this.gridPosition = gridPosition;
@@ -140,7 +147,7 @@ public final class Result implements Serializable {
     return this.laps;
   }
 
-  public int getRank() {
+  public Integer getRank() {
     return this.rank;
   }
 
@@ -148,11 +155,11 @@ public final class Result implements Serializable {
     return this.time;
   }
 
-  public int getRaceTime() {
+  public Integer getRaceTime() {
     return this.raceTime;
   }
 
-  public int getFastestLap() {
+  public Integer getFastestLap() {
     return this.fastestLap;
   }
 
@@ -160,7 +167,7 @@ public final class Result implements Serializable {
     return this.fastestLapTime;
   }
 
-  public double getAverageSpeed() {
+  public Double getAverageSpeed() {
     return this.averageSpeed;
   }
 

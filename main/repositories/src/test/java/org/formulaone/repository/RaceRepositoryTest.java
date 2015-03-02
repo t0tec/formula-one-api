@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,9 +51,10 @@ public class RaceRepositoryTest {
 
   private static final int TOTAL_ENTRIES = 916;
   private static final int SEASON_TOTAL_ENTRIES = 17;
+  private static final int RACE_RESULTS_SIZE = 20;
 
   private static final Long NON_EXISTING_ID = -1L;
-  private static final int  NON_EXISTING_SEASON_YEAR = 1949;
+  private static final int NON_EXISTING_SEASON_YEAR = 1949;
   private static final int NON_EXISTING_ROUND = -1;
 
   private static final String SORT_BY_ID = "id";
@@ -166,8 +168,26 @@ public class RaceRepositoryTest {
   @Test
   @DatabaseSetup({"classpath:race-no-data.xml"})
   public void testReturnNullRaceWithWrongSeasonAndRound() {
-    Race race = raceRepository.findBySeasonYearAndRound(NON_EXISTING_SEASON_YEAR, NON_EXISTING_ROUND);
+    Race
+        race =
+        raceRepository.findBySeasonYearAndRound(NON_EXISTING_SEASON_YEAR, NON_EXISTING_ROUND);
 
     assertThat(race).isNull();
+  }
+
+  @Test
+  @Transactional
+  @DatabaseSetup({"classpath:status-data.xml",
+                  "classpath:driver-data.xml", "classpath:constructor-data.xml",
+                  "classpath:season-data.xml", "classpath:circuit-data.xml",
+                  "classpath:race-data.xml", "classpath:result-data.xml"})
+  public void testFindRaceResultsBySeasonAndRound() {
+    Race race = raceRepository.findBySeasonYearAndRound(SEASON_YEAR, ROUND);
+
+    assertThat(race).isNotNull();
+    assertThat(race.getId()).isEqualTo(ID);
+    assertThat(race.getName()).isEqualTo(NAME);
+
+    assertThat(race.getResults()).hasSize(RACE_RESULTS_SIZE);
   }
 }

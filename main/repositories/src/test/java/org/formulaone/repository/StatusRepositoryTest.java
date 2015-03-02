@@ -45,7 +45,7 @@ public class StatusRepositoryTest {
   private static final String STATUS = "Finished";
 
   private static final int TOTAL_ENTRIES = 130;
-  private static final int FINISHED_COUNT = 437;
+  private static final int FINISHED_COUNT = 2243;
 
   private static final Long NON_EXISTING_ID = -1L;
 

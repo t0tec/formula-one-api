@@ -2,6 +2,7 @@ package org.formulaone.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -9,6 +10,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.formulaone.core.model.ConstrainConstants;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.validation.constraints.Size;
 
@@ -17,7 +20,8 @@ import javax.validation.constraints.Size;
  * @version $Id$
  * @since 1.0
  */
-@JsonRootName("driver")
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonRootName("race")
 public class RaceDto {
 
   @JsonIgnore
@@ -41,6 +45,8 @@ public class RaceDto {
   @JacksonXmlProperty(isAttribute = true)
   @Size(max = ConstrainConstants.MAX_LENGTH_URL)
   private String url;
+
+  private Set<ResultDto> results = new HashSet<ResultDto>();
 
   public RaceDto() {
   }
@@ -107,6 +113,14 @@ public class RaceDto {
 
   public void setUrl(String url) {
     this.url = url;
+  }
+
+  public Set<ResultDto> getResults() {
+    return this.results;
+  }
+
+  public void setResults(Set<ResultDto> results) {
+    this.results = results;
   }
 
   @Override

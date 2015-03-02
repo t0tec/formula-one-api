@@ -8,6 +8,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
  * @since 1.0
  */
 public class Location {
+
   private String locality;
 
   private String country;
