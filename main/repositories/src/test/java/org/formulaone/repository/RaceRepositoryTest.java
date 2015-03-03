@@ -190,4 +190,20 @@ public class RaceRepositoryTest {
 
     assertThat(race.getResults()).hasSize(RACE_RESULTS_SIZE);
   }
+
+  @Test
+  @Transactional
+  @DatabaseSetup({"classpath:status-data.xml",
+                  "classpath:driver-data.xml", "classpath:constructor-data.xml",
+                  "classpath:season-data.xml", "classpath:circuit-data.xml",
+                  "classpath:race-data.xml", "classpath:result-data.xml"})
+  public void testFindLastRaceResults() {
+    Race race = raceRepository.findLastRaceAndResultsBySeasonYearAndRound();
+
+    assertThat(race).isNotNull();
+    assertThat(race.getId()).isEqualTo(360);
+    assertThat(race.getName()).isEqualTo("United States Grand Prix");
+
+    assertThat(race.getResults()).hasSize(20);
+  }
 }

@@ -22,4 +22,11 @@ public interface RaceRepository extends ReadOnlyRepository<Race, Long> {
       + "left join fetch ra.results re "
       + "where ra.season.year = :year and ra.round = :round")
   Race findRaceAndResultsBySeasonYearAndRound(@Param("year") int year, @Param("round") int round);
+
+  @Query(value =
+      "select ra from Race ra "
+      + "left join fetch ra.results re "
+      + "where ra.id = (select max(ra.id) from Race ra "
+      + "where ra.results is not empty)")
+  Race findLastRaceAndResultsBySeasonYearAndRound();
 }

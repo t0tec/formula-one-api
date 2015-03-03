@@ -44,4 +44,13 @@ public interface RaceReadOnlyService extends GenericService<Race, RaceDto, Long>
    *                                                         season or round.
    */
   RaceDto findRaceAndResultsBySeasonYearAndRound(int year, int round);
+
+  /**
+   * Finds the last race entry and the results
+   * parameter.
+   *
+   * @return The information of the requested entry.
+   * @throws org.formulaone.core.exception.NotFoundException if no entry is found
+   */
+  RaceDto findLastRaceAndResults();
 }

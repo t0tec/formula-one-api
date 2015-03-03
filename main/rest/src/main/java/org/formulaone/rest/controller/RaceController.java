@@ -195,4 +195,21 @@ public class RaceController {
     return resource;
   }
 
+  /**
+   * Finds the last race entry and the results.
+   *
+   * @return The information of the requested entry.
+   */
+  @RequestMapping(value = "/last/results", method = RequestMethod.GET)
+  @ResponseBody
+  RaceResource findLastRaceAndResults() {
+    RaceDto raceEntry = raceReadOnlyService.findLastRaceAndResults();
+
+    RaceResource resource = new RaceResource(raceEntry);
+    resource.add(linkTo(RaceController.class).slash("last").slash("results").withSelfRel());
+    logger.info("Found last race {} entry.", raceEntry);
+
+    return resource;
+  }
+
 }

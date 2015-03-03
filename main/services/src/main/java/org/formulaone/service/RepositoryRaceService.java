@@ -66,4 +66,15 @@ public class RepositoryRaceService extends RepositoryGenericService<Race, RaceDt
 
     return mapper.map(raceEntry, dtoClass);
   }
+
+  @Override
+  public RaceDto findLastRaceAndResults() {
+    Race raceEntry = raceRepository.findLastRaceAndResultsBySeasonYearAndRound();
+
+    if (raceEntry == null) {
+      throw new NotFoundException(Race.class, "", null);
+    }
+
+    return mapper.map(raceEntry, dtoClass);
+  }
 }
