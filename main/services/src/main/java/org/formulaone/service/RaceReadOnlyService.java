@@ -25,11 +25,23 @@ public interface RaceReadOnlyService extends GenericService<Race, RaceDto, Long>
   /**
    * Finds a race entry by using the season year and round given as a method parameter.
    *
-   * @param year The year of the wanted entry.
+   * @param year  The year of the wanted entry.
    * @param round The round of the wanted entry.
    * @return The information of the requested entry.
    * @throws org.formulaone.core.exception.NotFoundException if no entry is found with the given
    *                                                         season or round.
    */
   RaceDto findBySeasonYearAndRound(int year, int round);
+
+  /**
+   * Finds a race entry and the results by using the season year and round given as a method
+   * parameter.
+   *
+   * @param year  The year of the wanted entry.
+   * @param round The round of the wanted entry.
+   * @return The information of the requested entry.
+   * @throws org.formulaone.core.exception.NotFoundException if no entry is found with the given
+   *                                                         season or round.
+   */
+  RaceDto findRaceAndResultsBySeasonYearAndRound(int year, int round);
 }

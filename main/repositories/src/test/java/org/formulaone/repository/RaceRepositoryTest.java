@@ -182,7 +182,7 @@ public class RaceRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:result-data.xml"})
   public void testFindRaceResultsBySeasonAndRound() {
-    Race race = raceRepository.findBySeasonYearAndRound(SEASON_YEAR, ROUND);
+    Race race = raceRepository.findRaceAndResultsBySeasonYearAndRound(SEASON_YEAR, ROUND);
 
     assertThat(race).isNotNull();
     assertThat(race.getId()).isEqualTo(ID);

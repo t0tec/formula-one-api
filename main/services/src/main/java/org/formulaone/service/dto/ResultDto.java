@@ -36,9 +36,7 @@ public class ResultDto {
 
   private int laps;
 
-  private String time;
-
-  private Integer raceTime;
+  private Time time;
 
   private FastestLap fastestLap;
 
@@ -115,24 +113,20 @@ public class ResultDto {
     this.laps = laps;
   }
 
-  public String getTime() {
+  public Time getTime() {
     return this.time;
   }
 
-  public void setTime(String time) {
+  public void setTime(Time time) {
     this.time = time;
-  }
-
-  public Integer getRaceTime() {
-    return this.raceTime;
-  }
-
-  public void setRaceTime(Integer raceTime) {
-    this.raceTime = raceTime;
   }
 
   public FastestLap getFastestLap() {
     return this.fastestLap;
+  }
+
+  public void setFastestLap(FastestLap fastestLap) {
+    this.fastestLap = fastestLap;
   }
 
   public DriverDto getDriver() {

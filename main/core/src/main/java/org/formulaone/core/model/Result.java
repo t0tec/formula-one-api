@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -49,9 +48,11 @@ public final class Result implements Serializable {
   @Column(name = "laps")
   private int laps;
 
+  @Mapping("time.time")
   @Column(name = "time")
   private String time;
 
+  @Mapping("time.raceTime")
   @Column(name = "milliseconds")
   private Integer raceTime;
 

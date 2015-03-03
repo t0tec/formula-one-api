@@ -55,4 +55,15 @@ public class RepositoryRaceService extends RepositoryGenericService<Race, RaceDt
 
     return mapper.map(raceEntry, dtoClass);
   }
+
+  @Override
+  public RaceDto findRaceAndResultsBySeasonYearAndRound(int year, int round) {
+    Race raceEntry = raceRepository.findRaceAndResultsBySeasonYearAndRound(year, round);
+
+    if (raceEntry == null) {
+      throw new NotFoundException(Race.class, "season/round", year + "/" + round);
+    }
+
+    return mapper.map(raceEntry, dtoClass);
+  }
 }

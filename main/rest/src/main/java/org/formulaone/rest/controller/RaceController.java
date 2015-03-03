@@ -162,7 +162,8 @@ public class RaceController {
    */
   @RequestMapping(value = "/{year}/{round}", method = RequestMethod.GET)
   @ResponseBody
-  RaceResource findBySeason(@PathVariable("year") int year, @PathVariable("round") int round) {
+  RaceResource findBySeasonAndRound(@PathVariable("year") int year,
+                                    @PathVariable("round") int round) {
     RaceDto raceEntry = raceReadOnlyService.findBySeasonYearAndRound(year, round);
 
     RaceResource resource = new RaceResource(raceEntry);
@@ -172,4 +173,26 @@ public class RaceController {
 
     return resource;
   }
+
+  /**
+   * Finds a race entry and the results by year and round.
+   *
+   * @param year  The year of the requested entry.
+   * @param round The round of the requested entry.
+   * @return The information of the requested entry.
+   */
+  @RequestMapping(value = "/{year}/{round}/results", method = RequestMethod.GET)
+  @ResponseBody
+  RaceResource findRaceAndResultsBySeasonAndRound(@PathVariable("year") int year,
+                                                  @PathVariable("round") int round) {
+    RaceDto raceEntry = raceReadOnlyService.findRaceAndResultsBySeasonYearAndRound(year, round);
+
+    RaceResource resource = new RaceResource(raceEntry);
+    resource.add(linkTo(RaceController.class).slash(raceEntry.getSeason().getYear())
+                     .slash(raceEntry.getRound()).withSelfRel());
+    logger.info("Found {} race entry by year {} and round {}.", raceEntry, year);
+
+    return resource;
+  }
+
 }

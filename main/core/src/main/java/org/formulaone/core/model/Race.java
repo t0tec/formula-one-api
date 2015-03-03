@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -65,6 +66,7 @@ public final class Race implements Serializable {
   private Set<Qualifying> qualifyings = new HashSet<Qualifying>();
 
   @OneToMany(mappedBy = "race")
+  @OrderBy(value = "positionOrder asc")
   private Set<Result> results = new HashSet<Result>();
 
   @OneToMany(mappedBy = "race")

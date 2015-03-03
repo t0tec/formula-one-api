@@ -10,7 +10,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.formulaone.core.model.ConstrainConstants;
 
 import java.util.Date;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.validation.constraints.Size;
@@ -46,7 +46,7 @@ public class RaceDto {
   @Size(max = ConstrainConstants.MAX_LENGTH_URL)
   private String url;
 
-  private Set<ResultDto> results = new HashSet<ResultDto>();
+  private Set<ResultDto> results = new LinkedHashSet<ResultDto>();
 
   public RaceDto() {
   }
