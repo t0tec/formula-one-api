@@ -52,7 +52,7 @@ public final class Result implements Serializable {
   @Column(name = "time")
   private String time;
 
-  @Mapping("time.raceTime")
+  @Mapping("time.millis")
   @Column(name = "milliseconds")
   private Integer raceTime;
 

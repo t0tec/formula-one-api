@@ -189,7 +189,7 @@ public class RaceController {
 
     RaceResource resource = new RaceResource(raceEntry);
     resource.add(linkTo(RaceController.class).slash(raceEntry.getSeason().getYear())
-                     .slash(raceEntry.getRound()).withSelfRel());
+                     .slash(raceEntry.getRound()).slash("results").withSelfRel());
     logger.info("Found {} race entry by year {} and round {}.", raceEntry, year);
 
     return resource;

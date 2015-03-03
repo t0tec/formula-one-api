@@ -13,8 +13,8 @@ public class Time {
   @JacksonXmlText
   private String time;
 
-  @JacksonXmlProperty(isAttribute = true, localName = "millis")
-  private Integer raceTime;
+  @JacksonXmlProperty(isAttribute = true)
+  private Integer millis;
 
   public Time() {
   }
@@ -27,11 +27,11 @@ public class Time {
     this.time = time;
   }
 
-  public Integer getRaceTime() {
-    return this.raceTime;
+  public Integer getMillis() {
+    return this.millis;
   }
 
-  public void setRaceTime(Integer raceTime) {
-    this.raceTime = raceTime;
+  public void setMillis(Integer millis) {
+    this.millis = millis;
   }
 }
