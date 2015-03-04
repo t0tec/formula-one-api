@@ -21,7 +21,7 @@ import java.util.List;
  */
 class RepositoryGenericService<T, D, ID extends Serializable> implements GenericService<T, D, ID> {
 
-  protected ReadOnlyRepository<T, ID> repository;
+  private ReadOnlyRepository<T, ID> repository;
 
   @Autowired
   protected DozerBeanMapper mapper;

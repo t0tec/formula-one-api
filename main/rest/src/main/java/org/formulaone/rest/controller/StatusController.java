@@ -58,7 +58,8 @@ public class StatusController {
     logger.info("Found status entry: {}", statusEntry);
 
     StatusResource resource = new StatusResource(statusEntry);
-    resource.add(linkTo(StatusController.class).slash(statusEntry.getId()).withSelfRel());
+    resource.add(linkTo(StatusController.class).slash("status")
+                     .slash(statusEntry.getId()).withSelfRel());
 
     return resource;
   }

@@ -1,6 +1,9 @@
 package org.formulaone.repository;
 
 import org.formulaone.core.model.Status;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -12,6 +15,35 @@ import java.util.List;
  * @since 1.0
  */
 public interface StatusRepository extends ReadOnlyRepository<Status, Long> {
+
+  @Query(value =
+      "select new org.formulaone.core.model.Status(st.id, st.status, count(st.id)) from Status st "
+      + "join st.results re "
+      + "join re.race ra "
+      + "where st.id = :id "
+      + "group by st.id")
+  Status findOne(@Param("id") Long id);
+
+  @Query(value =
+      "select new org.formulaone.core.model.Status(st.id, st.status, count(st.id)) from Status st "
+      + "join st.results re "
+      + "join re.race ra "
+      + "group by st.id")
+  List<Status> findAll();
+
+  @Query(value =
+      "select new org.formulaone.core.model.Status(st.id, st.status, count(st.id)) from Status st "
+      + "join st.results re "
+      + "join re.race ra "
+      + "group by st.id")
+  List<Status> findAll(Sort sort);
+
+  @Query(value =
+      "select new org.formulaone.core.model.Status(st.id, st.status, count(st.id)) from Status st "
+      + "join st.results re "
+      + "join re.race ra "
+      + "group by st.id")
+  Page<Status> findAll(Pageable pageable);
 
   @Query(value =
       "select new org.formulaone.core.model.Status(st.id, st.status, count(st.id)) from Status st "

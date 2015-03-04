@@ -198,7 +198,7 @@ public class RaceRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:result-data.xml"})
   public void testFindLastRaceResults() {
-    Race race = raceRepository.findLastRaceAndResultsBySeasonYearAndRound();
+    Race race = raceRepository.findLastRaceAndResults();
 
     assertThat(race).isNotNull();
     assertThat(race.getId()).isEqualTo(360);

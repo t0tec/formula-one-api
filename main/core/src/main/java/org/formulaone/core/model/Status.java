@@ -1,7 +1,5 @@
 package org.formulaone.core.model;
 
-import org.hibernate.annotations.Formula;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * @author t0tec (t0tec.olmec@gmail.com)
@@ -29,10 +28,7 @@ public final class Status implements Serializable {
   @Column(name = "status")
   private String status;
 
-  @Formula(value = "(select count(*) from status "
-                   + "inner join result on result.status_id = status.id "
-                   + "where result.status_id = id "
-                   + "group by status.id)")
+  @Transient
   private Integer count;
 
   @OneToMany(mappedBy = "status")
@@ -44,7 +40,7 @@ public final class Status implements Serializable {
   public Status(Long id, String status, Long count) {
     this.id = id;
     this.status = status;
-    this.count = count.intValue();
+    this.count = count != null ? count.intValue() : null;
   }
 
   public Long getId() {

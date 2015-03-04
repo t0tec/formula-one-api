@@ -1,5 +1,6 @@
 package org.formulaone.service;
 
+import org.formulaone.core.exception.NotFoundException;
 import org.formulaone.core.model.Status;
 import org.formulaone.repository.StatusRepository;
 import org.formulaone.service.dto.StatusDto;
@@ -30,6 +31,18 @@ public class RepositoryStatusService extends RepositoryGenericService<Status, St
   public RepositoryStatusService(StatusRepository statusRepository) {
     super(statusRepository);
     this.statusRepository = statusRepository;
+  }
+
+  // TODO: Override needed because of query in repository not including the count. But why is that?
+  @Override
+  public StatusDto findById(Long id) {
+    Status entry = statusRepository.findOne(id);
+
+    if (entry == null) {
+      throw new NotFoundException(this.entityClass, "id", id);
+    }
+
+    return mapper.map(entry, dtoClass);
   }
 
   @Override

@@ -69,7 +69,7 @@ public class RepositoryRaceService extends RepositoryGenericService<Race, RaceDt
 
   @Override
   public RaceDto findLastRaceAndResults() {
-    Race raceEntry = raceRepository.findLastRaceAndResultsBySeasonYearAndRound();
+    Race raceEntry = raceRepository.findLastRaceAndResults();
 
     if (raceEntry == null) {
       throw new NotFoundException(Race.class, "", null);
