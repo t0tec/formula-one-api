@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author t0tec (t0tec.olmec@gmail.com)
  * @version $Id$
@@ -39,5 +42,27 @@ public class RepositoryDriverService extends RepositoryGenericService<Driver, Dr
     }
 
     return mapper.map(driverEntry, dtoClass);
+  }
+
+  @Override
+  public List<DriverDto> findDriversBySeason(int year) {
+    List<DriverDto> result = new ArrayList<DriverDto>();
+
+    for (Driver driver : driverRepository.findDriversBySeason(year)) {
+      result.add(mapper.map(driver, dtoClass));
+    }
+
+    return result;
+  }
+
+  @Override
+  public List<DriverDto> findDriversBySeasonAndRound(int year, int round) {
+    List<DriverDto> result = new ArrayList<DriverDto>();
+
+    for (Driver driver : driverRepository.findDriversBySeasonAndRound(year, round)) {
+      result.add(mapper.map(driver, dtoClass));
+    }
+
+    return result;
   }
 }

@@ -60,18 +60,22 @@ class RepositoryGenericService<T, D, ID extends Serializable> implements Generic
   @Override
   public List<D> findAll() {
     List<D> result = new ArrayList<D>();
+
     for (T t : repository.findAll()) {
       result.add(mapper.map(t, dtoClass));
     }
+
     return result;
   }
 
   @Override
   public List<D> findAll(Sort sort) {
     List<D> result = new ArrayList<D>();
+
     for (T t : repository.findAll(sort)) {
       result.add(mapper.map(t, dtoClass));
     }
+
     return result;
   }
 
@@ -83,6 +87,7 @@ class RepositoryGenericService<T, D, ID extends Serializable> implements Generic
     for (T t : pageSource.getContent()) {
       result.add(mapper.map(t, dtoClass));
     }
+
     Page<D> pageTarget = new PageImpl<D>(result, pageable, pageSource.getTotalElements());
 
     return pageTarget;

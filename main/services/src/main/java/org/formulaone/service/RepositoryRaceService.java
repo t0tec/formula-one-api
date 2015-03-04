@@ -35,10 +35,9 @@ public class RepositoryRaceService extends RepositoryGenericService<Race, RaceDt
 
   @Override
   public List<RaceDto> findBySeasonYear(int year) {
-    List<Race> raceEntries = raceRepository.findBySeasonYear(year);
-
     List<RaceDto> races = new ArrayList<RaceDto>();
-    for (Race race : raceEntries) {
+
+    for (Race race : raceRepository.findBySeasonYear(year)) {
       races.add(mapper.map(race, dtoClass));
     }
 
@@ -91,11 +90,9 @@ public class RepositoryRaceService extends RepositoryGenericService<Race, RaceDt
 
   @Override
   public List<RaceDto> findRaceAndResultsBySeasonYearWithPosition(int year, int position) {
-    List<Race> raceEntries =
-        raceRepository.findRaceAndResultsBySeasonYearWithPosition(year, position);
-
     List<RaceDto> races = new ArrayList<RaceDto>();
-    for (Race race : raceEntries) {
+
+    for (Race race : raceRepository.findRaceAndResultsBySeasonYearWithPosition(year, position)) {
       races.add(mapper.map(race, dtoClass));
     }
 

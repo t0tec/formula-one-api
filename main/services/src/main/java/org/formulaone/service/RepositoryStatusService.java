@@ -39,7 +39,7 @@ public class RepositoryStatusService extends RepositoryGenericService<Status, St
     Status entry = statusRepository.findOne(id);
 
     if (entry == null) {
-      throw new NotFoundException(this.entityClass, "id", id);
+      throw new NotFoundException(entityClass, "id", id);
     }
 
     return mapper.map(entry, dtoClass);
@@ -48,18 +48,22 @@ public class RepositoryStatusService extends RepositoryGenericService<Status, St
   @Override
   public List<StatusDto> findAllBySeasonYear(int year) {
     List<StatusDto> result = new ArrayList<StatusDto>();
+
     for (Status status : statusRepository.findAllBySeasonYear(year)) {
       result.add(mapper.map(status, dtoClass));
     }
+
     return result;
   }
 
   @Override
   public List<StatusDto> findAllBySeasonYearAndRound(int year, int round) {
     List<StatusDto> result = new ArrayList<StatusDto>();
+
     for (Status status : statusRepository.findAllBySeasonYearAndRound(year, round)) {
       result.add(mapper.map(status, dtoClass));
     }
+
     return result;
   }
 }

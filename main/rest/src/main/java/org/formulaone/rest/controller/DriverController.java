@@ -29,7 +29,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @since 1.0
  */
 @RestController
-@RequestMapping("/api/drivers")
+@RequestMapping("/api")
 public class DriverController {
 
   private static final Logger logger = LoggerFactory.getLogger(DriverController.class);
@@ -49,7 +49,7 @@ public class DriverController {
    * @throws org.formulaone.core.exception.NotFoundException if no entry is found by using the given
    *                                                         id.
    */
-  @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
+  @RequestMapping(value = "/drivers/id/{id}", method = RequestMethod.GET)
   @ResponseBody
   DriverResource findById(@PathVariable("id") Long id) {
     logger.info("Finding driver entry by using id: {}", id);
@@ -58,7 +58,8 @@ public class DriverController {
     logger.info("Found driver entry: {}", driverEntry);
 
     DriverResource resource = new DriverResource(driverEntry);
-    resource.add(linkTo(DriverController.class).slash(driverEntry.getId()).withSelfRel());
+    resource.add(linkTo(DriverController.class)
+                     .slash("drivers").slash(driverEntry.getId()).withSelfRel());
 
     return resource;
   }
@@ -71,7 +72,7 @@ public class DriverController {
    * @throws org.formulaone.core.exception.NotFoundException if no entry is found by using the given
    *                                                         referenceName.
    */
-  @RequestMapping(value = "/{referenceName}", method = RequestMethod.GET)
+  @RequestMapping(value = "drivers/{referenceName}", method = RequestMethod.GET)
   @ResponseBody
   DriverResource findByReferenceName(@PathVariable("referenceName") String referenceName) {
     logger.info("Finding driver entry by using referenceName: {}", referenceName);
@@ -80,8 +81,8 @@ public class DriverController {
     logger.info("Found driver entry: {}", driverEntry);
 
     DriverResource resource = new DriverResource(driverEntry);
-    resource.add(linkTo(DriverController.class).slash(driverEntry.getReferenceName())
-                     .withSelfRel());
+    resource.add(linkTo(DriverController.class)
+                     .slash("drivers").slash(driverEntry.getReferenceName()).withSelfRel());
 
     return resource;
   }
@@ -91,7 +92,7 @@ public class DriverController {
    *
    * @return The information of all entries.
    */
-  @RequestMapping(value = "/all", method = RequestMethod.GET)
+  @RequestMapping(value = "drivers/all", method = RequestMethod.GET)
   @ResponseBody
   DriverTable findAll() {
     logger.info("Finding all driver entries");
@@ -108,10 +109,10 @@ public class DriverController {
    * @param sort The parameter to sort the entries on
    * @return The information of all entries sorted by sortOn.
    */
-  @RequestMapping(value = "/sort", method = RequestMethod.GET)
+  @RequestMapping(value = "drivers/sort", method = RequestMethod.GET)
   @ResponseBody
   DriverTable findAllSortable(@RequestParam(defaultValue = "name") String sort,
-                                   @RequestParam(defaultValue = "ASC") String direction) {
+                              @RequestParam(defaultValue = "ASC") String direction) {
     Sort sortOn = new Sort(
         Sort.Direction.fromStringOrNull(direction), sort
     );
@@ -130,10 +131,10 @@ public class DriverController {
    * @param size the size of entries per page
    * @return The information of all entries paginated.
    */
-  @RequestMapping(method = RequestMethod.GET)
+  @RequestMapping(value = "/drivers", method = RequestMethod.GET)
   @ResponseBody
   DriverPage findAllPageable(@RequestParam(defaultValue = "0") int page,
-                                  @RequestParam(defaultValue = "30") int size) {
+                             @RequestParam(defaultValue = "30") int size) {
     Pageable pageable = new PageRequest(
         page, size
     );
@@ -143,5 +144,38 @@ public class DriverController {
                 size);
 
     return new DriverPage(pageResult, "page", "size");
+  }
+
+  /**
+   * Finds all driver entries who have driven in a particular season
+   *
+   * @return The information of all entries.
+   */
+  @RequestMapping(value = "/{season}/drivers", method = RequestMethod.GET)
+  @ResponseBody
+  DriverTable findDriversBySeason(@PathVariable("season") int year) {
+    logger.info("Finding all driver entries in a particular season({})", year);
+
+    List<DriverDto> driverEntries = driverReadOnlyService.findDriversBySeason(year);
+    logger.info("Found {} driver entries.", driverEntries.size());
+
+    return new DriverTable(driverEntries);
+  }
+
+  /**
+   * Finds all driver entries who have driven in a particular season and round
+   *
+   * @return The information of all entries.
+   */
+  @RequestMapping(value = "/{season}/{round}/drivers", method = RequestMethod.GET)
+  @ResponseBody
+  DriverTable findDriversBySeason(@PathVariable("season") int year,
+                                  @PathVariable("season") int round) {
+    logger.info("Finding all driver entries in a particular season({}) and round({})", year, round);
+
+    List<DriverDto> driverEntries = driverReadOnlyService.findDriversBySeason(year);
+    logger.info("Found {} driver entries.", driverEntries.size());
+
+    return new DriverTable(driverEntries);
   }
 }

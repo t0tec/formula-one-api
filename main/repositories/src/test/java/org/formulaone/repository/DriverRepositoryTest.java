@@ -2,6 +2,7 @@ package org.formulaone.repository;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DatabaseTearDown;
 
 import org.formulaone.core.model.Driver;
 import org.formulaone.repository.config.ExampleApplicationContext;
@@ -20,6 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -37,6 +39,7 @@ import static org.assertj.core.api.Assertions.assertThat;
                          DirtiesContextTestExecutionListener.class,
                          TransactionalTestExecutionListener.class,
                          DbUnitTestExecutionListener.class})
+@DatabaseTearDown("classpath:driver-no-data.xml")
 public class DriverRepositoryTest {
 
   private static final Long ID = 1L;
@@ -44,7 +47,12 @@ public class DriverRepositoryTest {
   private static final String FORENAME = "Lewis";
   private static final String SURNAME = "Hamilton";
 
+  private static final int SEASON_YEAR = 2009;
+  private static final int ROUND = 1;
+
   private static final int TOTAL_ENTRIES = 828;
+  private static final int SEASON_TOTAL_DRIVERS = 25;
+  private static final int ROUND_TOTAL_DRIVERS = 20;
 
   private static final Long NON_EXISTING_ID = -1L;
   private static final String WRONG_REFERENCE_NAME = "unknown";
@@ -137,5 +145,29 @@ public class DriverRepositoryTest {
     Driver driver = driverRepository.findByReferenceName(WRONG_REFERENCE_NAME);
 
     assertThat(driver).isNull();
+  }
+
+  @Test
+  @Transactional
+  @DatabaseSetup({"classpath:status-data.xml",
+                  "classpath:driver-data.xml", "classpath:constructor-data.xml",
+                  "classpath:season-data.xml", "classpath:circuit-data.xml",
+                  "classpath:race-data.xml", "classpath:result-data.xml"})
+  public void testReturnDriverListBySeason() {
+    List<Driver> driverEntries = driverRepository.findDriversBySeason(SEASON_YEAR);
+
+    assertThat(driverEntries).hasSize(SEASON_TOTAL_DRIVERS);
+  }
+
+  @Test
+  @Transactional
+  @DatabaseSetup({"classpath:status-data.xml",
+                  "classpath:driver-data.xml", "classpath:constructor-data.xml",
+                  "classpath:season-data.xml", "classpath:circuit-data.xml",
+                  "classpath:race-data.xml", "classpath:result-data.xml"})
+  public void testReturnDriverListBySeasonAndRound() {
+    List<Driver> driverEntries = driverRepository.findDriversBySeasonAndRound(SEASON_YEAR, ROUND);
+
+    assertThat(driverEntries).hasSize(ROUND_TOTAL_DRIVERS);
   }
 }
