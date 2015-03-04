@@ -72,7 +72,45 @@ public class RepositoryRaceService extends RepositoryGenericService<Race, RaceDt
     Race raceEntry = raceRepository.findLastRaceAndResults();
 
     if (raceEntry == null) {
-      throw new NotFoundException(Race.class, "", null);
+      throw new NotFoundException(Race.class, "UNKNOWN", 0);
+    }
+
+    return mapper.map(raceEntry, dtoClass);
+  }
+
+  @Override
+  public RaceDto findLastRaceAndResultsWithPosition(int position) {
+    Race raceEntry = raceRepository.findLastRaceAndResultsWithPosition(position);
+
+    if (raceEntry == null) {
+      throw new NotFoundException(Race.class, "position", position);
+    }
+
+    return mapper.map(raceEntry, dtoClass);
+  }
+
+  @Override
+  public List<RaceDto> findRaceAndResultsBySeasonYearWithPosition(int year, int position) {
+    List<Race> raceEntries =
+        raceRepository.findRaceAndResultsBySeasonYearWithPosition(year, position);
+
+    List<RaceDto> races = new ArrayList<RaceDto>();
+    for (Race race : raceEntries) {
+      races.add(mapper.map(race, dtoClass));
+    }
+
+    return races;
+  }
+
+  @Override
+  public RaceDto findRaceAndResultsBySeasonYearAndRoundWithPosition(int year, int round,
+                                                                    int position) {
+    Race raceEntry = raceRepository.findRaceAndResultsBySeasonYearAndRoundWithPosition(year, round,
+                                                                                       position);
+
+    if (raceEntry == null) {
+      throw new NotFoundException(Race.class, "season/round/position",
+                                  year + "/" + round + "/" + position);
     }
 
     return mapper.map(raceEntry, dtoClass);

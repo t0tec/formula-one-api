@@ -36,7 +36,7 @@ public class RaceDto {
 
   private CircuitDto circuit;
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "CET")
   private Date date;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss'Z'", timezone = "CET")

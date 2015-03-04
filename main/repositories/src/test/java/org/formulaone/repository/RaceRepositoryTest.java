@@ -24,7 +24,6 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -94,9 +93,7 @@ public class RaceRepositoryTest {
   @Test
   @DatabaseSetup("classpath:race-no-data.xml")
   public void testReturnEmptyList() {
-    List<Race> raceEntries = new ArrayList<Race>();
-
-    raceEntries = (List<Race>) raceRepository.findAll();
+    List<Race> raceEntries = (List<Race>) raceRepository.findAll();
 
     assertThat(raceEntries).isEmpty();
   }

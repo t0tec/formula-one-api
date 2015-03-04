@@ -212,4 +212,67 @@ public class RaceController {
     return resource;
   }
 
+  /**
+   * Finds the last race entry and the result with finishing position.
+   *
+   * @param position The finishing position in a race.
+   * @return The information of the requested entry.
+   */
+  @RequestMapping(value = "/last/results/{position}", method = RequestMethod.GET)
+  @ResponseBody
+  RaceResource findLastRaceAndResultsAndPosition(@PathVariable("position") int position) {
+    RaceDto raceEntry = raceReadOnlyService.findLastRaceAndResultsWithPosition(position);
+
+    RaceResource resource = new RaceResource(raceEntry);
+    resource.add(linkTo(RaceController.class).slash("last").slash("results")
+                     .slash(position).withSelfRel());
+    logger.info("Found last race {} entry with position {}", raceEntry, position);
+
+    return resource;
+  }
+
+  /**
+   * Finds a race entry and a results by year, round and finishing position.
+   *
+   * @param year     The year of the requested entry.
+   * @param round    The round of the requested entry.
+   * @param position The finishing position in a race.
+   * @return The information of the requested entry.
+   */
+  @RequestMapping(value = "/{year}/{round}/results/{position}", method = RequestMethod.GET)
+  @ResponseBody
+  RaceResource findRaceAndResultsBySeasonAndRoundAndPosition(@PathVariable("year") int year,
+                                                             @PathVariable("round") int round,
+                                                             @PathVariable("position") int position) {
+    RaceDto raceEntry = raceReadOnlyService.findRaceAndResultsBySeasonYearAndRoundWithPosition(year,
+                                                                                               round,
+                                                                                               position);
+
+    RaceResource resource = new RaceResource(raceEntry);
+    resource.add(linkTo(RaceController.class).slash(raceEntry.getSeason().getYear())
+                     .slash(raceEntry.getRound()).slash("results").slash(position).withSelfRel());
+    logger.info("Found {} race entry by year {} and round {} with position.", raceEntry, year,
+                position);
+
+    return resource;
+  }
+
+  /**
+   * Finds all race entries and results by year and finishing position.
+   *
+   * @param year     The year of the requested entry.
+   * @param position The finishing position in a race.
+   * @return The information of all entries for a year (season).
+   */
+  @RequestMapping(value = "/{year}/results/{position}", method = RequestMethod.GET)
+  @ResponseBody
+  RaceTable findBySeasonAndPosition(@PathVariable("year") int year,
+                                    @PathVariable("position") int position) {
+    List<RaceDto> raceEntries = raceReadOnlyService.findRaceAndResultsBySeasonYearWithPosition(year,
+                                                                                               position);
+    logger.info("Found {} race entries for year {} with position {}.", raceEntries.size(), year,
+                position);
+
+    return new RaceTable(raceEntries);
+  }
 }
