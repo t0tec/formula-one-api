@@ -170,10 +170,10 @@ public class DriverController {
   @RequestMapping(value = "/{season}/{round}/drivers", method = RequestMethod.GET)
   @ResponseBody
   DriverTable findDriversBySeason(@PathVariable("season") int year,
-                                  @PathVariable("season") int round) {
+                                  @PathVariable("round") int round) {
     logger.info("Finding all driver entries in a particular season({}) and round({})", year, round);
 
-    List<DriverDto> driverEntries = driverReadOnlyService.findDriversBySeason(year);
+    List<DriverDto> driverEntries = driverReadOnlyService.findDriversBySeasonAndRound(year, round);
     logger.info("Found {} driver entries.", driverEntries.size());
 
     return new DriverTable(driverEntries);

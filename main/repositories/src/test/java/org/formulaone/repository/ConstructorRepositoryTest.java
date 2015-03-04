@@ -2,6 +2,7 @@ package org.formulaone.repository;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DatabaseTearDown;
 
 import org.formulaone.core.model.Constructor;
 import org.formulaone.repository.config.ExampleApplicationContext;
@@ -20,6 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -37,13 +39,20 @@ import static org.assertj.core.api.Assertions.assertThat;
                          DirtiesContextTestExecutionListener.class,
                          TransactionalTestExecutionListener.class,
                          DbUnitTestExecutionListener.class})
+@DatabaseTearDown("classpath:constructor-no-data.xml")
 public class ConstructorRepositoryTest {
 
   private static final Long ID = 1L;
   private static final String REFERENCE_NAME = "mclaren";
   private static final String NAME = "McLaren";
 
+  private static final int SEASON_YEAR = 2009;
+  private static final int ROUND = 1;
+
   private static final int TOTAL_ENTRIES = 206;
+  private static final int SEASON_TOTAL_CONSTRUCTORS = 10;
+  private static final int ROUND_TOTAL_CONSTRUCTORS = 10;
+
 
   private static final Long NON_EXISTING_ID = -1L;
   private static final String WRONG_REFERENCE_NAME = "unknown";
@@ -136,5 +145,32 @@ public class ConstructorRepositoryTest {
     Constructor constructor = constructorRepository.findByReferenceName(WRONG_REFERENCE_NAME);
 
     assertThat(constructor).isNull();
+  }
+
+  @Test
+  @Transactional
+  @DatabaseSetup({"classpath:status-data.xml",
+                  "classpath:driver-data.xml", "classpath:constructor-data.xml",
+                  "classpath:season-data.xml", "classpath:circuit-data.xml",
+                  "classpath:race-data.xml", "classpath:result-data.xml"})
+  public void testReturnConstructorListBySeason() {
+    List<Constructor>
+        constructorEntries =
+        constructorRepository.findConstructorsBySeason(SEASON_YEAR);
+
+    assertThat(constructorEntries).hasSize(SEASON_TOTAL_CONSTRUCTORS);
+  }
+
+  @Test
+  @Transactional
+  @DatabaseSetup({"classpath:status-data.xml",
+                  "classpath:driver-data.xml", "classpath:constructor-data.xml",
+                  "classpath:season-data.xml", "classpath:circuit-data.xml",
+                  "classpath:race-data.xml", "classpath:result-data.xml"})
+  public void testReturnConstructorListBySeasonAndRound() {
+    List<Constructor> constructorEntries = constructorRepository.findConstructorsBySeasonAndRound(
+        SEASON_YEAR, ROUND);
+
+    assertThat(constructorEntries).hasSize(ROUND_TOTAL_CONSTRUCTORS);
   }
 }

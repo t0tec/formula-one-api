@@ -3,6 +3,8 @@ package org.formulaone.service;
 import org.formulaone.core.model.Constructor;
 import org.formulaone.service.dto.ConstructorDto;
 
+import java.util.List;
+
 /**
  * @author t0tec (t0tec.olmec@gmail.com)
  * @version $Id$
@@ -20,4 +22,21 @@ public interface ConstructorReadOnlyService
    *                                                         referenceName.
    */
   ConstructorDto findByReferenceName(String referenceName);
+
+  /**
+   * Finds all constructors that have taken part in a particular season.
+   *
+   * @param year The year of the wanted entry.
+   * @return The information of the requested entry.
+   */
+  List<ConstructorDto> findConstructorsBySeason(int year);
+
+  /**
+   * Finds all constructors that have taken part in a particular season and particular round.
+   *
+   * @param year  The year of the wanted entry.
+   * @param round The round of the wanted entry.
+   * @return The information of the requested entry.
+   */
+  List<ConstructorDto> findConstructorsBySeasonAndRound(int year, int round);
 }

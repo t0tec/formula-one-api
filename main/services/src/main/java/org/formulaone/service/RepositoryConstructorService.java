@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author t0tec (t0tec.olmec@gmail.com)
  * @version $Id$
@@ -40,5 +43,28 @@ public class RepositoryConstructorService
     }
 
     return mapper.map(constructorEntry, dtoClass);
+  }
+
+  @Override
+  public List<ConstructorDto> findConstructorsBySeason(int year) {
+    List<ConstructorDto> result = new ArrayList<ConstructorDto>();
+
+    for (Constructor constructor : constructorRepository.findConstructorsBySeason(year)) {
+      result.add(mapper.map(constructor, dtoClass));
+    }
+
+    return result;
+  }
+
+  @Override
+  public List<ConstructorDto> findConstructorsBySeasonAndRound(int year, int round) {
+    List<ConstructorDto> result = new ArrayList<ConstructorDto>();
+
+    for (Constructor constructor : constructorRepository.findConstructorsBySeasonAndRound(year,
+                                                                                          round)) {
+      result.add(mapper.map(constructor, dtoClass));
+    }
+
+    return result;
   }
 }

@@ -29,7 +29,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @since 1.0
  */
 @RestController
-@RequestMapping("/api/constructors")
+@RequestMapping("/api")
 public class ConstructorController {
 
   private static final Logger logger = LoggerFactory.getLogger(ConstructorController.class);
@@ -49,7 +49,7 @@ public class ConstructorController {
    * @throws org.formulaone.core.exception.NotFoundException if no entry is found by using the given
    *                                                         id.
    */
-  @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
+  @RequestMapping(value = "/constructors/id/{id}", method = RequestMethod.GET)
   @ResponseBody
   ConstructorResource findById(@PathVariable("id") Long id) {
     logger.info("Finding constructor entry by using id: {}", id);
@@ -58,7 +58,9 @@ public class ConstructorController {
     logger.info("Found constructor entry: {}", constructorEntry);
 
     ConstructorResource resource = new ConstructorResource(constructorEntry);
-    resource.add(linkTo(ConstructorController.class).slash(constructorEntry.getId()).withSelfRel());
+    resource.add(
+        linkTo(ConstructorController.class).slash("constructors").slash(constructorEntry.getId())
+            .withSelfRel());
 
     return resource;
   }
@@ -71,7 +73,7 @@ public class ConstructorController {
    * @throws org.formulaone.core.exception.NotFoundException if no entry is found by using the given
    *                                                         referenceName.
    */
-  @RequestMapping(value = "/{referenceName}", method = RequestMethod.GET)
+  @RequestMapping(value = "/constructors/{referenceName}", method = RequestMethod.GET)
   @ResponseBody
   ConstructorResource findByReferenceName(@PathVariable("referenceName") String referenceName) {
     logger.info("Finding constructor entry by using referenceName: {}", referenceName);
@@ -80,9 +82,8 @@ public class ConstructorController {
     logger.info("Found constructor entry: {}", constructorEntry);
 
     ConstructorResource resource = new ConstructorResource(constructorEntry);
-    resource.add(
-        linkTo(ConstructorController.class).slash(constructorEntry.getReferenceName())
-            .withSelfRel());
+    resource.add(linkTo(ConstructorController.class).slash("constructors")
+                     .slash(constructorEntry.getReferenceName()).withSelfRel());
 
     return resource;
   }
@@ -92,7 +93,7 @@ public class ConstructorController {
    *
    * @return The information of all entries.
    */
-  @RequestMapping(value = "/all", method = RequestMethod.GET)
+  @RequestMapping(value = "/constructors/all", method = RequestMethod.GET)
   @ResponseBody
   ConstructorTable findAll() {
     logger.info("Finding all constructor entries");
@@ -109,7 +110,7 @@ public class ConstructorController {
    * @param sort The parameter to sort the entries on
    * @return The information of all entries sorted by sortOn.
    */
-  @RequestMapping(value = "/sort", method = RequestMethod.GET)
+  @RequestMapping(value = "/constructors/sort", method = RequestMethod.GET)
   @ResponseBody
   ConstructorTable findAllSortable(@RequestParam(defaultValue = "name") String sort,
                                    @RequestParam(defaultValue = "ASC") String direction) {
@@ -131,7 +132,7 @@ public class ConstructorController {
    * @param size the size of entries per page
    * @return The information of all entries paginated.
    */
-  @RequestMapping(method = RequestMethod.GET)
+  @RequestMapping(value = "/constructors", method = RequestMethod.GET)
   @ResponseBody
   ConstructorPage findAllPageable(@RequestParam(defaultValue = "0") int page,
                                   @RequestParam(defaultValue = "30") int size) {
@@ -145,5 +146,40 @@ public class ConstructorController {
                 size);
 
     return new ConstructorPage(pageResult, "page", "size");
+  }
+
+  /**
+   * Finds all constructors entries who have taken part in a particular season
+   *
+   * @return The information of all entries.
+   */
+  @RequestMapping(value = "/{season}/constructors", method = RequestMethod.GET)
+  @ResponseBody
+  ConstructorTable findConstructorsBySeason(@PathVariable("season") int year) {
+    logger.info("Finding all constructors entries in a particular season({})", year);
+
+    List<ConstructorDto> driverEntries = constructorReadOnlyService.findConstructorsBySeason(year);
+    logger.info("Found {} constructors entries.", driverEntries.size());
+
+    return new ConstructorTable(driverEntries);
+  }
+
+  /**
+   * Finds all constructors entries who have taken part in a particular season and round
+   *
+   * @return The information of all entries.
+   */
+  @RequestMapping(value = "/{season}/{round}/constructors", method = RequestMethod.GET)
+  @ResponseBody
+  ConstructorTable findConstructorsBySeason(@PathVariable("season") int year,
+                                            @PathVariable("round") int round) {
+    logger.info("Finding all constructors entries in a particular season({}) and round({})", year,
+                round);
+
+    List<ConstructorDto> driverEntries =
+        constructorReadOnlyService.findConstructorsBySeasonAndRound(year, round);
+    logger.info("Found {} constructors entries.", driverEntries.size());
+
+    return new ConstructorTable(driverEntries);
   }
 }
