@@ -26,6 +26,9 @@ public class WebAppConfig implements WebApplicationInitializer {
   private static final String CHARACTER_ENCODING_FILTER_NAME = "characterEncoding";
   private static final String CHARACTER_ENCODING_FILTER_URL_PATTERN = "/*";
 
+  private static final String CORS_FILTER_NAME = "corsFilter";
+  private static final String CORS_FILTER_URL_PATTERN = "/*";
+
   private static final String DISPATCHER_SERVLET_NAME = "dispatcher";
   private static final String DISPATCHER_SERVLET_MAPPING = "/";
 
@@ -35,6 +38,7 @@ public class WebAppConfig implements WebApplicationInitializer {
     rootContext.setConfigLocations("classpath:/applicationContext.xml");
 
     configureDispatcherServlet(servletContext, rootContext);
+    configureCORSFilter(servletContext);
     EnumSet<DispatcherType>
         dispatcherTypes =
         EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD);
@@ -70,5 +74,11 @@ public class WebAppConfig implements WebApplicationInitializer {
         servletContext.addFilter(CHARACTER_ENCODING_FILTER_NAME, characterEncodingFilter);
     characterEncoding
         .addMappingForUrlPatterns(dispatcherTypes, true, CHARACTER_ENCODING_FILTER_URL_PATTERN);
+  }
+
+  private void configureCORSFilter(ServletContext servletContext) {
+    FilterRegistration.Dynamic corsFilter =
+        servletContext.addFilter(CORS_FILTER_NAME, SimpleCORSFilter.class);
+    corsFilter.addMappingForUrlPatterns(null, false, CORS_FILTER_URL_PATTERN);
   }
 }
