@@ -1,5 +1,7 @@
 package org.formulaone.rest.controller;
 
+import com.wordnik.swagger.annotations.Api;
+
 import org.formulaone.rest.wrapper.RacePage;
 import org.formulaone.rest.wrapper.RaceResource;
 import org.formulaone.rest.wrapper.RaceTable;
@@ -29,6 +31,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @version $Id$
  * @since 1.0
  */
+@Api(value = "races", description = "races")
 @RestController
 @RequestMapping("/api/races")
 public class RaceController {

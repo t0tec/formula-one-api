@@ -1,5 +1,7 @@
 package org.formulaone.rest.controller;
 
+import com.wordnik.swagger.annotations.Api;
+
 import org.formulaone.rest.wrapper.SeasonPage;
 import org.formulaone.rest.wrapper.SeasonResource;
 import org.formulaone.rest.wrapper.SeasonTable;
@@ -28,6 +30,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @version $Id$
  * @since 1.0
  */
+@Api(value = "seasons", description = "seasons")
 @RestController
 @RequestMapping("/api/seasons")
 public class SeasonController {

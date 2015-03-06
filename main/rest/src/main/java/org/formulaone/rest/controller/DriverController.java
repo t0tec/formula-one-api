@@ -1,5 +1,7 @@
 package org.formulaone.rest.controller;
 
+import com.wordnik.swagger.annotations.Api;
+
 import org.formulaone.rest.wrapper.DriverPage;
 import org.formulaone.rest.wrapper.DriverResource;
 import org.formulaone.rest.wrapper.DriverTable;
@@ -28,6 +30,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @version $Id$
  * @since 1.0
  */
+@Api(value = "drivers", description = "drivers")
 @RestController
 @RequestMapping("/api")
 public class DriverController {

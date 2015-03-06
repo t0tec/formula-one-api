@@ -1,5 +1,7 @@
 package org.formulaone.rest.controller;
 
+import com.wordnik.swagger.annotations.Api;
+
 import org.formulaone.rest.wrapper.StatusPage;
 import org.formulaone.rest.wrapper.StatusResource;
 import org.formulaone.rest.wrapper.StatusTable;
@@ -28,6 +30,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @version $Id$
  * @since 1.0
  */
+@Api(value = "status", description = "status")
 @RestController
 @RequestMapping("/api")
 public class StatusController {

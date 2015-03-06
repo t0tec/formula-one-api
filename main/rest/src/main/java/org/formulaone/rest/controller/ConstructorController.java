@@ -1,5 +1,7 @@
 package org.formulaone.rest.controller;
 
+import com.wordnik.swagger.annotations.Api;
+
 import org.formulaone.rest.wrapper.ConstructorPage;
 import org.formulaone.rest.wrapper.ConstructorResource;
 import org.formulaone.rest.wrapper.ConstructorTable;
@@ -28,6 +30,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @version $Id$
  * @since 1.0
  */
+@Api(value = "constructors", description = "constructors")
 @RestController
 @RequestMapping("/api")
 public class ConstructorController {

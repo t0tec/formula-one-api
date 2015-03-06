@@ -1,5 +1,7 @@
 package org.formulaone.rest.controller;
 
+import com.wordnik.swagger.annotations.Api;
+
 import org.formulaone.rest.wrapper.CircuitPage;
 import org.formulaone.rest.wrapper.CircuitResource;
 import org.formulaone.rest.wrapper.CircuitTable;
@@ -28,6 +30,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @version $Id$
  * @since 1.0
  */
+@Api(value = "circuits", description = "circuits")
 @RestController
 @RequestMapping("/api/circuits")
 public class CircuitController {

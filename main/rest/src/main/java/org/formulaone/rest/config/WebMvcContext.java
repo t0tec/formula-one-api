@@ -14,7 +14,9 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.List;
@@ -43,9 +45,9 @@ class WebMvcContext extends WebMvcConfigurerAdapter {
   private MappingJackson2HttpMessageConverter jackson2HttpMessageConverter() {
     ObjectMapper objectMapper = new ObjectMapper();
 
-    objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+    objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
+    objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
     objectMapper.registerModule(new Jdk7Module());
 
     MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
@@ -70,4 +72,17 @@ class WebMvcContext extends WebMvcConfigurerAdapter {
     return converter;
   }
 
+  public static final String WEB_VIEW_RESOLVER_PATTERNS = "/doc/**";
+  public static final String WEB_RESOURCE_LOCATION = "/doc/";
+
+  @Override
+  public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    registry.addResourceHandler(WEB_VIEW_RESOLVER_PATTERNS)
+        .addResourceLocations(WEB_RESOURCE_LOCATION).setCachePeriod(0);
+  }
+
+  @Override
+  public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+    configurer.enable();
+  }
 }
