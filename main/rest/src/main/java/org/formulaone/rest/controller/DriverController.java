@@ -1,6 +1,7 @@
 package org.formulaone.rest.controller;
 
 import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
 
 import org.formulaone.rest.wrapper.DriverPage;
 import org.formulaone.rest.wrapper.DriverResource;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,7 +30,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @version $Id$
  * @since 1.0
  */
-@Api(value = "drivers", description = "drivers")
+@Api(value = "drivers", description = "Returns information about the drivers"
+                                      + " that are active or have taken part in Formula One")
 @RestController
 @RequestMapping("/api")
 public class DriverController {
@@ -45,29 +46,6 @@ public class DriverController {
   }
 
   /**
-   * Finds a single driver entry by id.
-   *
-   * @param id The id of the requested entry.
-   * @return The information of the requested entry.
-   * @throws org.formulaone.core.exception.NotFoundException if no entry is found by using the given
-   *                                                         id.
-   */
-  @RequestMapping(value = "/drivers/id/{id}", method = RequestMethod.GET)
-  @ResponseBody
-  DriverResource findById(@PathVariable("id") Long id) {
-    logger.info("Finding driver entry by using id: {}", id);
-
-    DriverDto driverEntry = driverReadOnlyService.findById(id);
-    logger.info("Found driver entry: {}", driverEntry);
-
-    DriverResource resource = new DriverResource(driverEntry);
-    resource.add(linkTo(DriverController.class)
-                     .slash("drivers").slash(driverEntry.getId()).withSelfRel());
-
-    return resource;
-  }
-
-  /**
    * Finds a single driver entry by reference name.
    *
    * @param referenceName The referenceName of the requested entry.
@@ -75,6 +53,8 @@ public class DriverController {
    * @throws org.formulaone.core.exception.NotFoundException if no entry is found by using the given
    *                                                         referenceName.
    */
+  @ApiOperation(value = "Returns a driver entry",
+      notes = "Finds a single driver entry by a unique reference name")
   @RequestMapping(value = "drivers/{referenceName}", method = RequestMethod.GET)
   @ResponseBody
   DriverResource findByReferenceName(@PathVariable("referenceName") String referenceName) {
@@ -95,6 +75,8 @@ public class DriverController {
    *
    * @return The information of all entries.
    */
+  @ApiOperation(value = "Returns a list of all drivers",
+      notes = "Finds a list of driver entries ordered alphabetically")
   @RequestMapping(value = "drivers/all", method = RequestMethod.GET)
   @ResponseBody
   DriverTable findAll() {
@@ -107,33 +89,18 @@ public class DriverController {
   }
 
   /**
-   * Finds all driver entries sorted by a property.
-   *
-   * @param sort The parameter to sort the entries on
-   * @return The information of all entries sorted by sortOn.
-   */
-  @RequestMapping(value = "drivers/sort", method = RequestMethod.GET)
-  @ResponseBody
-  DriverTable findAllSortable(@RequestParam(defaultValue = "name") String sort,
-                              @RequestParam(defaultValue = "ASC") String direction) {
-    Sort sortOn = new Sort(
-        Sort.Direction.fromStringOrNull(direction), sort
-    );
-
-    List<DriverDto> driverEntries = driverReadOnlyService.findAll(sortOn);
-    logger.info("Found {} driver entries sort on {} {}.", driverEntries.size(), sort,
-                direction);
-
-    return new DriverTable(driverEntries);
-  }
-
-  /**
    * Finds all driver entries paginated.
    *
    * @param page the page you are requesting
    * @param size the size of entries per page
    * @return The information of all entries paginated.
    */
+  @ApiOperation(value = "Returns a list of drivers limited by a query parameter",
+      notes =
+          "The number of results that are returned can be controlled using a limit query parameter. "
+          + "Please use the smallest value that your application needs. If not specified, the default value is 30. "
+          + "A page number into the url can also be specified using a page query parameter. "
+          + "A page numbers starts at 0. For example: 'api/drivers?page=1&size=50' returns the second page of driver information containing fifty entries per page.")
   @RequestMapping(value = "/drivers", method = RequestMethod.GET)
   @ResponseBody
   DriverPage findAllPageable(@RequestParam(defaultValue = "0") int page,
@@ -154,6 +121,8 @@ public class DriverController {
    *
    * @return The information of all entries.
    */
+  @ApiOperation(value = "Returns a list of drivers entries who have taken part in a particular season",
+      notes = "Finds a list of driver entries who have taken part in a particular season ordered alphabetically")
   @RequestMapping(value = "/{season}/drivers", method = RequestMethod.GET)
   @ResponseBody
   DriverTable findDriversBySeason(@PathVariable("season") int year) {
@@ -170,6 +139,8 @@ public class DriverController {
    *
    * @return The information of all entries.
    */
+  @ApiOperation(value = "Returns a list of drivers entries who have taken part in a particular season and round",
+      notes = "Finds a list of driver entries who have taken part in a particular season and round ordered alphabetically")
   @RequestMapping(value = "/{season}/{round}/drivers", method = RequestMethod.GET)
   @ResponseBody
   DriverTable findDriversBySeason(@PathVariable("season") int year,

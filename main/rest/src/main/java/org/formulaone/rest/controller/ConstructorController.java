@@ -1,6 +1,7 @@
 package org.formulaone.rest.controller;
 
 import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
 
 import org.formulaone.rest.wrapper.ConstructorPage;
 import org.formulaone.rest.wrapper.ConstructorResource;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,7 +30,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @version $Id$
  * @since 1.0
  */
-@Api(value = "constructors", description = "constructors")
+@Api(value = "constructors", description = "Returns information about the constructors"
+                                           + " that are active or have taken part in Formula One")
 @RestController
 @RequestMapping("/api")
 public class ConstructorController {
@@ -45,30 +46,6 @@ public class ConstructorController {
   }
 
   /**
-   * Finds a single constructor entry by id.
-   *
-   * @param id The id of the requested entry.
-   * @return The information of the requested entry.
-   * @throws org.formulaone.core.exception.NotFoundException if no entry is found by using the given
-   *                                                         id.
-   */
-  @RequestMapping(value = "/constructors/id/{id}", method = RequestMethod.GET)
-  @ResponseBody
-  ConstructorResource findById(@PathVariable("id") Long id) {
-    logger.info("Finding constructor entry by using id: {}", id);
-
-    ConstructorDto constructorEntry = constructorReadOnlyService.findById(id);
-    logger.info("Found constructor entry: {}", constructorEntry);
-
-    ConstructorResource resource = new ConstructorResource(constructorEntry);
-    resource.add(
-        linkTo(ConstructorController.class).slash("constructors").slash(constructorEntry.getId())
-            .withSelfRel());
-
-    return resource;
-  }
-
-  /**
    * Finds a single constructor entry by reference name.
    *
    * @param referenceName The referenceName of the requested entry.
@@ -76,6 +53,8 @@ public class ConstructorController {
    * @throws org.formulaone.core.exception.NotFoundException if no entry is found by using the given
    *                                                         referenceName.
    */
+  @ApiOperation(value = "Returns a constructor entry",
+      notes = "Finds a single constructor entry by a unique reference name")
   @RequestMapping(value = "/constructors/{referenceName}", method = RequestMethod.GET)
   @ResponseBody
   ConstructorResource findByReferenceName(@PathVariable("referenceName") String referenceName) {
@@ -96,6 +75,8 @@ public class ConstructorController {
    *
    * @return The information of all entries.
    */
+  @ApiOperation(value = "Returns a list of all constructors",
+      notes = "Finds a list of constructor entries ordered alphabetically")
   @RequestMapping(value = "/constructors/all", method = RequestMethod.GET)
   @ResponseBody
   ConstructorTable findAll() {
@@ -108,33 +89,18 @@ public class ConstructorController {
   }
 
   /**
-   * Finds all constructor entries sorted by a property.
-   *
-   * @param sort The parameter to sort the entries on
-   * @return The information of all entries sorted by sortOn.
-   */
-  @RequestMapping(value = "/constructors/sort", method = RequestMethod.GET)
-  @ResponseBody
-  ConstructorTable findAllSortable(@RequestParam(defaultValue = "name") String sort,
-                                   @RequestParam(defaultValue = "ASC") String direction) {
-    Sort sortOn = new Sort(
-        Sort.Direction.fromStringOrNull(direction), sort
-    );
-
-    List<ConstructorDto> constructorEntries = constructorReadOnlyService.findAll(sortOn);
-    logger.info("Found {} constructor entries sort on {} {}.", constructorEntries.size(), sort,
-                direction);
-
-    return new ConstructorTable(constructorEntries);
-  }
-
-  /**
    * Finds all constructor entries paginated.
    *
    * @param page the page you are requesting
    * @param size the size of entries per page
    * @return The information of all entries paginated.
    */
+  @ApiOperation(value = "Returns a list of constructors limited by a query parameter",
+      notes =
+          "The number of results that are returned can be controlled using a limit query parameter. "
+          + "Please use the smallest value that your application needs. If not specified, the default value is 30. "
+          + "A page number into the url can also be specified using a page query parameter. "
+          + "A page numbers starts at 0. For example: 'api/constructors?page=1&size=50' returns the second page of constructor information containing fifty entries per page.")
   @RequestMapping(value = "/constructors", method = RequestMethod.GET)
   @ResponseBody
   ConstructorPage findAllPageable(@RequestParam(defaultValue = "0") int page,
@@ -156,6 +122,8 @@ public class ConstructorController {
    *
    * @return The information of all entries.
    */
+  @ApiOperation(value = "Returns a list of constructors entries who have taken part in a particular season",
+      notes = "Finds a list of constructor entries who have taken part in a particular season ordered alphabetically")
   @RequestMapping(value = "/{season}/constructors", method = RequestMethod.GET)
   @ResponseBody
   ConstructorTable findConstructorsBySeason(@PathVariable("season") int year) {
@@ -172,6 +140,8 @@ public class ConstructorController {
    *
    * @return The information of all entries.
    */
+  @ApiOperation(value = "Returns a list of constructors entries who have taken part in a particular season and round",
+      notes = "Finds a list of constructor entries who have taken part in a particular season and round ordered alphabetically")
   @RequestMapping(value = "/{season}/{round}/constructors", method = RequestMethod.GET)
   @ResponseBody
   ConstructorTable findConstructorsBySeason(@PathVariable("season") int year,

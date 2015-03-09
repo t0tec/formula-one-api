@@ -1,6 +1,7 @@
 package org.formulaone.rest.controller;
 
 import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
 
 import org.formulaone.rest.wrapper.RacePage;
 import org.formulaone.rest.wrapper.RaceResource;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,7 +31,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @version $Id$
  * @since 1.0
  */
-@Api(value = "races", description = "races")
+@Api(value = "races", description = "Returns information about the schedule of races and results"
+                                    + " in Formula One")
 @RestController
 @RequestMapping("/api/races")
 public class RaceController {
@@ -46,32 +47,12 @@ public class RaceController {
   }
 
   /**
-   * Finds a single race entry by id.
-   *
-   * @param id The id of the requested entry.
-   * @return The information of the requested entry.
-   * @throws org.formulaone.core.exception.NotFoundException if no entry is found by using the given
-   *                                                         id.
-   */
-  @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
-  @ResponseBody
-  RaceResource findById(@PathVariable("id") Long id) {
-    logger.info("Finding race entry by using id: {}", id);
-
-    RaceDto raceEntry = raceReadOnlyService.findById(id);
-    logger.info("Found race entry: {}", raceEntry);
-
-    RaceResource resource = new RaceResource(raceEntry);
-    resource.add(linkTo(RaceController.class).slash(raceEntry.getId()).withSelfRel());
-
-    return resource;
-  }
-
-  /**
    * Finds all race entries.
    *
    * @return The information of all entries.
    */
+  @ApiOperation(value = "Returns a list of all races",
+      notes = "Finds a list of race entries ordered alphabetically")
   @RequestMapping(value = "/all", method = RequestMethod.GET)
   @ResponseBody
   RaceTable findAll() {
@@ -84,33 +65,18 @@ public class RaceController {
   }
 
   /**
-   * Finds all race entries sorted by a property.
-   *
-   * @param sort The parameter to sort the entries on
-   * @return The information of all entries sorted by sortOn.
-   */
-  @RequestMapping(value = "/sort", method = RequestMethod.GET)
-  @ResponseBody
-  RaceTable findAllSortable(@RequestParam(defaultValue = "name") String sort,
-                            @RequestParam(defaultValue = "ASC") String direction) {
-    Sort sortOn = new Sort(
-        Sort.Direction.fromStringOrNull(direction), sort
-    );
-
-    List<RaceDto> raceEntries = raceReadOnlyService.findAll(sortOn);
-    logger.info("Found {} race entries sort on {} {}.", raceEntries.size(), sort,
-                direction);
-
-    return new RaceTable(raceEntries);
-  }
-
-  /**
    * Finds all race entries paginated.
    *
    * @param page the page you are requesting
    * @param size the size of entries per page
    * @return The information of all entries paginated.
    */
+  @ApiOperation(value = "Returns a list of races limited by a query parameter",
+      notes =
+          "The number of results that are returned can be controlled using a limit query parameter. "
+          + "Please use the smallest value that your application needs. If not specified, the default value is 30. "
+          + "A page number into the url can also be specified using a page query parameter. "
+          + "A page numbers starts at 0. For example: 'api/races?page=1&size=50' returns the second page of race information containing fifty entries per page.")
   @RequestMapping(method = RequestMethod.GET)
   @ResponseBody
   RacePage findAllPageable(@RequestParam(defaultValue = "0") int page,
@@ -132,6 +98,8 @@ public class RaceController {
    * @param year The year of the requested entry.
    * @return The information of all entries for a year (season).
    */
+  @ApiOperation(value = "Returns the race schedule of a year",
+      notes = "Finds a list of race entries by year ordered alphabetically")
   @RequestMapping(value = "/{year}", method = RequestMethod.GET)
   @ResponseBody
   RaceTable findBySeason(@PathVariable("year") int year) {
@@ -146,6 +114,8 @@ public class RaceController {
    *
    * @return The information of all entries for a year (season).
    */
+  @ApiOperation(value = "Returns the race schedule of the current season",
+      notes = "Finds a list of race entries by the current year ordered alphabetically")
   @RequestMapping(value = "/current", method = RequestMethod.GET)
   @ResponseBody
   RaceTable findByCurrentSeason() {
@@ -163,6 +133,8 @@ public class RaceController {
    * @param round The round of the requested entry.
    * @return The information of the requested entry.
    */
+  @ApiOperation(value = "Returns the race entry of a particular year and round",
+      notes = "Finds a of race entry by year and round")
   @RequestMapping(value = "/{year}/{round}", method = RequestMethod.GET)
   @ResponseBody
   RaceResource findBySeasonAndRound(@PathVariable("year") int year,
@@ -184,6 +156,8 @@ public class RaceController {
    * @param round The round of the requested entry.
    * @return The information of the requested entry.
    */
+  @ApiOperation(value = "Returns the race entry and the results of a particular year and round",
+      notes = "Finds a of race entry and the results by year and round")
   @RequestMapping(value = "/{year}/{round}/results", method = RequestMethod.GET)
   @ResponseBody
   RaceResource findRaceAndResultsBySeasonAndRound(@PathVariable("year") int year,
@@ -203,6 +177,8 @@ public class RaceController {
    *
    * @return The information of the requested entry.
    */
+  @ApiOperation(value = "Returns the last race entry and the results",
+      notes = "Finds the last race entry and the results")
   @RequestMapping(value = "/last/results", method = RequestMethod.GET)
   @ResponseBody
   RaceResource findLastRaceAndResults() {
@@ -221,6 +197,9 @@ public class RaceController {
    * @param position The finishing position in a race.
    * @return The information of the requested entry.
    */
+  @ApiOperation(value = "Returns the last race entry and the results with a specified finishing position",
+      notes = "Finds the last race entry and the results with a specified finishing position. "
+              + "So you can find who was the winner of the last race by doing: 'api/races/last/results/1' ")
   @RequestMapping(value = "/last/results/{position}", method = RequestMethod.GET)
   @ResponseBody
   RaceResource findLastRaceAndResultsAndPosition(@PathVariable("position") int position) {
@@ -242,6 +221,9 @@ public class RaceController {
    * @param position The finishing position in a race.
    * @return The information of the requested entry.
    */
+  @ApiOperation(value = "Returns a race entry and the results with a specified finishing position",
+      notes = "Finds a race entry and the results with a specified finishing position. "
+              + "So you can find who was the winner of the first race of 2014 by doing: 'api/races/2014/1/results/1' ")
   @RequestMapping(value = "/{year}/{round}/results/{position}", method = RequestMethod.GET)
   @ResponseBody
   RaceResource findRaceAndResultsBySeasonAndRoundAndPosition(@PathVariable("year") int year,
@@ -267,6 +249,9 @@ public class RaceController {
    * @param position The finishing position in a race.
    * @return The information of all entries for a year (season).
    */
+  @ApiOperation(value = "Returns a list of race entries and the results with a specified finishing position",
+      notes = "Finds race entries and the results with a specified finishing position. "
+              + "So you can find who were the winners of the races of 2014 by doing: 'api/races/2014/results/1' ")
   @RequestMapping(value = "/{year}/results/{position}", method = RequestMethod.GET)
   @ResponseBody
   RaceTable findBySeasonAndPosition(@PathVariable("year") int year,

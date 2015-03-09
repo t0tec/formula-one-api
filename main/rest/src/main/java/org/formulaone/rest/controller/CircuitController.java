@@ -1,6 +1,7 @@
 package org.formulaone.rest.controller;
 
 import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
 
 import org.formulaone.rest.wrapper.CircuitPage;
 import org.formulaone.rest.wrapper.CircuitResource;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,7 +30,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @version $Id$
  * @since 1.0
  */
-@Api(value = "circuits", description = "circuits")
+@Api(value = "circuits", description = "Returns information about the circuits"
+                                       + " where Formula One races are hosted")
 @RestController
 @RequestMapping("/api/circuits")
 public class CircuitController {
@@ -52,6 +53,8 @@ public class CircuitController {
    * @throws org.formulaone.core.exception.NotFoundException if no entry is found by using the given
    *                                                         id.
    */
+  @ApiOperation(value = "Returns a circuit entry",
+      notes = "Finds a single circuit entry by a unique id")
   @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
   @ResponseBody
   CircuitResource findById(@PathVariable("id") Long id) {
@@ -74,6 +77,8 @@ public class CircuitController {
    * @throws org.formulaone.core.exception.NotFoundException if no entry is found by using the given
    *                                                         referenceName.
    */
+  @ApiOperation(value = "Returns a circuit entry",
+      notes = "Finds a single circuit entry by a unique reference name")
   @RequestMapping(value = "/{referenceName}", method = RequestMethod.GET)
   @ResponseBody
   CircuitResource findByReferenceName(@PathVariable("referenceName") String referenceName) {
@@ -94,6 +99,8 @@ public class CircuitController {
    *
    * @return The information of all entries.
    */
+  @ApiOperation(value = "Returns a list of all circuits",
+      notes = "Finds a list of circuit entries ordered alphabetically")
   @RequestMapping(value = "/all", method = RequestMethod.GET)
   @ResponseBody
   CircuitTable findAll() {
@@ -106,32 +113,18 @@ public class CircuitController {
   }
 
   /**
-   * Finds all circuit entries sorted by a property.
-   *
-   * @param sort The parameter to sort the entries on
-   * @return The information of all entries sorted by sortOn.
-   */
-  @RequestMapping(value = "/sort", method = RequestMethod.GET)
-  @ResponseBody
-  CircuitTable findAllSortable(@RequestParam(defaultValue = "name") String sort,
-                               @RequestParam(defaultValue = "ASC") String direction) {
-    Sort sortOn = new Sort(
-        Sort.Direction.fromStringOrNull(direction), sort
-    );
-
-    List<CircuitDto> circuitEntries = circuitReadOnlyService.findAll(sortOn);
-    logger.info("Found {} circuit entries sort on {} {}.", circuitEntries.size(), sort, direction);
-
-    return new CircuitTable(circuitEntries);
-  }
-
-  /**
    * Finds all circuit entries paginated.
    *
    * @param page the page you are requesting
    * @param size the size of entries per page
    * @return The information of all entries paginated.
    */
+  @ApiOperation(value = "Returns a list of circuits limited by a query parameter",
+      notes =
+          "The number of results that are returned can be controlled using a limit query parameter. "
+          + "Please use the smallest value that your application needs. If not specified, the default value is 30. "
+          + "A page number into the url can also be specified using a page query parameter. "
+          + "A page numbers starts at 0. For example: 'api/circuits?page=1&size=50' returns the second page of circuit information containing fifty entries per page.")
   @RequestMapping(method = RequestMethod.GET)
   @ResponseBody
   CircuitPage findAllPageable(@RequestParam(defaultValue = "0") int page,

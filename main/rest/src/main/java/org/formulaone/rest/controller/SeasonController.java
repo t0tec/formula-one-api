@@ -1,6 +1,7 @@
 package org.formulaone.rest.controller;
 
 import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
 
 import org.formulaone.rest.wrapper.SeasonPage;
 import org.formulaone.rest.wrapper.SeasonResource;
@@ -30,7 +31,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @version $Id$
  * @since 1.0
  */
-@Api(value = "seasons", description = "seasons")
+@Api(value = "seasons", description = "Returns the list of seasons in Formula One")
 @RestController
 @RequestMapping("/api/seasons")
 public class SeasonController {
@@ -49,6 +50,8 @@ public class SeasonController {
    *
    * @return The information of all entries.
    */
+  @ApiOperation(value = "Returns a list of all seasons",
+      notes = "Finds a list of seasons entries ordered by year ascending")
   @RequestMapping(value = "/all", method = RequestMethod.GET)
   @ResponseBody
   SeasonTable findAll() {
@@ -64,37 +67,22 @@ public class SeasonController {
   }
 
   /**
-   * Finds all season entries sorted by a property.
-   *
-   * @param sort The parameter to sort the entries on
-   * @return The information of all entries sorted by sortOn.
-   */
-  @RequestMapping(value = "/sort", method = RequestMethod.GET)
-  @ResponseBody
-  SeasonTable findAllSortable(@RequestParam(defaultValue = "name") String sort,
-                                   @RequestParam(defaultValue = "ASC") String direction) {
-    Sort sortOn = new Sort(
-        Sort.Direction.fromStringOrNull(direction), sort
-    );
-
-    List<SeasonDto> seasonEntries = seasonReadOnlyService.findAll(sortOn);
-    logger.info("Found {} season entries sort on {} {}.", seasonEntries.size(), sort,
-                direction);
-
-    return new SeasonTable(seasonEntries);
-  }
-
-  /**
    * Finds all season entries paginated.
    *
    * @param page the page you are requesting
    * @param size the size of entries per page
    * @return The information of all entries paginated.
    */
+  @ApiOperation(value = "Returns a list of seasons limited by a query parameter",
+      notes =
+          "The number of results that are returned can be controlled using a limit query parameter. "
+          + "Please use the smallest value that your application needs. If not specified, the default value is 30. "
+          + "A page number into the url can also be specified using a page query parameter. "
+          + "A page numbers starts at 0. For example: 'api/seasons?page=1&size=50' returns the second page of season information containing fifty entries per page.")
   @RequestMapping(method = RequestMethod.GET)
   @ResponseBody
   SeasonPage findAllPageable(@RequestParam(defaultValue = "0") int page,
-                                  @RequestParam(defaultValue = "30") int size) {
+                             @RequestParam(defaultValue = "30") int size) {
     Sort sortOn = new Sort(
         Sort.Direction.ASC, "year"
     );
@@ -110,6 +98,8 @@ public class SeasonController {
     return new SeasonPage(pageResult, "page", "size");
   }
 
+  @ApiOperation(value = "Returns a seasons entry",
+      notes = "Finds a single seasons entry by the year")
   @RequestMapping(value = "/{year}", method = RequestMethod.GET)
   @ResponseBody
   SeasonResource findByYear(@PathVariable("year") int year) {
