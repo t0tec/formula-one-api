@@ -1,6 +1,9 @@
 package org.formulaone.service;
 
+import com.mysema.query.types.Predicate;
+
 import org.formulaone.core.exception.NotFoundException;
+import org.formulaone.core.model.QSeason;
 import org.formulaone.core.model.Season;
 import org.formulaone.repository.SeasonRepository;
 import org.formulaone.service.dto.SeasonDto;
@@ -37,12 +40,17 @@ public class RepositorySeasonService extends RepositoryGenericService<Season, Se
 
   @Override
   public SeasonDto findByYear(int year) {
-    Season seasonEntry = seasonRepository.findByYear(year);
+    Season seasonEntry = seasonRepository.findOne(yearEquals(year));
 
     if (seasonEntry == null) {
       throw new NotFoundException(Season.class, "year", year);
     }
 
     return mapper.map(seasonEntry, dtoClass);
+  }
+
+  private static Predicate yearEquals(final int year) {
+    QSeason season = QSeason.season;
+    return season.year.eq(year);
   }
 }

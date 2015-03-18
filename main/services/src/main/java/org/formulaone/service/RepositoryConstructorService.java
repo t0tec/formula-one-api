@@ -1,7 +1,10 @@
 package org.formulaone.service;
 
+import com.mysema.query.types.Predicate;
+
 import org.formulaone.core.exception.NotFoundException;
 import org.formulaone.core.model.Constructor;
+import org.formulaone.core.model.QConstructor;
 import org.formulaone.repository.ConstructorRepository;
 import org.formulaone.service.dto.ConstructorDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,13 +39,19 @@ public class RepositoryConstructorService
 
   @Override
   public ConstructorDto findByReferenceName(String referenceName) {
-    Constructor constructorEntry = constructorRepository.findByReferenceName(referenceName);
+    Constructor constructorEntry =
+        constructorRepository.findOne(referenceNameEquals(referenceName));
 
     if (constructorEntry == null) {
       throw new NotFoundException(Constructor.class, "referenceName", referenceName);
     }
 
     return mapper.map(constructorEntry, dtoClass);
+  }
+
+  private static Predicate referenceNameEquals(final String referenceName) {
+    QConstructor constructor = QConstructor.constructor;
+    return constructor.referenceName.eq(referenceName);
   }
 
   @Override

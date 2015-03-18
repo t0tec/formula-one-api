@@ -1,7 +1,10 @@
 package org.formulaone.service;
 
+import com.mysema.query.types.Predicate;
+
 import org.formulaone.core.exception.NotFoundException;
 import org.formulaone.core.model.Driver;
+import org.formulaone.core.model.QDriver;
 import org.formulaone.repository.DriverRepository;
 import org.formulaone.service.dto.DriverDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +38,18 @@ public class RepositoryDriverService extends RepositoryGenericService<Driver, Dr
 
   @Override
   public DriverDto findByReferenceName(String referenceName) {
-    Driver driverEntry = driverRepository.findByReferenceName(referenceName);
+    Driver driverEntry = driverRepository.findOne(referenceNameEquals(referenceName));
 
     if (driverEntry == null) {
       throw new NotFoundException(Driver.class, "referenceName", referenceName);
     }
 
     return mapper.map(driverEntry, dtoClass);
+  }
+
+  private static Predicate referenceNameEquals(final String referenceName) {
+    QDriver driver = QDriver.driver;
+    return driver.referenceName.eq(referenceName);
   }
 
   @Override

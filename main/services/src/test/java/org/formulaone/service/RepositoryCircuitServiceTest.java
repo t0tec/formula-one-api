@@ -5,6 +5,7 @@ import com.nitorcreations.junit.runners.NestedRunner;
 import org.dozer.DozerBeanMapper;
 import org.formulaone.core.exception.NotFoundException;
 import org.formulaone.core.model.Circuit;
+import org.formulaone.core.model.QCircuit;
 import org.formulaone.repository.CircuitRepository;
 import org.formulaone.service.dto.CircuitDto;
 import org.junit.Before;
@@ -129,7 +130,7 @@ public class RepositoryCircuitServiceTest {
       @Test
       public void shouldThrowExceptionWithCorrectId() {
         thrown.expect(NotFoundException.class);
-        circuitRepository.findByReferenceName(NAME);
+        circuitRepository.findOne(QCircuit.circuit.referenceName.eq("unknown"));
       }
     }
 
@@ -143,7 +144,8 @@ public class RepositoryCircuitServiceTest {
             .name(NAME)
             .build();
 
-        given(circuitRepository.findByReferenceName(REFERENCE_NAME)).willReturn(found);
+        given(circuitRepository.findOne(QCircuit.circuit.referenceName.eq(REFERENCE_NAME)))
+            .willReturn(found);
 
         CircuitDto returned = circuitService.findByReferenceName(REFERENCE_NAME);
 

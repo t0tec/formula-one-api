@@ -4,6 +4,7 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 
 import org.formulaone.core.model.Circuit;
+import org.formulaone.core.model.QCircuit;
 import org.formulaone.repository.config.ExampleApplicationContext;
 import org.formulaone.repository.config.Profiles;
 import org.junit.Test;
@@ -80,7 +81,7 @@ public class CircuitRepositoryTest {
   @Test
   @DatabaseSetup("classpath:circuit-no-data.xml")
   public void testReturnEmptyList() {
-    List<Circuit> circuitEntries  = (List<Circuit>) circuitRepository.findAll();
+    List<Circuit> circuitEntries = (List<Circuit>) circuitRepository.findAll();
 
     assertThat(circuitEntries).isEmpty();
   }
@@ -120,7 +121,7 @@ public class CircuitRepositoryTest {
   @Test
   @DatabaseSetup("classpath:circuit-data.xml")
   public void testFindCircuitByReferenceName() {
-    Circuit circuit = circuitRepository.findByReferenceName(REFERENCE_NAME);
+    Circuit circuit = circuitRepository.findOne(QCircuit.circuit.referenceName.eq(REFERENCE_NAME));
 
     assertThat(circuit).isNotNull();
     assertThat(circuit.getId()).isEqualTo(ID);
@@ -131,7 +132,8 @@ public class CircuitRepositoryTest {
   @Test
   @DatabaseSetup("classpath:circuit-data.xml")
   public void testReturnNullCircuitWithWrongReferenceName() {
-    Circuit circuit = circuitRepository.findByReferenceName(WRONG_REFERENCE_NAME);
+    Circuit circuit =
+        circuitRepository.findOne(QCircuit.circuit.referenceName.eq(WRONG_REFERENCE_NAME));
 
     assertThat(circuit).isNull();
   }

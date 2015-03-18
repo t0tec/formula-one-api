@@ -5,6 +5,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 
 import org.formulaone.core.model.Constructor;
+import org.formulaone.core.model.QConstructor;
 import org.formulaone.repository.config.ExampleApplicationContext;
 import org.formulaone.repository.config.Profiles;
 import org.junit.Test;
@@ -131,7 +132,8 @@ public class ConstructorRepositoryTest {
   @Test
   @DatabaseSetup("classpath:constructor-data.xml")
   public void testFindConstructorByReferenceName() {
-    Constructor constructor = constructorRepository.findByReferenceName(REFERENCE_NAME);
+    Constructor constructor =
+        constructorRepository.findOne(QConstructor.constructor.referenceName.eq(REFERENCE_NAME));
 
     assertThat(constructor).isNotNull();
     assertThat(constructor.getId()).isEqualTo(ID);
@@ -142,7 +144,9 @@ public class ConstructorRepositoryTest {
   @Test
   @DatabaseSetup("classpath:constructor-data.xml")
   public void testReturnNullConstructorWithWrongReferenceName() {
-    Constructor constructor = constructorRepository.findByReferenceName(WRONG_REFERENCE_NAME);
+    Constructor constructor =
+        constructorRepository.findOne(
+            QConstructor.constructor.referenceName.eq(WRONG_REFERENCE_NAME));
 
     assertThat(constructor).isNull();
   }

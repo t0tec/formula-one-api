@@ -2,6 +2,7 @@ package org.formulaone.repository;
 
 import org.formulaone.core.model.Driver;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
@@ -11,9 +12,8 @@ import java.util.List;
  * @version $Id$
  * @since 1.0
  */
-public interface DriverRepository extends ReadOnlyRepository<Driver, Long> {
-
-  Driver findByReferenceName(String referenceName);
+public interface DriverRepository extends ReadOnlyRepository<Driver, Long>,
+                                          QueryDslPredicateExecutor<Driver> {
 
   @Query(value = "select dr from Driver dr "
                  + "join dr.results re "

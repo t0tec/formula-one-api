@@ -3,6 +3,7 @@ package org.formulaone.repository;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 
+import org.formulaone.core.model.QSeason;
 import org.formulaone.core.model.Season;
 import org.formulaone.repository.config.ExampleApplicationContext;
 import org.formulaone.repository.config.Profiles;
@@ -121,7 +122,7 @@ public class SeasonRepositoryTest {
   @Test
   @DatabaseSetup("classpath:season-data.xml")
   public void testFindSeasonByYear() {
-    Season season = seasonRepository.findByYear(YEAR);
+    Season season = seasonRepository.findOne(QSeason.season.year.eq(YEAR));
 
     assertThat(season).isNotNull();
     assertThat(season.getYear()).isEqualTo(YEAR);
@@ -131,7 +132,7 @@ public class SeasonRepositoryTest {
   @Test
   @DatabaseSetup("classpath:season-data.xml")
   public void testReturnNullSeasonWithWrongYear() {
-    Season season = seasonRepository.findByYear(NON_EXISTING_YEAR);
+    Season season = seasonRepository.findOne(QSeason.season.year.eq(NON_EXISTING_YEAR));
 
     assertThat(season).isNull();
   }

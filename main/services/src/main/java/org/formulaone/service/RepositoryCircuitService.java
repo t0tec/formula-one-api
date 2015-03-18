@@ -1,7 +1,10 @@
 package org.formulaone.service;
 
+import com.mysema.query.types.Predicate;
+
 import org.formulaone.core.exception.NotFoundException;
 import org.formulaone.core.model.Circuit;
+import org.formulaone.core.model.QCircuit;
 import org.formulaone.repository.CircuitRepository;
 import org.formulaone.service.dto.CircuitDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +35,17 @@ public class RepositoryCircuitService extends RepositoryGenericService<Circuit, 
 
   @Override
   public CircuitDto findByReferenceName(String referenceName) {
-    Circuit circuitEntry = circuitRepository.findByReferenceName(referenceName);
+    Circuit circuitEntry = circuitRepository.findOne(referenceNameEquals(referenceName));
 
     if (circuitEntry == null) {
       throw new NotFoundException(Circuit.class, "referenceName", referenceName);
     }
 
     return mapper.map(circuitEntry, dtoClass);
+  }
+
+  private static Predicate referenceNameEquals(final String referenceName) {
+    QCircuit circuit = QCircuit.circuit;
+    return circuit.referenceName.eq(referenceName);
   }
 }

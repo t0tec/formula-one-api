@@ -5,6 +5,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 
 import org.formulaone.core.model.Driver;
+import org.formulaone.core.model.QDriver;
 import org.formulaone.repository.config.ExampleApplicationContext;
 import org.formulaone.repository.config.Profiles;
 import org.junit.Test;
@@ -130,7 +131,7 @@ public class DriverRepositoryTest {
   @Test
   @DatabaseSetup("classpath:driver-data.xml")
   public void testFindByReferenceName() {
-    Driver driver = driverRepository.findByReferenceName(REFERENCE_NAME);
+    Driver driver = driverRepository.findOne(QDriver.driver.referenceName.eq(REFERENCE_NAME));
 
     assertThat(driver).isNotNull();
     assertThat(driver.getId()).isEqualTo(ID);
@@ -142,7 +143,7 @@ public class DriverRepositoryTest {
   @Test
   @DatabaseSetup("classpath:driver-data.xml")
   public void testReturnNullWithWrongReferenceName() {
-    Driver driver = driverRepository.findByReferenceName(WRONG_REFERENCE_NAME);
+    Driver driver = driverRepository.findOne(QDriver.driver.referenceName.eq(WRONG_REFERENCE_NAME));
 
     assertThat(driver).isNull();
   }
