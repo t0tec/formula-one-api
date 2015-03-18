@@ -3,6 +3,7 @@ package org.formulaone.repository;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
+import com.mysema.query.types.Predicate;
 
 import org.formulaone.core.model.Constructor;
 import org.formulaone.core.model.QConstructor;
@@ -158,11 +159,25 @@ public class ConstructorRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:result-data.xml"})
   public void testReturnConstructorListBySeason() {
-    List<Constructor>
-        constructorEntries =
-        constructorRepository.findConstructorsBySeason(SEASON_YEAR);
+
+//    QConstructor constructor = QConstructor.constructor;
+//
+//    BooleanExpression constructorEqCountry = constructor.country.eq("Italy");
+//    BooleanExpression constructorEqReferenceName = constructor.referenceName.eq(REFERENCE_NAME);
+
+//    List<Constructor> constructorEntries = (List<Constructor>) constructorRepository
+//        .findAll(constructorEqCountry.and(constructorEqReferenceName));
+
+//    List<Constructor> constructorEntries = constructorRepository.findConstructorsBySeason(SEASON_YEAR);
+
+    List<Constructor> constructorEntries = (List<Constructor>) constructorRepository
+        .findAll(ConstructorSpecifications.constructorsBySeasonYear(SEASON_YEAR));
 
     assertThat(constructorEntries).hasSize(SEASON_TOTAL_CONSTRUCTORS);
+  }
+
+  public static Predicate findConstructorsBySeasonYear(final int year) {
+    return QConstructor.constructor.results.any().race.season.year.eq(year);
   }
 
   @Test

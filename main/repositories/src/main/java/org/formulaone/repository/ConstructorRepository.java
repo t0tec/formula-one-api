@@ -1,6 +1,7 @@
 package org.formulaone.repository;
 
 import org.formulaone.core.model.Constructor;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
@@ -13,7 +14,8 @@ import java.util.List;
  * @since 1.0
  */
 public interface ConstructorRepository extends ReadOnlyRepository<Constructor, Long>,
-                                               QueryDslPredicateExecutor<Constructor> {
+                                               QueryDslPredicateExecutor<Constructor>,
+                                               JpaSpecificationExecutor<Constructor> {
 
   @Query(value = "select co from Constructor co "
                  + "join co.results re "
