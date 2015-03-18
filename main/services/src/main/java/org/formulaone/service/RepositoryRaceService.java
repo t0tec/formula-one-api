@@ -1,6 +1,7 @@
 package org.formulaone.service;
 
 import org.formulaone.core.exception.NotFoundException;
+import org.formulaone.core.model.QRace;
 import org.formulaone.core.model.Race;
 import org.formulaone.repository.RaceRepository;
 import org.formulaone.service.dto.RaceDto;
@@ -37,7 +38,7 @@ public class RepositoryRaceService extends RepositoryGenericService<Race, RaceDt
   public List<RaceDto> findBySeasonYear(int year) {
     List<RaceDto> races = new ArrayList<RaceDto>();
 
-    for (Race race : raceRepository.findBySeasonYear(year)) {
+    for (Race race : raceRepository.findAll(QRace.race.season.year.eq(year))) {
       races.add(mapper.map(race, dtoClass));
     }
 
@@ -46,7 +47,8 @@ public class RepositoryRaceService extends RepositoryGenericService<Race, RaceDt
 
   @Override
   public RaceDto findBySeasonYearAndRound(int year, int round) {
-    Race raceEntry = raceRepository.findBySeasonYearAndRound(year, round);
+    Race raceEntry = raceRepository.findOne(
+        QRace.race.season.year.eq(year).and(QRace.race.round.eq(round)));
 
     if (raceEntry == null) {
       throw new NotFoundException(Race.class, "season/round", year + "/" + round);

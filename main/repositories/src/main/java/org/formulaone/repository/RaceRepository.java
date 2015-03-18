@@ -2,6 +2,7 @@ package org.formulaone.repository;
 
 import org.formulaone.core.model.Race;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
@@ -11,11 +12,8 @@ import java.util.List;
  * @version $Id$
  * @since 1.0
  */
-public interface RaceRepository extends ReadOnlyRepository<Race, Long> {
-
-  List<Race> findBySeasonYear(int year);
-
-  Race findBySeasonYearAndRound(int year, int round);
+public interface RaceRepository extends ReadOnlyRepository<Race, Long>,
+                                        QueryDslPredicateExecutor<Race> {
 
   @Query(value = "select ra from Race ra "
                  + "left join fetch ra.results re "

@@ -4,6 +4,7 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
 
+import org.formulaone.core.model.QRace;
 import org.formulaone.core.model.Race;
 import org.formulaone.repository.config.ExampleApplicationContext;
 import org.formulaone.repository.config.Profiles;
@@ -137,7 +138,8 @@ public class RaceRepositoryTest {
   @DatabaseSetup({"classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml"})
   public void testFindRacesBySeason() {
-    List<Race> raceEntries = raceRepository.findBySeasonYear(SEASON_YEAR);
+    List<Race> raceEntries = (List<Race>) raceRepository.findAll(
+        QRace.race.season.year.eq(SEASON_YEAR));
 
     assertThat(raceEntries).isNotNull();
     assertThat(raceEntries).hasSize(SEASON_TOTAL_ENTRIES);
@@ -146,7 +148,8 @@ public class RaceRepositoryTest {
   @Test
   @DatabaseSetup("classpath:season-data.xml")
   public void testReturnEmptyListWithNonExistingSeason() {
-    List<Race> raceEntries = raceRepository.findBySeasonYear(NON_EXISTING_SEASON_YEAR);
+    List<Race> raceEntries = (List<Race>) raceRepository.findAll(
+        QRace.race.season.year.eq(NON_EXISTING_SEASON_YEAR));
 
     assertThat(raceEntries).isEmpty();
   }
@@ -155,7 +158,8 @@ public class RaceRepositoryTest {
   @DatabaseSetup({"classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml"})
   public void testFindRaceBySeasonAndRound() {
-    Race race = raceRepository.findBySeasonYearAndRound(SEASON_YEAR, ROUND);
+    Race race = raceRepository.findOne(
+        QRace.race.season.year.eq(SEASON_YEAR).and(QRace.race.round.eq(ROUND)));
 
     assertThat(race).isNotNull();
     assertThat(race.getId()).isEqualTo(ID);
@@ -165,9 +169,9 @@ public class RaceRepositoryTest {
   @Test
   @DatabaseSetup({"classpath:race-no-data.xml"})
   public void testReturnNullRaceWithWrongSeasonAndRound() {
-    Race
-        race =
-        raceRepository.findBySeasonYearAndRound(NON_EXISTING_SEASON_YEAR, NON_EXISTING_ROUND);
+    Race race = raceRepository.findOne(
+        QRace.race.season.year.eq(NON_EXISTING_SEASON_YEAR)
+            .and(QRace.race.round.eq(NON_EXISTING_ROUND)));
 
     assertThat(race).isNull();
   }
@@ -201,6 +205,6 @@ public class RaceRepositoryTest {
     assertThat(race.getId()).isEqualTo(360);
     assertThat(race.getName()).isEqualTo("United States Grand Prix");
 
-    assertThat(race.getResults()).hasSize(20);
+    assertThat(race.getResults()).hasSize(39);
   }
 }
