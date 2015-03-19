@@ -48,12 +48,37 @@ public final class PitStop implements Serializable {
   public PitStop() {
   }
 
-  public PitStop(Race race, Driver driver, int stop, int lap, int duration) {
+  public PitStop(Race race, Driver driver, int stop, int lap, Date time, int duration) {
     this.race = race;
     this.driver = driver;
     this.stop = stop;
     this.lap = lap;
+    this.time = time;
     this.duration = duration;
+  }
+
+  public Race getRace() {
+    return this.race;
+  }
+
+  public Driver getDriver() {
+    return this.driver;
+  }
+
+  public int getStop() {
+    return this.stop;
+  }
+
+  public int getLap() {
+    return this.lap;
+  }
+
+  public Date getTime() {
+    return this.time;
+  }
+
+  public int getDuration() {
+    return this.duration;
   }
 
   @Override

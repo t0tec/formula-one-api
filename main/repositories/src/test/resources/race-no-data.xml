@@ -6,5 +6,8 @@
     <season/>
     <circuit/>
     <race/>
+    <qualifying/>
+    <lap_time/>
+    <pit_stop/>
     <result/>
 </dataset>

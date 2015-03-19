@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <qualifying id="2986" race_id="1" driver_id="18" constructor_id="23" number="22" position="1" q1="1:25.211" q2="1:24.855" q3="1:26.202"/>
+    <qualifying id="2987" race_id="1" driver_id="22" constructor_id="23" number="23" position="2" q1="1:25.006" q2="1:24.783" q3="1:26.505"/>
+    <qualifying id="2988" race_id="1" driver_id="20" constructor_id="9" number="15" position="3" q1="1:25.938" q2="1:25.121" q3="1:26.830"/>
+    <qualifying id="2989" race_id="1" driver_id="9" constructor_id="2" number="5" position="4" q1="1:25.922" q2="1:25.152" q3="1:26.914"/>
+    <qualifying id="2990" race_id="1" driver_id="3" constructor_id="3" number="16" position="5" q1="1:25.846" q2="1:25.123" q3="1:26.973"/>
+    <qualifying id="2991" race_id="1" driver_id="10" constructor_id="7" number="10" position="6" q1="1:25.499" q2="1:25.281" q3="1:26.975"/>
+    <qualifying id="2992" race_id="1" driver_id="13" constructor_id="6" number="3" position="7" q1="1:25.844" q2="1:25.319" q3="1:27.033"/>
+    <qualifying id="2993" race_id="1" driver_id="15" constructor_id="7" number="9" position="8" q1="1:26.194" q2="1:25.265" q3="1:27.127"/>
+    <qualifying id="2994" race_id="1" driver_id="8" constructor_id="6" number="4" position="9" q1="1:25.899" q2="1:25.380" q3="1:27.163"/>
+    <qualifying id="2995" race_id="1" driver_id="17" constructor_id="9" number="14" position="10" q1="1:25.427" q2="1:25.241" q3="1:27.246"/>
+    <qualifying id="2996" race_id="1" driver_id="2" constructor_id="2" number="6" position="11" q1="1:25.827" q2="1:25.504"/>
+    <qualifying id="2997" race_id="1" driver_id="4" constructor_id="4" number="7" position="12" q1="1:26.026" q2="1:25.605"/>
+    <qualifying id="2998" race_id="1" driver_id="6" constructor_id="3" number="17" position="13" q1="1:26.074" q2="1:25.607"/>
+    <qualifying id="2999" race_id="1" driver_id="5" constructor_id="1" number="2" position="14" q1="1:26.184" q2="1:25.726"/>
+    <qualifying id="3000" race_id="1" driver_id="1" constructor_id="1" number="1" position="15" q1="1:26.454"/>
+    <qualifying id="3001" race_id="1" driver_id="67" constructor_id="5" number="12" position="16" q1="1:26.503"/>
+    <qualifying id="3002" race_id="1" driver_id="12" constructor_id="4" number="8" position="17" q1="1:26.598"/>
+    <qualifying id="3003" race_id="1" driver_id="21" constructor_id="10" number="21" position="18" q1="1:26.677"/>
+    <qualifying id="3004" race_id="1" driver_id="16" constructor_id="10" number="20" position="19" q1="1:26.742"/>
+    <qualifying id="3005" race_id="1" driver_id="7" constructor_id="5" number="11" position="20" q1="1:26.964"/>
+</dataset>

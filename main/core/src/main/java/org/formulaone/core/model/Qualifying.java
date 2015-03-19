@@ -55,8 +55,7 @@ public final class Qualifying implements Serializable {
   }
 
   public Qualifying(Race race, Driver driver, Constructor constructor, int driverNumber,
-                    int position,
-                    String q1, String q2, String q3) {
+                    int position, String q1, String q2, String q3) {
     this.race = race;
     this.driver = driver;
     this.constructor = constructor;

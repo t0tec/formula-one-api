@@ -48,6 +48,12 @@ public class RaceDto {
 
   private Set<ResultDto> results = new LinkedHashSet<ResultDto>();
 
+  private Set<QualifyingDto> qualifyings = new LinkedHashSet<QualifyingDto>();
+
+  private Set<LapTimeDto> lapTimes = new LinkedHashSet<LapTimeDto>();
+
+  private Set<PitStopDto> pitStops = new LinkedHashSet<PitStopDto>();
+
   public RaceDto() {
   }
 
@@ -121,6 +127,30 @@ public class RaceDto {
 
   public void setResults(Set<ResultDto> results) {
     this.results = results;
+  }
+
+  public Set<QualifyingDto> getQualifyings() {
+    return this.qualifyings;
+  }
+
+  public void setQualifyings(Set<QualifyingDto> qualifyings) {
+    this.qualifyings = qualifyings;
+  }
+
+  public Set<LapTimeDto> getLapTimes() {
+    return this.lapTimes;
+  }
+
+  public void setLapTimes(Set<LapTimeDto> lapTimes) {
+    this.lapTimes = lapTimes;
+  }
+
+  public Set<PitStopDto> getPitStops() {
+    return this.pitStops;
+  }
+
+  public void setPitStops(Set<PitStopDto> pitStops) {
+    this.pitStops = pitStops;
   }
 
   @Override

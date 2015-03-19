@@ -57,6 +57,7 @@ public class RepositoryRaceService extends RepositoryGenericService<Race, RaceDt
     return mapper.map(raceEntry, dtoClass);
   }
 
+  // --------------------------------------RESULTS--------------------------------------------
   @Override
   public RaceDto findRaceAndResultsBySeasonYearAndRound(int year, int round) {
     Race raceEntry = raceRepository.findRaceAndResultsBySeasonYearAndRound(year, round);
@@ -110,6 +111,155 @@ public class RepositoryRaceService extends RepositoryGenericService<Race, RaceDt
     if (raceEntry == null) {
       throw new NotFoundException(Race.class, "season/round/position",
                                   year + "/" + round + "/" + position);
+    }
+
+    return mapper.map(raceEntry, dtoClass);
+  }
+
+  // --------------------------------------QUALIFYING-----------------------------------------
+  @Override
+  public RaceDto findRaceAndQualifyingBySeasonYearAndRound(int year, int round) {
+    Race raceEntry = raceRepository.findRaceAndQualifyingBySeasonYearAndRound(year, round);
+
+    if (raceEntry == null) {
+      throw new NotFoundException(Race.class, "season/round", year + "/" + round);
+    }
+
+    return mapper.map(raceEntry, dtoClass);
+  }
+
+  // --------------------------------------LAP TIMES------------------------------------------
+  @Override
+  public RaceDto findRaceAndLapTimesBySeasonYearAndRound(int year, int round) {
+    Race raceEntry = raceRepository.findRaceAndLapTimesBySeasonYearAndRound(year, round);
+
+    if (raceEntry == null) {
+      throw new NotFoundException(Race.class, "season/round", year + "/" + round);
+    }
+
+    return mapper.map(raceEntry, dtoClass);
+  }
+
+  @Override
+  public RaceDto findRaceAndLapTimesBySeasonYearAndRoundAndLap(int year, int round, int lap) {
+    Race raceEntry = raceRepository.findRaceAndLapTimesBySeasonYearAndRoundAndLap(year, round, lap);
+
+    if (raceEntry == null) {
+      throw new NotFoundException(Race.class, "season/round/lap", year + "/" + round + "/" + lap);
+    }
+
+    return mapper.map(raceEntry, dtoClass);
+  }
+
+  @Override
+  public RaceDto findRaceAndLapTimesBySeasonYearAndRoundAndDriver(int year, int round,
+                                                                  String driverName) {
+    Race raceEntry = raceRepository.findRaceAndLapTimesBySeasonYearAndRoundAndDriver
+        (year, round, driverName);
+
+    if (raceEntry == null) {
+      throw new NotFoundException(Race.class, "season/round/driverReferenceName",
+                                  year + "/" + round + "/" + driverName);
+    }
+
+    return mapper.map(raceEntry, dtoClass);
+  }
+
+  @Override
+  public RaceDto findRaceAndLapTimesBySeasonYearAndRoundAndLapAndDriver(int year, int round,
+                                                                        int lap,
+                                                                        String driverName) {
+    Race raceEntry = raceRepository.findRaceAndLapTimesBySeasonYearAndRoundAndLapAndDriver
+        (year, round, lap, driverName);
+
+    if (raceEntry == null) {
+      throw new NotFoundException(Race.class, "season/round/driverReferenceName/lap",
+                                  year + "/" + round + "/" + driverName + "/" + lap);
+    }
+
+    return mapper.map(raceEntry, dtoClass);
+  }
+
+  // --------------------------------------PIT STOPS------------------------------------------
+
+  @Override
+  public RaceDto findRaceAndPitStopsBySeasonYearAndRound(int year, int round) {
+    Race raceEntry = raceRepository.findRaceAndPitStopsBySeasonYearAndRound(year, round);
+
+    if (raceEntry == null) {
+      throw new NotFoundException(Race.class, "season/round", year + "/" + round);
+    }
+
+    return mapper.map(raceEntry, dtoClass);
+  }
+
+  @Override
+  public RaceDto findRaceAndPitStopsBySeasonYearAndRoundAndStop(int year, int round, int stop) {
+    Race raceEntry = raceRepository.findRaceAndPitStopsBySeasonYearAndRoundAndStop(year, round,
+                                                                                   stop);
+
+    if (raceEntry == null) {
+      throw new NotFoundException(Race.class, "season/round/stop", year + "/" + round + "/" + stop);
+    }
+
+    return mapper.map(raceEntry, dtoClass);
+  }
+
+  @Override
+  public RaceDto findRaceAndPitStopsBySeasonYearAndRoundAndDriver(int year, int round,
+                                                                  String driverName) {
+    Race raceEntry = raceRepository.findRaceAndPitStopsBySeasonYearAndRoundAndDriver(year, round,
+                                                                                     driverName);
+
+    if (raceEntry == null) {
+      throw new NotFoundException(Race.class, "season/round/driverReferenceName",
+                                  year + "/" + round + "/" + driverName);
+    }
+
+    return mapper.map(raceEntry, dtoClass);
+  }
+
+  @Override
+  public RaceDto findRaceAndPitStopsBySeasonYearAndRoundAndStopAndDriver(int year, int round,
+                                                                         int stop,
+                                                                         String driverName) {
+    Race raceEntry = raceRepository.findRaceAndPitStopsBySeasonYearAndRoundAndStopAndDriver(year,
+                                                                                            round,
+                                                                                            stop,
+                                                                                            driverName);
+
+    if (raceEntry == null) {
+      throw new NotFoundException(Race.class, "season/round/driverReferenceName/stop",
+                                  year + "/" + round + "/" + driverName + "/" + stop);
+    }
+
+    return mapper.map(raceEntry, dtoClass);
+  }
+
+  @Override
+  public RaceDto findRaceAndPitStopsBySeasonYearAndRoundAndLap(int year, int round,
+                                                                        int lap) {
+    Race raceEntry = raceRepository.findRaceAndPitStopsBySeasonYearAndRoundAndLap(year, round, lap);
+
+    if (raceEntry == null) {
+      throw new NotFoundException(Race.class, "season/round/lap", year + "/" + round + "/" + lap);
+    }
+
+    return mapper.map(raceEntry, dtoClass);
+  }
+
+  @Override
+  public RaceDto findRaceAndPitStopsBySeasonYearAndRoundAndLapAndDriver(int year, int round,
+                                                                        int lap,
+                                                                        String driverName) {
+    Race raceEntry = raceRepository.findRaceAndPitStopsBySeasonYearAndRoundAndLapAndDriver(year,
+                                                                                           round,
+                                                                                           lap,
+                                                                                           driverName);
+
+    if (raceEntry == null) {
+      throw new NotFoundException(Race.class, "season/round/driverReferenceName/lap",
+                                  year + "/" + round + "/" + driverName + "/" + lap);
     }
 
     return mapper.map(raceEntry, dtoClass);

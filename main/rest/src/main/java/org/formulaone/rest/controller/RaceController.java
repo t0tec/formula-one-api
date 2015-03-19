@@ -149,6 +149,8 @@ public class RaceController {
     return resource;
   }
 
+  // --------------------------------------RESULTS--------------------------------------------
+
   /**
    * Finds a race entry and the results by year and round.
    *
@@ -157,7 +159,7 @@ public class RaceController {
    * @return The information of the requested entry.
    */
   @ApiOperation(value = "Returns the race entry and the results of a particular year and round",
-      notes = "Finds a of race entry and the results by year and round")
+      notes = "Finds a race entry and the results by year and round")
   @RequestMapping(value = "/{year}/{round}/results", method = RequestMethod.GET)
   @ResponseBody
   RaceResource findRaceAndResultsBySeasonAndRound(@PathVariable("year") int year,
@@ -263,4 +265,321 @@ public class RaceController {
 
     return new RaceTable(raceEntries);
   }
+
+  // --------------------------------------QUALIFYING-----------------------------------------
+
+  /**
+   * Finds a race entry and the qualifying results by year and round.
+   *
+   * @param year  The year of the requested entry.
+   * @param round The round of the requested entry.
+   * @return The information of the requested entry.
+   */
+  @ApiOperation(value = "Returns the race entry and the qualifying results of a particular year and round",
+      notes = "Finds a race entry and the qualifying results by year and round")
+  @RequestMapping(value = "/{year}/{round}/qualifying", method = RequestMethod.GET)
+  @ResponseBody
+  RaceResource findRaceAndQualifyingBySeasonAndRound(@PathVariable("year") int year,
+                                                     @PathVariable("round") int round) {
+    RaceDto raceEntry = raceReadOnlyService.findRaceAndQualifyingBySeasonYearAndRound(year, round);
+
+    RaceResource resource = new RaceResource(raceEntry);
+    resource.add(linkTo(RaceController.class).slash(raceEntry.getSeason().getYear())
+                     .slash(raceEntry.getRound()).slash("qualifying").withSelfRel());
+    logger.info("Found {} race entry by year {} and round {}.", raceEntry, year);
+
+    return resource;
+  }
+
+  // --------------------------------------LAP TIMES------------------------------------------
+
+  /**
+   * Finds a race entry and the lap times by year and round.
+   *
+   * @param year  The year of the requested entry.
+   * @param round The round of the requested entry.
+   * @return The information of the requested entry.
+   */
+  @ApiOperation(value = "Returns the race entry and the lap times of a particular year and round",
+      notes = "Finds a race entry and the lap times by year and round")
+  @RequestMapping(value = "/{year}/{round}/laps", method = RequestMethod.GET)
+  @ResponseBody
+  RaceResource findRaceAndLapTimesBySeasonAndRound(@PathVariable("year") int year,
+                                                   @PathVariable("round") int round) {
+    RaceDto raceEntry = raceReadOnlyService.findRaceAndLapTimesBySeasonYearAndRound(year, round);
+
+    RaceResource resource = new RaceResource(raceEntry);
+    resource.add(linkTo(RaceController.class).slash(raceEntry.getSeason().getYear())
+                     .slash(raceEntry.getRound()).slash("laps").withSelfRel());
+    logger.info("Found {} race entry by year {} and round {}.", raceEntry, year);
+
+    return resource;
+  }
+
+  /**
+   * Finds a race entry and the lap times by year and round and the specific laps with lap number.
+   *
+   * @param year      The year of the requested entry.
+   * @param round     The round of the requested entry.
+   * @param lapNumber The lap number.
+   * @return The information of the requested entry.
+   */
+  @ApiOperation(value = "Returns the race entry and the lap times of a particular year and round and the specific laps with the lap number accordingly",
+      notes = "Finds a race entry and the lap times by year and round, to find the specific laps add the lap number")
+  @RequestMapping(value = "/{year}/{round}/laps/{lapNumber}", method = RequestMethod.GET)
+  @ResponseBody
+  RaceResource findRaceAndLapTimesBySeasonYearAndRoundAndLap(@PathVariable("year") int year,
+                                                             @PathVariable("round") int round,
+                                                             @PathVariable("lapNumber") int lapNumber) {
+    RaceDto raceEntry = raceReadOnlyService.findRaceAndLapTimesBySeasonYearAndRoundAndLap(year,
+                                                                                          round,
+                                                                                          lapNumber);
+
+    RaceResource resource = new RaceResource(raceEntry);
+    resource.add(linkTo(RaceController.class).slash(raceEntry.getSeason().getYear())
+                     .slash(raceEntry.getRound()).slash("laps").slash(lapNumber).withSelfRel());
+    logger.info(
+        "Found {} race entry by year {} and round {} and the specific laps with lap number {}.",
+        raceEntry, year, lapNumber);
+
+    return resource;
+  }
+
+  /**
+   * Finds a race entry and the lap times by year and round and for a specific driverr.
+   *
+   * @param year                The year of the requested entry.
+   * @param round               The round of the requested entry.
+   * @param driverReferenceName The driver referenceName.
+   * @return The information of the requested entry.
+   */
+  @ApiOperation(value = "Returns the race entry and the lap times of a particular year and round for a specific driver",
+      notes = "Finds a race entry and the lap times by year and round for a specific driver")
+  @RequestMapping(value = "/{year}/{round}/drivers/{driverReferenceName}/laps", method = RequestMethod.GET)
+  @ResponseBody
+  RaceResource findRaceAndLapTimesBySeasonYearAndRoundAndDriver(@PathVariable("year") int year,
+                                                                @PathVariable("round") int round,
+                                                                @PathVariable("driverReferenceName") String driverReferenceName) {
+    RaceDto raceEntry = raceReadOnlyService.findRaceAndLapTimesBySeasonYearAndRoundAndDriver(year,
+                                                                                             round,
+                                                                                             driverReferenceName);
+
+    RaceResource resource = new RaceResource(raceEntry);
+    resource.add(linkTo(RaceController.class).slash(raceEntry.getSeason().getYear())
+                     .slash(raceEntry.getRound()).slash("drivers").slash(driverReferenceName)
+                     .slash("laps").withSelfRel());
+    logger.info("Found {} race entry by year {} and round {} and driver reference name {}.",
+                raceEntry, year, driverReferenceName);
+
+    return resource;
+  }
+
+  /**
+   * Finds a race entry and the lap times by year and round and the specific laps with lap number.
+   *
+   * @param year                The year of the requested entry.
+   * @param round               The round of the requested entry.
+   * @param lapNumber           The lap number.
+   * @param driverReferenceName The driver referenceName.
+   * @return The information of the requested entry.
+   */
+  @ApiOperation(value = "Returns the race entry and the lap times of a particular year and round and the specific laps with the lap number accordingly for a specific driver",
+      notes = "Finds a race entry and the lap times by year and round, to find the specific laps add the lap number, for a specific driver")
+  @RequestMapping(value = "/{year}/{round}/drivers/{driverReferenceName}/laps/{lapNumber}", method = RequestMethod.GET)
+  @ResponseBody
+  RaceResource findRaceAndLapTimesBySeasonYearAndRoundAndLapAndDriver(
+      @PathVariable("year") int year,
+      @PathVariable("round") int round,
+      @PathVariable("lapNumber") int lapNumber,
+      @PathVariable("driverReferenceName") String driverReferenceName) {
+    RaceDto
+        raceEntry =
+        raceReadOnlyService.findRaceAndLapTimesBySeasonYearAndRoundAndLapAndDriver(year,
+                                                                                   round,
+                                                                                   lapNumber,
+                                                                                   driverReferenceName);
+
+    RaceResource resource = new RaceResource(raceEntry);
+    resource.add(linkTo(RaceController.class).slash(raceEntry.getSeason().getYear())
+                     .slash(raceEntry.getRound()).slash("drivers").slash(driverReferenceName)
+                     .slash("laps").slash(lapNumber).withSelfRel());
+    logger.info(
+        "Found {} race entry by year {} and round {} and the specific laps with lap number {} for driver {}.",
+        raceEntry, year, lapNumber, driverReferenceName);
+
+    return resource;
+  }
+
+  // --------------------------------------PIT STOPS------------------------------------------
+
+  /**
+   * Finds a race entry and the pit stops by year and round.
+   *
+   * @param year  The year of the requested entry.
+   * @param round The round of the requested entry.
+   * @return The information of the requested entry.
+   */
+  @ApiOperation(value = "Returns the race entry and the pit stops of a particular year and round",
+      notes = "Finds a race entry and the pit stops by year and round")
+  @RequestMapping(value = "/{year}/{round}/pitstops", method = RequestMethod.GET)
+  @ResponseBody
+  RaceResource findRaceAndPitStopsBySeasonAndRound(@PathVariable("year") int year,
+                                                   @PathVariable("round") int round) {
+    RaceDto raceEntry = raceReadOnlyService.findRaceAndPitStopsBySeasonYearAndRound(year, round);
+
+    RaceResource resource = new RaceResource(raceEntry);
+    resource.add(linkTo(RaceController.class).slash(raceEntry.getSeason().getYear())
+                     .slash(raceEntry.getRound()).slash("pitstops").withSelfRel());
+    logger.info("Found {} race entry by year {} and round {}.", raceEntry, year);
+
+    return resource;
+  }
+
+  /**
+   * Finds a race entry and the pit stops by year and round.
+   *
+   * @param year  The year of the requested entry.
+   * @param round The round of the requested entry.
+   * @param stop  The stop.
+   * @return The information of the requested entry.
+   */
+  @ApiOperation(value = "Returns the race entry and the pit stops of a particular year and round with a specific stop",
+      notes = "Finds a race entry and the pit stops by year and round with a specific stop")
+  @RequestMapping(value = "/{year}/{round}/pitstops/{stop}", method = RequestMethod.GET)
+  @ResponseBody
+  RaceResource findRaceAndPitStopsBySeasonYearAndRoundAndStop(@PathVariable("year") int year,
+                                                              @PathVariable("round") int round,
+                                                              @PathVariable("stop") int stop) {
+    RaceDto
+        raceEntry =
+        raceReadOnlyService.findRaceAndPitStopsBySeasonYearAndRoundAndStop(year, round, stop);
+
+    RaceResource resource = new RaceResource(raceEntry);
+    resource.add(linkTo(RaceController.class).slash(raceEntry.getSeason().getYear())
+                     .slash(raceEntry.getRound()).slash("pitstops").slash(stop).withSelfRel());
+    logger.info("Found {} race entry by year {} and round {} and stop {}.", raceEntry, year, stop);
+
+    return resource;
+  }
+
+  /**
+   * Finds a race entry and the pit stops by year and round.
+   *
+   * @param year                The year of the requested entry.
+   * @param round               The round of the requested entry.
+   * @param driverReferenceName The driver referenceName.
+   * @return The information of the requested entry.
+   */
+  @ApiOperation(value = "Returns the race entry and the pit stops of a particular year and round for a specific driver",
+      notes = "Finds a race entry and the pit stops by year and round for a specific driver")
+  @RequestMapping(value = "/{year}/{round}/drivers/{driverReferenceName}/pitstops", method = RequestMethod.GET)
+  @ResponseBody
+  RaceResource findRaceAndPitStopsBySeasonYearAndRoundAndDriver(@PathVariable("year") int year,
+                                                                @PathVariable("round") int round,
+                                                                @PathVariable("driverReferenceName") String driverReferenceName) {
+    RaceDto raceEntry = raceReadOnlyService
+        .findRaceAndPitStopsBySeasonYearAndRoundAndDriver(year, round, driverReferenceName);
+
+    RaceResource resource = new RaceResource(raceEntry);
+    resource.add(linkTo(RaceController.class).slash(raceEntry.getSeason().getYear())
+                     .slash(raceEntry.getRound()).slash("drivers").slash(driverReferenceName)
+                     .slash("pitstops").withSelfRel());
+    logger.info("Found {} race entry by year {} and round {} and driver {}.", raceEntry, year,
+                driverReferenceName);
+
+    return resource;
+  }
+
+  /**
+   * Finds a race entry and the pit stops by year and round for a specific driver with a specific stop.
+   *
+   * @param year                The year of the requested entry.
+   * @param round               The round of the requested entry.
+   * @param stop                The stop.
+   * @param driverReferenceName The driver referenceName.
+   * @return The information of the requested entry.
+   */
+  @ApiOperation(value = "Returns the race entry and the pit stops by year and round for a specific driver with a specific stop",
+      notes = "Finds a race entry and the pit stops by year and round for a specific driver with a specific stop")
+  @RequestMapping(value = "/{year}/{round}/drivers/{driverReferenceName}/pitstops/{stop}", method = RequestMethod.GET)
+  @ResponseBody
+  RaceResource findRaceAndPitStopsBySeasonYearAndRoundAndStopAndDriver(
+      @PathVariable("year") int year,
+      @PathVariable("round") int round,
+      @PathVariable("stop") int stop,
+      @PathVariable("driverReferenceName") String driverReferenceName) {
+    RaceDto raceEntry = raceReadOnlyService
+        .findRaceAndPitStopsBySeasonYearAndRoundAndStopAndDriver(year, round, stop,
+                                                                 driverReferenceName);
+
+    RaceResource resource = new RaceResource(raceEntry);
+    resource.add(linkTo(RaceController.class).slash(raceEntry.getSeason().getYear())
+                     .slash(raceEntry.getRound()).slash("drivers").slash(driverReferenceName)
+                     .slash("pitstops").slash(stop).withSelfRel());
+    logger.info("Found {} race entry by year {} and round {} and stop {} and driver {}.", raceEntry,
+                year,
+                stop, driverReferenceName);
+
+    return resource;
+  }
+
+  /**
+   * Finds a race entry and the pit stops by year and round for a specific lap.
+   *
+   * @param year  The year of the requested entry.
+   * @param round The round of the requested entry.
+   * @param lap   The lap.
+   * @return The information of the requested entry.
+   */
+  @ApiOperation(value = "Returns the race entry and the pit stops of a particular year and round for a specific lap",
+      notes = "Finds a race entry and the pit stops by year and round for a specific lap")
+  @RequestMapping(value = "/{year}/{round}/laps/{lap}/pitstops", method = RequestMethod.GET)
+  @ResponseBody
+  RaceResource findRaceAndPitStopsBySeasonYearAndRoundAndLap(@PathVariable("year") int year,
+                                                             @PathVariable("round") int round,
+                                                             @PathVariable("lap") int lap) {
+    RaceDto raceEntry =
+        raceReadOnlyService.findRaceAndPitStopsBySeasonYearAndRoundAndLap(year, round, lap);
+
+    RaceResource resource = new RaceResource(raceEntry);
+    resource.add(linkTo(RaceController.class).slash(raceEntry.getSeason().getYear())
+                     .slash(raceEntry.getRound()).slash("laps").slash(lap).slash("pitstops")
+                     .withSelfRel());
+    logger.info("Found {} race entry by year {} and round {} and lap {}.", raceEntry, year, lap);
+
+    return resource;
+  }
+
+  /**
+   * Finds a race entry and the pit stops by year and round for a driver with lap number
+   *
+   * @param year  The year of the requested entry.
+   * @param round The round of the requested entry.
+   * @param lap   The lap.
+   * @return The information of the requested entry.
+   */
+  @ApiOperation(value = "Returns the race entry and the pit stops by year and round for a driver with lap number",
+      notes = "Finds a race entry and the pit stops by year and round for a driver with lap number")
+  @RequestMapping(value = "/{year}/{round}/drivers/{driverReferenceName}/laps/{lap}/pitstops", method = RequestMethod.GET)
+  @ResponseBody
+  RaceResource findRaceAndPitStopsBySeasonYearAndRoundAndLapAndDriver(
+      @PathVariable("year") int year,
+      @PathVariable("round") int round,
+      @PathVariable("driverReferenceName") String driverReferenceName,
+      @PathVariable("lap") int lap) {
+    RaceDto raceEntry =
+        raceReadOnlyService.findRaceAndPitStopsBySeasonYearAndRoundAndLapAndDriver(year, round, lap,
+                                                                                   driverReferenceName);
+
+    RaceResource resource = new RaceResource(raceEntry);
+    resource.add(linkTo(RaceController.class).slash(raceEntry.getSeason().getYear())
+                     .slash(raceEntry.getRound()).slash("drivers").slash(driverReferenceName)
+                     .slash("laps").slash(lap).slash("pitstops")
+                     .withSelfRel());
+    logger.info("Found {} race entry by year {} and round {} and lap {} and driver {}.", raceEntry,
+                year, lap, driverReferenceName);
+
+    return resource;
+  }
+
 }

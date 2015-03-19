@@ -33,7 +33,7 @@ public class RepositoryStatusService extends RepositoryGenericService<Status, St
     this.statusRepository = statusRepository;
   }
 
-  // TODO: Override needed because of query in repository not including the count. But why is that?
+  // TODO: Override needed because of query in ReadOnlyRepository not including the count.
   @Override
   public StatusDto findById(Long id) {
     Status entry = statusRepository.findOne(id);

@@ -57,12 +57,16 @@ public final class Race implements Serializable {
   private String url;
 
   @OneToMany(mappedBy = "race")
+  @OrderBy(value = "lap asc, position asc")
   private Set<LapTime> lapTimes = new HashSet<LapTime>();
 
+  // TODO: not sort on stop?
   @OneToMany(mappedBy = "race")
+  @OrderBy(value = "stop asc, lap asc, time asc")
   private Set<PitStop> pitStops = new HashSet<PitStop>();
 
   @OneToMany(mappedBy = "race")
+  @OrderBy(value = "position asc")
   private Set<Qualifying> qualifyings = new HashSet<Qualifying>();
 
   @OneToMany(mappedBy = "race")

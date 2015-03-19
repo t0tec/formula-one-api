@@ -18,7 +18,6 @@ import java.sql.Types;
 public abstract class PersistentGenderEnumUserType<T extends PersistentGenderEnum>
     implements UserType {
 
-
   @Override
   public abstract Class<T> returnedClass();
 
@@ -90,5 +89,4 @@ public abstract class PersistentGenderEnumUserType<T extends PersistentGenderEnu
       throws HibernateException {
     return original;
   }
-
 }

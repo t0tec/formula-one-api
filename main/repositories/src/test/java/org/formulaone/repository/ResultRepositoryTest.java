@@ -62,7 +62,7 @@ public class ResultRepositoryTest {
   private static final Pageable PAGEABLE = new PageRequest(PAGE_NUMBER, PAGE_SIZE);
 
   @Autowired
-  private ResultRepository raceRepository;
+  private ResultRepository resultRepository;
 
   @Before
   public void setUp() throws Exception {
@@ -75,7 +75,7 @@ public class ResultRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:result-data.xml"})
   public void testFindResultById() {
-    Result result = raceRepository.findOne(ID);
+    Result result = resultRepository.findOne(ID);
 
     assertThat(result).isNotNull();
     assertThat(result.getId()).isEqualTo(ID);
@@ -88,7 +88,7 @@ public class ResultRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:result-data.xml"})
   public void testReturnNullResultWithCorrectId() {
-    Result result = raceRepository.findOne(NON_EXISTING_ID);
+    Result result = resultRepository.findOne(NON_EXISTING_ID);
 
     assertThat(result).isNull();
   }
@@ -100,7 +100,7 @@ public class ResultRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:result-no-data.xml"})
   public void testReturnEmptyList() {
-    List<Result> resultEntries = (List<Result>) raceRepository.findAll();
+    List<Result> resultEntries = (List<Result>) resultRepository.findAll();
 
     assertThat(resultEntries).isEmpty();
   }
@@ -111,7 +111,7 @@ public class ResultRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:result-data.xml"})
   public void testReturnList() {
-    List<Result> resultEntries = (List<Result>) raceRepository.findAll();
+    List<Result> resultEntries = (List<Result>) resultRepository.findAll();
 
     assertThat(resultEntries).hasSize(TOTAL_ENTRIES);
   }
@@ -124,7 +124,7 @@ public class ResultRepositoryTest {
   public void testReturnListSorted() {
     Sort sort = new Sort(DIRECTION_DESC, SORT_BY_ID);
 
-    List<Result> sortedResultEntries = (List<Result>) raceRepository.findAll(sort);
+    List<Result> sortedResultEntries = (List<Result>) resultRepository.findAll(sort);
 
     assertThat(sortedResultEntries).hasSize(TOTAL_ENTRIES);
     assertThat(sortedResultEntries.get(sortedResultEntries.size() - 1).getId()).isEqualTo(ID);
@@ -136,7 +136,7 @@ public class ResultRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:result-data.xml"})
   public void testReturnsPage() {
-    Page<Result> resultPage = raceRepository.findAll(PAGEABLE);
+    Page<Result> resultPage = resultRepository.findAll(PAGEABLE);
 
     PageAssertion.assertThat(resultPage)
         .hasTotalPages((int) Math.ceil((double) TOTAL_ENTRIES / PAGE_SIZE))
@@ -152,7 +152,7 @@ public class ResultRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:result-data.xml"})
   public void testFindResultsByPositionOrder() {
-    List<Result> resultEntries = raceRepository.findResultByPositionOrder(FIRST_POSITION);
+    List<Result> resultEntries = resultRepository.findResultByPositionOrder(FIRST_POSITION);
 
     assertThat(resultEntries).isNotNull();
     assertThat(resultEntries).hasSize(RESULTS_TOTAL_P1);
@@ -165,7 +165,7 @@ public class ResultRepositoryTest {
                   "classpath:race-data.xml", "classpath:result-data.xml"})
   public void testFindResultsByPositionOrderAndSeason() {
     List<Result> resultEntries =
-        raceRepository.findResultByPositionOrderAndRaceSeasonYear(FIRST_POSITION, SEASON_YEAR);
+        resultRepository.findResultByPositionOrderAndRaceSeasonYear(FIRST_POSITION, SEASON_YEAR);
 
     assertThat(resultEntries).isNotNull();
     assertThat(resultEntries).isNotEmpty();
@@ -180,7 +180,7 @@ public class ResultRepositoryTest {
   public void testFindResultsByPositionOrderAndSeasonAndRound() {
     Result
         result =
-        raceRepository
+        resultRepository
             .findResultByPositionOrderAndRaceSeasonYearAndRaceRound(FIRST_POSITION, SEASON_YEAR,
                                                                     ROUND);
 

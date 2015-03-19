@@ -176,6 +176,8 @@ public class RaceRepositoryTest {
     assertThat(race).isNull();
   }
 
+  // --------------------------------------RESULTS--------------------------------------------
+
   @Test
   @Transactional
   @DatabaseSetup({"classpath:status-data.xml",
@@ -206,5 +208,191 @@ public class RaceRepositoryTest {
     assertThat(race.getName()).isEqualTo("United States Grand Prix");
 
     assertThat(race.getResults()).hasSize(39);
+  }
+
+  // --------------------------------------QUALIFYING-----------------------------------------
+
+  @Test
+  @Transactional
+  @DatabaseSetup({"classpath:status-data.xml",
+                  "classpath:driver-data.xml", "classpath:constructor-data.xml",
+                  "classpath:season-data.xml", "classpath:circuit-data.xml",
+                  "classpath:race-data.xml", "classpath:qualifying-data.xml"})
+  public void testFindRaceQualifyingBySeasonAndRound() {
+    Race race = raceRepository.findRaceAndQualifyingBySeasonYearAndRound(SEASON_YEAR, ROUND);
+
+    assertThat(race).isNotNull();
+    assertThat(race.getId()).isEqualTo(ID);
+    assertThat(race.getName()).isEqualTo(NAME);
+
+    assertThat(race.getQualifyings()).hasSize(20);
+  }
+
+  // --------------------------------------LAP TIMES------------------------------------------
+
+  @Test
+  @Transactional
+  @DatabaseSetup({"classpath:status-data.xml",
+                  "classpath:driver-data.xml", "classpath:constructor-data.xml",
+                  "classpath:season-data.xml", "classpath:circuit-data.xml",
+                  "classpath:race-data.xml", "classpath:lap_time-data.xml"})
+  public void testFindRaceLapTimesBySeasonAndRound() {
+    Race race = raceRepository.findRaceAndLapTimesBySeasonYearAndRound(2011, 1);
+
+    assertThat(race).isNotNull();
+    assertThat(race.getId()).isEqualTo(841);
+    assertThat(race.getName()).isEqualTo("Australian Grand Prix");
+
+    assertThat(race.getLapTimes()).hasSize(1082);
+  }
+
+  @Test
+  @Transactional
+  @DatabaseSetup({"classpath:status-data.xml",
+                  "classpath:driver-data.xml", "classpath:constructor-data.xml",
+                  "classpath:season-data.xml", "classpath:circuit-data.xml",
+                  "classpath:race-data.xml", "classpath:lap_time-data.xml"})
+  public void testFindRaceLapTimesBySeasonAndRoundAndLap() {
+    Race race = raceRepository.findRaceAndLapTimesBySeasonYearAndRoundAndLap(2011, 1, 1);
+
+    assertThat(race).isNotNull();
+    assertThat(race.getId()).isEqualTo(841);
+    assertThat(race.getName()).isEqualTo("Australian Grand Prix");
+
+    assertThat(race.getLapTimes()).hasSize(22);
+  }
+
+  @Test
+  @Transactional
+  @DatabaseSetup({"classpath:status-data.xml",
+                  "classpath:driver-data.xml", "classpath:constructor-data.xml",
+                  "classpath:season-data.xml", "classpath:circuit-data.xml",
+                  "classpath:race-data.xml", "classpath:lap_time-data.xml"})
+  public void testFindRaceLapTimesBySeasonAndRoundAndDriver() {
+    Race race = raceRepository.findRaceAndLapTimesBySeasonYearAndRoundAndDriver(2011, 1,
+                                                                                "hamilton");
+
+    assertThat(race).isNotNull();
+    assertThat(race.getId()).isEqualTo(841);
+    assertThat(race.getName()).isEqualTo("Australian Grand Prix");
+
+    assertThat(race.getLapTimes()).hasSize(58);
+  }
+
+  @Test
+  @Transactional
+  @DatabaseSetup({"classpath:status-data.xml",
+                  "classpath:driver-data.xml", "classpath:constructor-data.xml",
+                  "classpath:season-data.xml", "classpath:circuit-data.xml",
+                  "classpath:race-data.xml", "classpath:lap_time-data.xml"})
+  public void testFindRaceLapTimesBySeasonAndRoundAndLapAndDriver() {
+    Race race = raceRepository.findRaceAndLapTimesBySeasonYearAndRoundAndLapAndDriver(2011, 1, 1,
+                                                                                      "hamilton");
+
+    assertThat(race).isNotNull();
+    assertThat(race.getId()).isEqualTo(841);
+    assertThat(race.getName()).isEqualTo("Australian Grand Prix");
+
+    assertThat(race.getLapTimes()).hasSize(1);
+  }
+
+  // --------------------------------------PIT STOPS------------------------------------------
+
+  @Test
+  @Transactional
+  @DatabaseSetup({"classpath:status-data.xml",
+                  "classpath:driver-data.xml", "classpath:constructor-data.xml",
+                  "classpath:season-data.xml", "classpath:circuit-data.xml",
+                  "classpath:race-data.xml", "classpath:pit_stop-data.xml"})
+  public void testFindRacePitStopsBySeasonAndRound() {
+    Race race = raceRepository.findRaceAndPitStopsBySeasonYearAndRound(2011, 1);
+
+    assertThat(race).isNotNull();
+    assertThat(race.getId()).isEqualTo(841);
+    assertThat(race.getName()).isEqualTo("Australian Grand Prix");
+
+    assertThat(race.getPitStops()).hasSize(45);
+  }
+
+  @Test
+  @Transactional
+  @DatabaseSetup({"classpath:status-data.xml",
+                  "classpath:driver-data.xml", "classpath:constructor-data.xml",
+                  "classpath:season-data.xml", "classpath:circuit-data.xml",
+                  "classpath:race-data.xml", "classpath:pit_stop-data.xml"})
+  public void testFindRacePitStopsBySeasonAndRoundAndStop() {
+    Race race = raceRepository.findRaceAndPitStopsBySeasonYearAndRoundAndStop(2011, 1, 1);
+
+    assertThat(race).isNotNull();
+    assertThat(race.getId()).isEqualTo(841);
+    assertThat(race.getName()).isEqualTo("Australian Grand Prix");
+
+    assertThat(race.getPitStops()).hasSize(21);
+  }
+
+  @Test
+  @Transactional
+  @DatabaseSetup({"classpath:status-data.xml",
+                  "classpath:driver-data.xml", "classpath:constructor-data.xml",
+                  "classpath:season-data.xml", "classpath:circuit-data.xml",
+                  "classpath:race-data.xml", "classpath:pit_stop-data.xml"})
+  public void testFindRacePitStopsBySeasonAndRoundAndDriver() {
+    Race race = raceRepository.findRaceAndPitStopsBySeasonYearAndRoundAndDriver(2011, 1, "hamilton");
+
+    assertThat(race).isNotNull();
+    assertThat(race.getId()).isEqualTo(841);
+    assertThat(race.getName()).isEqualTo("Australian Grand Prix");
+
+    assertThat(race.getPitStops()).hasSize(2);
+  }
+
+  @Test
+  @Transactional
+  @DatabaseSetup({"classpath:status-data.xml",
+                  "classpath:driver-data.xml", "classpath:constructor-data.xml",
+                  "classpath:season-data.xml", "classpath:circuit-data.xml",
+                  "classpath:race-data.xml", "classpath:pit_stop-data.xml"})
+  public void testFindRacePitStopsBySeasonAndRoundAndStopAndDriver() {
+    Race race = raceRepository.findRaceAndPitStopsBySeasonYearAndRoundAndStopAndDriver(2011, 1, 1,
+                                                                                       "hamilton");
+
+    assertThat(race).isNotNull();
+    assertThat(race.getId()).isEqualTo(841);
+    assertThat(race.getName()).isEqualTo("Australian Grand Prix");
+
+    assertThat(race.getPitStops()).hasSize(1);
+  }
+
+  @Test
+  @Transactional
+  @DatabaseSetup({"classpath:status-data.xml",
+                  "classpath:driver-data.xml", "classpath:constructor-data.xml",
+                  "classpath:season-data.xml", "classpath:circuit-data.xml",
+                  "classpath:race-data.xml", "classpath:pit_stop-data.xml"})
+  public void testFindRacePitStopsBySeasonAndRoundAndStopAndLap() {
+    Race race = raceRepository.findRaceAndPitStopsBySeasonYearAndRoundAndLap(2011, 1, 16);
+
+    assertThat(race).isNotNull();
+    assertThat(race.getId()).isEqualTo(841);
+    assertThat(race.getName()).isEqualTo("Australian Grand Prix");
+
+    assertThat(race.getPitStops()).hasSize(6);
+  }
+
+  @Test
+  @Transactional
+  @DatabaseSetup({"classpath:status-data.xml",
+                  "classpath:driver-data.xml", "classpath:constructor-data.xml",
+                  "classpath:season-data.xml", "classpath:circuit-data.xml",
+                  "classpath:race-data.xml", "classpath:pit_stop-data.xml"})
+  public void testFindRacePitStopsBySeasonAndRoundAndStopAndLapAndDriver() {
+    Race race = raceRepository.findRaceAndPitStopsBySeasonYearAndRoundAndLapAndDriver(2011, 1, 16,
+                                                                                      "hamilton");
+
+    assertThat(race).isNotNull();
+    assertThat(race.getId()).isEqualTo(841);
+    assertThat(race.getName()).isEqualTo("Australian Grand Prix");
+
+    assertThat(race.getPitStops()).hasSize(1);
   }
 }
