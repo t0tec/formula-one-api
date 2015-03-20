@@ -31,7 +31,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @since 1.0
  */
 @Api(value = "circuits", description = "Returns information about the circuits"
-                                       + " where Formula One races are hosted")
+                                       + " where Formula One races are hosted"
+    , position = 1)
 @RestController
 @RequestMapping("/api/circuits")
 public class CircuitController {
@@ -54,7 +55,7 @@ public class CircuitController {
    *                                                         id.
    */
   @ApiOperation(value = "Returns a circuit entry",
-      notes = "Finds a single circuit entry by a unique id")
+      notes = "Finds a single circuit entry by a unique id", position = 1)
   @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
   @ResponseBody
   CircuitResource findById(@PathVariable("id") Long id) {
@@ -78,7 +79,7 @@ public class CircuitController {
    *                                                         referenceName.
    */
   @ApiOperation(value = "Returns a circuit entry",
-      notes = "Finds a single circuit entry by a unique reference name")
+      notes = "Finds a single circuit entry by a unique reference name", position = 2)
   @RequestMapping(value = "/{referenceName}", method = RequestMethod.GET)
   @ResponseBody
   CircuitResource findByReferenceName(@PathVariable("referenceName") String referenceName) {
@@ -100,7 +101,7 @@ public class CircuitController {
    * @return The information of all entries.
    */
   @ApiOperation(value = "Returns a list of all circuits",
-      notes = "Finds a list of circuit entries ordered alphabetically")
+      notes = "Finds a list of circuit entries ordered alphabetically", position = 3)
   @RequestMapping(value = "/all", method = RequestMethod.GET)
   @ResponseBody
   CircuitTable findAll() {
@@ -124,7 +125,8 @@ public class CircuitController {
           "The number of results that are returned can be controlled using a limit query parameter. "
           + "Please use the smallest value that your application needs. If not specified, the default value is 30. "
           + "A page number into the url can also be specified using a page query parameter. "
-          + "A page numbers starts at 0. For example: 'api/circuits?page=1&size=50' returns the second page of circuit information containing fifty entries per page.")
+          + "A page numbers starts at 0. For example: 'api/circuits?page=1&size=50' returns the second page of circuit information containing fifty entries per page."
+      , position = 4)
   @RequestMapping(method = RequestMethod.GET)
   @ResponseBody
   CircuitPage findAllPageable(@RequestParam(defaultValue = "0") int page,

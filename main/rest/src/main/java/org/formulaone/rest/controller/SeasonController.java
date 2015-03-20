@@ -31,7 +31,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @version $Id$
  * @since 1.0
  */
-@Api(value = "seasons", description = "Returns the list of seasons in Formula One")
+@Api(value = "seasons", description = "Returns the list of seasons in Formula One"
+    , position = 5)
 @RestController
 @RequestMapping("/api/seasons")
 public class SeasonController {

@@ -30,7 +30,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @version $Id$
  * @since 1.0
  */
-@Api(value = "status", description = "Returns a list of all finishing status codes")
+@Api(value = "status", description = "Returns a list of all finishing status codes"
+    , position = 6)
 @RestController
 @RequestMapping("/api")
 public class StatusController {

@@ -31,7 +31,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @since 1.0
  */
 @Api(value = "constructors", description = "Returns information about the constructors"
-                                           + " that are active or have taken part in Formula One")
+                                           + " that are active or have taken part in Formula One"
+    , position = 2)
 @RestController
 @RequestMapping("/api")
 public class ConstructorController {
@@ -129,10 +130,10 @@ public class ConstructorController {
   ConstructorTable findConstructorsBySeason(@PathVariable("season") int year) {
     logger.info("Finding all constructors entries in a particular season({})", year);
 
-    List<ConstructorDto> driverEntries = constructorReadOnlyService.findConstructorsBySeason(year);
-    logger.info("Found {} constructors entries.", driverEntries.size());
+    List<ConstructorDto> constructorEntries = constructorReadOnlyService.findConstructorsBySeason(year);
+    logger.info("Found {} constructors entries.", constructorEntries.size());
 
-    return new ConstructorTable(driverEntries);
+    return new ConstructorTable(constructorEntries);
   }
 
   /**
@@ -149,10 +150,10 @@ public class ConstructorController {
     logger.info("Finding all constructors entries in a particular season({}) and round({})", year,
                 round);
 
-    List<ConstructorDto> driverEntries =
+    List<ConstructorDto> constructorEntries =
         constructorReadOnlyService.findConstructorsBySeasonAndRound(year, round);
-    logger.info("Found {} constructors entries.", driverEntries.size());
+    logger.info("Found {} constructors entries.", constructorEntries.size());
 
-    return new ConstructorTable(driverEntries);
+    return new ConstructorTable(constructorEntries);
   }
 }

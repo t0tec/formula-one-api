@@ -31,7 +31,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @since 1.0
  */
 @Api(value = "drivers", description = "Returns information about the drivers"
-                                      + " that are active or have taken part in Formula One")
+                                      + " that are active or have taken part in Formula One"
+    , position = 3)
 @RestController
 @RequestMapping("/api")
 public class DriverController {
