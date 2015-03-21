@@ -62,14 +62,14 @@ public class ConstructorStandingsRepositoryTest {
   private static final Pageable PAGEABLE = new PageRequest(PAGE_NUMBER, PAGE_SIZE);
 
   @Autowired
-  private ConstructorStandingsRepository standingsRepositoryRepository;
+  private ConstructorStandingsRepository constructorStandingsRepository;
 
   @Test
   @DatabaseSetup({"classpath:season-data.xml",
                   "classpath:circuit-data.xml", "classpath:constructor-data.xml",
                   "classpath:race-data.xml", "classpath:constructor_standings-data.xml"})
   public void testFindById() {
-    ConstructorStandings constructorStandings = standingsRepositoryRepository.findOne(ID);
+    ConstructorStandings constructorStandings = constructorStandingsRepository.findOne(ID);
 
     assertThat(constructorStandings).isNotNull();
     assertThat(constructorStandings.getId()).isEqualTo(ID);
@@ -81,7 +81,7 @@ public class ConstructorStandingsRepositoryTest {
                   "classpath:race-data.xml", "classpath:constructor_standings-data.xml"})
   public void testReturnNullWithCorrectId() {
     ConstructorStandings constructorStandings =
-        standingsRepositoryRepository.findOne(NON_EXISTING_ID);
+        constructorStandingsRepository.findOne(NON_EXISTING_ID);
 
     assertThat(constructorStandings).isNull();
   }
@@ -89,10 +89,10 @@ public class ConstructorStandingsRepositoryTest {
   @Test
   @DatabaseSetup("classpath:constructor_standings-no-data.xml")
   public void testReturnEmptyList() {
-    List<ConstructorStandings> constructorEntries =
-        (List<ConstructorStandings>) standingsRepositoryRepository.findAll();
+    List<ConstructorStandings> constructorStandingsEntries =
+        (List<ConstructorStandings>) constructorStandingsRepository.findAll();
 
-    assertThat(constructorEntries).isEmpty();
+    assertThat(constructorStandingsEntries).isEmpty();
   }
 
   @Test
@@ -100,10 +100,10 @@ public class ConstructorStandingsRepositoryTest {
                   "classpath:circuit-data.xml", "classpath:constructor-data.xml",
                   "classpath:race-data.xml", "classpath:constructor_standings-data.xml"})
   public void testReturnList() {
-    List<ConstructorStandings> constructorEntries =
-        (List<ConstructorStandings>) standingsRepositoryRepository.findAll();
+    List<ConstructorStandings> constructorStandingsEntries =
+        (List<ConstructorStandings>) constructorStandingsRepository.findAll();
 
-    assertThat(constructorEntries).hasSize(TOTAL_ENTRIES);
+    assertThat(constructorStandingsEntries).hasSize(TOTAL_ENTRIES);
   }
 
   @Test
@@ -113,11 +113,12 @@ public class ConstructorStandingsRepositoryTest {
   public void testReturnListSorted() {
     Sort sort = new Sort(DIRECTION_DESC, SORT_BY_ID);
 
-    List<ConstructorStandings> sortedConstructorEntries =
-        (List<ConstructorStandings>) standingsRepositoryRepository.findAll(sort);
+    List<ConstructorStandings> sortedConstructorStandingsEntries =
+        (List<ConstructorStandings>) constructorStandingsRepository.findAll(sort);
 
-    assertThat(sortedConstructorEntries).hasSize(TOTAL_ENTRIES);
-    assertThat(sortedConstructorEntries.get(sortedConstructorEntries.size() - 1).getId())
+    assertThat(sortedConstructorStandingsEntries).hasSize(TOTAL_ENTRIES);
+    assertThat(
+        sortedConstructorStandingsEntries.get(sortedConstructorStandingsEntries.size() - 1).getId())
         .isEqualTo(ID);
   }
 
@@ -126,9 +127,10 @@ public class ConstructorStandingsRepositoryTest {
                   "classpath:circuit-data.xml", "classpath:constructor-data.xml",
                   "classpath:race-data.xml", "classpath:constructor_standings-data.xml"})
   public void testReturnsPage() {
-    Page<ConstructorStandings> constructorPage = standingsRepositoryRepository.findAll(PAGEABLE);
+    Page<ConstructorStandings> constructorStandingsPage =
+        constructorStandingsRepository.findAll(PAGEABLE);
 
-    PageAssertion.assertThat(constructorPage)
+    PageAssertion.assertThat(constructorStandingsPage)
         .hasTotalPages((int) Math.ceil((double) TOTAL_ENTRIES / PAGE_SIZE))
         .hasTotalElements(TOTAL_ENTRIES)
         .hasPageSize(PAGE_SIZE)
@@ -141,15 +143,15 @@ public class ConstructorStandingsRepositoryTest {
                   "classpath:circuit-data.xml", "classpath:constructor-data.xml",
                   "classpath:race-data.xml", "classpath:constructor_standings-data.xml"})
   public void testReturnConstructorStandingsBySeasonYearAndRound() {
-    List<ConstructorStandings> constructorEntries =
-        (List<ConstructorStandings>) standingsRepositoryRepository
+    List<ConstructorStandings> constructorStandingsEntries =
+        (List<ConstructorStandings>) constructorStandingsRepository
             .findAll(findConstructorStandingsBySeasonYearAndRound(SEASON_YEAR, ROUND));
 
-    assertThat(constructorEntries).hasSize(10);
+    assertThat(constructorStandingsEntries).hasSize(10);
   }
 
   public static Predicate findConstructorStandingsBySeasonYearAndRound(final int year,
-                                                                        final int round) {
+                                                                       final int round) {
     return QConstructorStandings.constructorStandings.race.season.year.eq(year)
         .and(QConstructorStandings.constructorStandings.race.round.eq(round));
   }
@@ -159,10 +161,10 @@ public class ConstructorStandingsRepositoryTest {
                   "classpath:circuit-data.xml", "classpath:constructor-data.xml",
                   "classpath:race-data.xml", "classpath:constructor_standings-data.xml"})
   public void testReturnConstructorStandingsBySeasonsAndPosition() {
-    List<ConstructorStandings> constructorEntries = standingsRepositoryRepository
+    List<ConstructorStandings> constructorStandingsEntries = constructorStandingsRepository
         .findConstructorStandingsBySeasonsAndPosition(1);
 
-    assertThat(constructorEntries).hasSize(2);
+    assertThat(constructorStandingsEntries).hasSize(2);
   }
 
   @Test
@@ -170,10 +172,10 @@ public class ConstructorStandingsRepositoryTest {
                   "classpath:circuit-data.xml", "classpath:constructor-data.xml",
                   "classpath:race-data.xml", "classpath:constructor_standings-data.xml"})
   public void testReturnConstructorStandingsBySeasonYear() {
-    List<ConstructorStandings> constructorEntries = standingsRepositoryRepository
+    List<ConstructorStandings> constructorStandingsEntries = constructorStandingsRepository
         .findConstructorStandingsBySeason(SEASON_YEAR);
 
-    assertThat(constructorEntries).hasSize(12);
+    assertThat(constructorStandingsEntries).hasSize(12);
   }
 
   @Test
@@ -181,9 +183,9 @@ public class ConstructorStandingsRepositoryTest {
                   "classpath:circuit-data.xml", "classpath:constructor-data.xml",
                   "classpath:race-data.xml", "classpath:constructor_standings-data.xml"})
   public void testReturnConstructorStandingsByConstructor() {
-    List<ConstructorStandings> constructorEntries = standingsRepositoryRepository
-            .findConstructorStandingsBySeasonsAndConstructor(CONSTRUCTOR_REFERENCE_NAME);
+    List<ConstructorStandings> constructorStandingsEntries = constructorStandingsRepository
+        .findConstructorStandingsBySeasonsAndConstructor(CONSTRUCTOR_REFERENCE_NAME);
 
-    assertThat(constructorEntries).hasSize(2);
+    assertThat(constructorStandingsEntries).hasSize(2);
   }
 }

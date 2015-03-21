@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -77,6 +78,29 @@ public class ConstructorStandingsController {
 
     List<ConstructorStandingsDto> constructorStandingsEntries =
         constructorReadOnlyService.findConstructorStandingsBySeasonYear(year);
+    logger.info("Found {} constructor standings entries.", constructorStandingsEntries.size());
+
+    return new ConstructorStandingsTable((constructorStandingsEntries));
+  }
+
+  /**
+   * Finds the constructor standings with the position as a method parameter for all seasons You can
+   * get the winners of the constructor standings for all seasons by passing 1 as position
+   * parameter.
+   *
+   * @return The information of all entries.
+   */
+  @ApiOperation(value = "Returns the standings of the current constructor championship",
+      notes = "Finds the standings of the current constructor championship. "
+              + "If the season has not ended you will get the current standings."
+      , position = 2)
+  @RequestMapping(value = "current/constructorStandings", method = RequestMethod.GET)
+  @ResponseBody
+  ConstructorStandingsTable findCurrentConstructorStandings() {
+    logger.info("Finds the current constructor standings");
+    int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+    List<ConstructorStandingsDto> constructorStandingsEntries =
+        constructorReadOnlyService.findConstructorStandingsBySeasonYear(currentYear);
     logger.info("Found {} constructor standings entries.", constructorStandingsEntries.size());
 
     return new ConstructorStandingsTable((constructorStandingsEntries));

@@ -31,8 +31,11 @@ public class PitStopDto {
   @JacksonXmlProperty(isAttribute = true)
   private Date time;
 
+  // TODO: PitStop in core module stores duration as Integer as milliseconds,
+  // this converts it to a readable time format
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "ss.S")
   @JacksonXmlProperty(isAttribute = true)
-  private int duration;
+  private Date duration;
 
   public PitStopDto() {
   }
@@ -69,11 +72,11 @@ public class PitStopDto {
     this.time = time;
   }
 
-  public int getDuration() {
+  public Date getDuration() {
     return this.duration;
   }
 
-  public void setDuration(int duration) {
+  public void setDuration(Date duration) {
     this.duration = duration;
   }
 
