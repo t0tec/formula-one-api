@@ -44,8 +44,8 @@ public class StatusRepositoryTest {
   private static final Long ID = 1L;
   private static final String STATUS = "Finished";
 
-  private static final int TOTAL_ENTRIES = 94;
-  private static final int FINISHED_COUNT = 2243;
+  private static final int TOTAL_ENTRIES = 54;
+  private static final int FINISHED_COUNT = 890;
 
   private static final Long NON_EXISTING_ID = -1L;
 
@@ -88,7 +88,7 @@ public class StatusRepositoryTest {
                   "classpath:driver-no-data.xml", "classpath:constructor-no-data.xml",
                   "classpath:result-no-data.xml"})
   public void testReturnEmptyList() {
-    List<Status> statusEntries = (List<Status>) statusRepository.findAll();
+    List<Status> statusEntries = statusRepository.findAll();
 
     assertThat(statusEntries).isEmpty();
   }
@@ -99,7 +99,7 @@ public class StatusRepositoryTest {
                   "classpath:driver-data.xml", "classpath:constructor-data.xml",
                   "classpath:result-data.xml"})
   public void testReturnList() {
-    List<Status> statusEntries = (List<Status>) statusRepository.findAll();
+    List<Status> statusEntries = statusRepository.findAll();
 
     assertThat(statusEntries).hasSize(TOTAL_ENTRIES);
   }
@@ -112,7 +112,7 @@ public class StatusRepositoryTest {
   public void testReturnListSorted() {
     Sort sort = new Sort(DIRECTION_DESC, SORT_BY_ID);
 
-    List<Status> statusEntries = (List<Status>) statusRepository.findAll(sort);
+    List<Status> statusEntries = statusRepository.findAll(sort);
 
     assertThat(statusEntries).hasSize(TOTAL_ENTRIES);
     assertThat(statusEntries.get(statusEntries.size() - 1).getId()).isEqualTo(ID);
@@ -142,8 +142,8 @@ public class StatusRepositoryTest {
                   "classpath:driver-data.xml", "classpath:constructor-data.xml",
                   "classpath:result-data.xml"})
   public void testReturnListBySeasonYear() {
-    List<Status> statusEntries = statusRepository.findAllBySeasonYear(2007);
-    assertThat(statusEntries).hasSize(30);
+    List<Status> statusEntries = statusRepository.findAllBySeasonYear(2011);
+    assertThat(statusEntries).hasSize(31);
   }
 
   @Test
@@ -152,7 +152,7 @@ public class StatusRepositoryTest {
                   "classpath:driver-data.xml", "classpath:constructor-data.xml",
                   "classpath:result-data.xml"})
   public void testReturnListBySeasonYearAndRound() {
-    List<Status> statusEntries = statusRepository.findAllBySeasonYearAndRound(2007, 1);
-    assertThat(statusEntries).hasSize(7);
+    List<Status> statusEntries = statusRepository.findAllBySeasonYearAndRound(2011, 1);
+    assertThat(statusEntries).hasSize(9);
   }
 }

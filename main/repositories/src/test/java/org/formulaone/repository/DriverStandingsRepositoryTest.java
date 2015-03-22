@@ -43,13 +43,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DatabaseTearDown("classpath:driver_standings-no-data.xml")
 public class DriverStandingsRepositoryTest {
 
-  private static final Long ID = 63737L;
+  private static final Long ID = 64384L;
   private static final String DRIVER_REFERENCE_NAME = "hamilton";
 
   private static final int SEASON_YEAR = 2011;
   private static final int ROUND = 1;
 
-  private static final int TOTAL_ENTRIES = 2920;
+  private static final int TOTAL_ENTRIES = 1829;
 
 
   private static final Long NON_EXISTING_ID = -1L;
@@ -160,7 +160,7 @@ public class DriverStandingsRepositoryTest {
     List<DriverStandings> driverStandingsEntries = driverStandingsRepository
         .findDriverStandingsBySeasonsAndPosition(1);
 
-    assertThat(driverStandingsEntries).hasSize(6);
+    assertThat(driverStandingsEntries).hasSize(4);
   }
 
   @Test
@@ -182,6 +182,6 @@ public class DriverStandingsRepositoryTest {
     List<DriverStandings> driverStandingsEntries = driverStandingsRepository
             .findDriverStandingsBySeasonsAndDriver(DRIVER_REFERENCE_NAME);
 
-    assertThat(driverStandingsEntries).hasSize(5);
+    assertThat(driverStandingsEntries).hasSize(4);
   }
 }

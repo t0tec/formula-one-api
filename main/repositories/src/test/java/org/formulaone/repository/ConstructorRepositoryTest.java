@@ -48,12 +48,12 @@ public class ConstructorRepositoryTest {
   private static final String REFERENCE_NAME = "mclaren";
   private static final String NAME = "McLaren";
 
-  private static final int SEASON_YEAR = 2009;
+  private static final int SEASON_YEAR = 2011;
   private static final int ROUND = 1;
 
   private static final int TOTAL_ENTRIES = 206;
-  private static final int SEASON_TOTAL_CONSTRUCTORS = 10;
-  private static final int ROUND_TOTAL_CONSTRUCTORS = 10;
+  private static final int SEASON_TOTAL_CONSTRUCTORS = 12;
+  private static final int ROUND_TOTAL_CONSTRUCTORS = 11;
 
 
   private static final Long NON_EXISTING_ID = -1L;

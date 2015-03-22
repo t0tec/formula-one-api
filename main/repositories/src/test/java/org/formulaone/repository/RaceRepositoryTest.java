@@ -44,14 +44,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DatabaseTearDown("classpath:race-no-data.xml")
 public class RaceRepositoryTest {
 
-  private static final Long ID = 1L;
+  private static final Long ID = 841L;
   private static final String NAME = "Australian Grand Prix";
-  private static final int SEASON_YEAR = 2009;
+  private static final int SEASON_YEAR = 2011;
   private static final int ROUND = 1;
 
-  private static final int TOTAL_ENTRIES = 916;
-  private static final int SEASON_TOTAL_ENTRIES = 17;
-  private static final int RACE_RESULTS_SIZE = 20;
+  private static final int TOTAL_ENTRIES = 77;
+  private static final int SEASON_TOTAL_ENTRIES = 19;
+  private static final int RACE_RESULTS_SIZE = 22;
 
   private static final Long NON_EXISTING_ID = -1L;
   private static final int NON_EXISTING_SEASON_YEAR = 1949;
@@ -188,7 +188,7 @@ public class RaceRepositoryTest {
     Race race = raceRepository.findRaceAndResultsBySeasonYearAndRound(SEASON_YEAR, ROUND);
 
     assertThat(race).isNotNull();
-    assertThat(race.getId()).isEqualTo(ID);
+    assertThat(race.getId()).isEqualTo(841);
     assertThat(race.getName()).isEqualTo(NAME);
 
     assertThat(race.getResults()).hasSize(RACE_RESULTS_SIZE);
@@ -204,10 +204,10 @@ public class RaceRepositoryTest {
     Race race = raceRepository.findLastRaceAndResults();
 
     assertThat(race).isNotNull();
-    assertThat(race.getId()).isEqualTo(360);
-    assertThat(race.getName()).isEqualTo("United States Grand Prix");
+    assertThat(race.getId()).isEqualTo(918L);
+    assertThat(race.getName()).isEqualTo("Abu Dhabi Grand Prix");
 
-    assertThat(race.getResults()).hasSize(39);
+    assertThat(race.getResults()).hasSize(20);
   }
 
   // --------------------------------------QUALIFYING-----------------------------------------
@@ -222,10 +222,10 @@ public class RaceRepositoryTest {
     Race race = raceRepository.findRaceAndQualifyingBySeasonYearAndRound(SEASON_YEAR, ROUND);
 
     assertThat(race).isNotNull();
-    assertThat(race.getId()).isEqualTo(ID);
+    assertThat(race.getId()).isEqualTo(841);
     assertThat(race.getName()).isEqualTo(NAME);
 
-    assertThat(race.getQualifyings()).hasSize(20);
+    assertThat(race.getQualifyings()).hasSize(24);
   }
 
   // --------------------------------------LAP TIMES------------------------------------------
@@ -237,7 +237,7 @@ public class RaceRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:lap_time-data.xml"})
   public void testFindRaceLapTimesBySeasonAndRound() {
-    Race race = raceRepository.findRaceAndLapTimesBySeasonYearAndRound(2011, 1);
+    Race race = raceRepository.findRaceAndLapTimesBySeasonYearAndRound(SEASON_YEAR, ROUND);
 
     assertThat(race).isNotNull();
     assertThat(race.getId()).isEqualTo(841);
@@ -253,7 +253,7 @@ public class RaceRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:lap_time-data.xml"})
   public void testFindRaceLapTimesBySeasonAndRoundAndLap() {
-    Race race = raceRepository.findRaceAndLapTimesBySeasonYearAndRoundAndLap(2011, 1, 1);
+    Race race = raceRepository.findRaceAndLapTimesBySeasonYearAndRoundAndLap(SEASON_YEAR, ROUND, 1);
 
     assertThat(race).isNotNull();
     assertThat(race.getId()).isEqualTo(841);
@@ -269,7 +269,7 @@ public class RaceRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:lap_time-data.xml"})
   public void testFindRaceLapTimesBySeasonAndRoundAndDriver() {
-    Race race = raceRepository.findRaceAndLapTimesBySeasonYearAndRoundAndDriver(2011, 1,
+    Race race = raceRepository.findRaceAndLapTimesBySeasonYearAndRoundAndDriver(SEASON_YEAR, ROUND,
                                                                                 "hamilton");
 
     assertThat(race).isNotNull();
@@ -286,8 +286,9 @@ public class RaceRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:lap_time-data.xml"})
   public void testFindRaceLapTimesBySeasonAndRoundAndLapAndDriver() {
-    Race race = raceRepository.findRaceAndLapTimesBySeasonYearAndRoundAndLapAndDriver(2011, 1, 1,
-                                                                                      "hamilton");
+    Race race =
+        raceRepository.findRaceAndLapTimesBySeasonYearAndRoundAndLapAndDriver(SEASON_YEAR, ROUND, 1,
+                                                                              "hamilton");
 
     assertThat(race).isNotNull();
     assertThat(race.getId()).isEqualTo(841);
@@ -305,7 +306,7 @@ public class RaceRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:pit_stop-data.xml"})
   public void testFindRacePitStopsBySeasonAndRound() {
-    Race race = raceRepository.findRaceAndPitStopsBySeasonYearAndRound(2011, 1);
+    Race race = raceRepository.findRaceAndPitStopsBySeasonYearAndRound(SEASON_YEAR, ROUND);
 
     assertThat(race).isNotNull();
     assertThat(race.getId()).isEqualTo(841);
@@ -321,7 +322,8 @@ public class RaceRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:pit_stop-data.xml"})
   public void testFindRacePitStopsBySeasonAndRoundAndStop() {
-    Race race = raceRepository.findRaceAndPitStopsBySeasonYearAndRoundAndStop(2011, 1, 1);
+    Race race =
+        raceRepository.findRaceAndPitStopsBySeasonYearAndRoundAndStop(SEASON_YEAR, ROUND, 1);
 
     assertThat(race).isNotNull();
     assertThat(race.getId()).isEqualTo(841);
@@ -337,7 +339,8 @@ public class RaceRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:pit_stop-data.xml"})
   public void testFindRacePitStopsBySeasonAndRoundAndDriver() {
-    Race race = raceRepository.findRaceAndPitStopsBySeasonYearAndRoundAndDriver(2011, 1, "hamilton");
+    Race race = raceRepository
+            .findRaceAndPitStopsBySeasonYearAndRoundAndDriver(SEASON_YEAR, ROUND, "hamilton");
 
     assertThat(race).isNotNull();
     assertThat(race.getId()).isEqualTo(841);
@@ -353,8 +356,9 @@ public class RaceRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:pit_stop-data.xml"})
   public void testFindRacePitStopsBySeasonAndRoundAndStopAndDriver() {
-    Race race = raceRepository.findRaceAndPitStopsBySeasonYearAndRoundAndStopAndDriver(2011, 1, 1,
-                                                                                       "hamilton");
+    Race race = raceRepository
+            .findRaceAndPitStopsBySeasonYearAndRoundAndStopAndDriver(SEASON_YEAR, ROUND, 1,
+                                                                     "hamilton");
 
     assertThat(race).isNotNull();
     assertThat(race.getId()).isEqualTo(841);
@@ -370,7 +374,8 @@ public class RaceRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:pit_stop-data.xml"})
   public void testFindRacePitStopsBySeasonAndRoundAndStopAndLap() {
-    Race race = raceRepository.findRaceAndPitStopsBySeasonYearAndRoundAndLap(2011, 1, 16);
+    Race race =
+        raceRepository.findRaceAndPitStopsBySeasonYearAndRoundAndLap(SEASON_YEAR, ROUND, 16);
 
     assertThat(race).isNotNull();
     assertThat(race.getId()).isEqualTo(841);
@@ -386,8 +391,9 @@ public class RaceRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:pit_stop-data.xml"})
   public void testFindRacePitStopsBySeasonAndRoundAndStopAndLapAndDriver() {
-    Race race = raceRepository.findRaceAndPitStopsBySeasonYearAndRoundAndLapAndDriver(2011, 1, 16,
-                                                                                      "hamilton");
+    Race race = raceRepository
+            .findRaceAndPitStopsBySeasonYearAndRoundAndLapAndDriver(SEASON_YEAR, ROUND, 16,
+                                                                    "hamilton");
 
     assertThat(race).isNotNull();
     assertThat(race.getId()).isEqualTo(841);

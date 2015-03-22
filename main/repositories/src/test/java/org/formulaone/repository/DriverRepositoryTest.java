@@ -48,12 +48,12 @@ public class DriverRepositoryTest {
   private static final String FORENAME = "Lewis";
   private static final String SURNAME = "Hamilton";
 
-  private static final int SEASON_YEAR = 2009;
+  private static final int SEASON_YEAR = 2011;
   private static final int ROUND = 1;
 
   private static final int TOTAL_ENTRIES = 828;
-  private static final int SEASON_TOTAL_DRIVERS = 25;
-  private static final int ROUND_TOTAL_DRIVERS = 20;
+  private static final int SEASON_TOTAL_DRIVERS = 28;
+  private static final int ROUND_TOTAL_DRIVERS = 22;
 
   private static final Long NON_EXISTING_ID = -1L;
   private static final String WRONG_REFERENCE_NAME = "unknown";
