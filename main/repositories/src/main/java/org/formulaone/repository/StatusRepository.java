@@ -36,8 +36,7 @@ public interface StatusRepository extends ReadOnlyRepository<Status,Integer> {
       "select new org.formulaone.core.model.Status(st.id, st.status, count(st.id)) from Status st "
       + "join st.results re "
       + "join re.race ra "
-      + "group by st.id "
-      + "order by st.id")
+      + "group by st.id")
   Iterable<Status> findAll(Sort sort);
 
   @Query(value =

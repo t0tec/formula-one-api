@@ -178,13 +178,11 @@ public class ResultRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:result-data.xml"})
   public void testFindResultsByPositionOrderAndSeasonAndRound() {
-    Result
-        result =
-        resultRepository
+    Result result = resultRepository
             .findResultByPositionOrderAndRaceSeasonYearAndRaceRound(FIRST_POSITION, SEASON_YEAR,
                                                                     ROUND);
 
     assertThat(result).isNotNull();
-    assertThat(result.getId()).isEqualTo(20779L);
+    assertThat(result.getId()).isEqualTo(ID);
   }
 }

@@ -204,7 +204,7 @@ public class RaceRepositoryTest {
     Race race = raceRepository.findLastRaceAndResults();
 
     assertThat(race).isNotNull();
-    assertThat(race.getId()).isEqualTo(918L);
+    assertThat(race.getId()).isEqualTo(918);
     assertThat(race.getName()).isEqualTo("Abu Dhabi Grand Prix");
 
     assertThat(race.getResults()).hasSize(20);
