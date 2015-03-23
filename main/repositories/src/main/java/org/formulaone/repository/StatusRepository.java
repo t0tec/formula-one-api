@@ -28,21 +28,24 @@ public interface StatusRepository extends ReadOnlyRepository<Status,Integer> {
       "select new org.formulaone.core.model.Status(st.id, st.status, count(st.id)) from Status st "
       + "join st.results re "
       + "join re.race ra "
-      + "group by st.id")
+      + "group by st.id "
+      + "order by st.id")
   Iterable<Status> findAll();
 
   @Query(value =
       "select new org.formulaone.core.model.Status(st.id, st.status, count(st.id)) from Status st "
       + "join st.results re "
       + "join re.race ra "
-      + "group by st.id")
+      + "group by st.id "
+      + "order by st.id")
   Iterable<Status> findAll(Sort sort);
 
   @Query(value =
       "select new org.formulaone.core.model.Status(st.id, st.status, count(st.id)) from Status st "
       + "join st.results re "
       + "join re.race ra "
-      + "group by st.id")
+      + "group by st.id "
+      + "order by st.id")
   Page<Status> findAll(Pageable pageable);
 
   @Query(value =
@@ -50,7 +53,8 @@ public interface StatusRepository extends ReadOnlyRepository<Status,Integer> {
       + "join st.results re "
       + "join re.race ra "
       + "where ra.season.year = :year "
-      + "group by st.id")
+      + "group by st.id "
+      + "order by st.id")
   List<Status> findAllBySeasonYear(@Param("year") int year);
 
   @Query(value =
@@ -58,6 +62,7 @@ public interface StatusRepository extends ReadOnlyRepository<Status,Integer> {
       + "join st.results re "
       + "join re.race ra "
       + "where ra.season.year = :year and ra.round = :round "
-      + "group by st.id")
+      + "group by st.id "
+      + "order by st.id")
   List<Status> findAllBySeasonYearAndRound(@Param("year") int year, @Param("round") int round);
 }

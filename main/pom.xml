@@ -41,6 +41,7 @@
         <skip.unit.tests>true</skip.unit.tests>
         <jdk.version>1.7</jdk.version>
         <platform-bom.version>1.1.1.RELEASE</platform-bom.version>
+        <postgresql.version>9.4-1201-jdbc4</postgresql.version>
         <logback.version>1.1.2</logback.version>
         <usertype.extended.version>3.2.0.GA</usertype.extended.version>
         <dozer.version>5.5.1</dozer.version>
@@ -102,6 +103,11 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
         </dependency>
         <!-- HikariCP DataSource connection pooling -->
         <dependency>

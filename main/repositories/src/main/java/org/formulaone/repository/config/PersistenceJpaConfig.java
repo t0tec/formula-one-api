@@ -58,8 +58,11 @@ public class PersistenceJpaConfig {
     dataSourceConfig.setJdbcUrl(env.getRequiredProperty(PROPERTY_NAME_DB_URL));
     dataSourceConfig.setUsername(env.getRequiredProperty(PROPERTY_NAME_DB_USER));
     dataSourceConfig.setPassword(env.getRequiredProperty(PROPERTY_NAME_DB_PASSWORD));
-    dataSourceConfig.addDataSourceProperty(PROPERTY_NAME_DB_ZERO_DATE_TIME, env.getRequiredProperty(
-        PROPERTY_NAME_DB_ZERO_DATE_TIME));
+
+    if (env.getRequiredProperty(PROPERTY_NAME_DB_DRIVER_CLASS).contains("mysql")) {
+      dataSourceConfig.addDataSourceProperty(PROPERTY_NAME_DB_ZERO_DATE_TIME,
+                                             env.getRequiredProperty(PROPERTY_NAME_DB_ZERO_DATE_TIME));
+    }
 
     return new HikariDataSource(dataSourceConfig);
   }
