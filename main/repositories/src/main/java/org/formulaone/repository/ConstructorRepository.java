@@ -13,7 +13,7 @@ import java.util.List;
  * @version $Id$
  * @since 1.0
  */
-public interface ConstructorRepository extends ReadOnlyRepository<Constructor, Long>,
+public interface ConstructorRepository extends ReadOnlyRepository<Constructor,Integer>,
                                                QueryDslPredicateExecutor<Constructor>,
                                                JpaSpecificationExecutor<Constructor> {
 

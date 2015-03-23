@@ -16,29 +16,29 @@ import javax.persistence.Table;
  * @since 1.0
  */
 @Entity
-@Table(name = "constructor_standings")
+@Table(name = "constructorStandings")
 public final class ConstructorStandings implements Serializable {
 
   @Id
   @GeneratedValue
-  @Column(name = "id")
-  private Long id;
+  @Column(name = "constructorStandingsId")
+  private Integer id;
 
   @ManyToOne
-  @JoinColumn(name = "race_id", referencedColumnName = "id", nullable = false)
+  @JoinColumn(name = "raceId", referencedColumnName = "raceId", nullable = false)
   private Race race;
 
   @ManyToOne
-  @JoinColumn(name = "constructor_id", referencedColumnName = "id", nullable = false)
+  @JoinColumn(name = "constructorId", referencedColumnName = "constructorId", nullable = false)
   private Constructor constructor;
 
   @Column(name = "points", nullable = false)
-  private double points;
+  private float points;
 
   @Column(name = "position")
   private int position;
 
-  @Column(name = "position_text")
+  @Column(name = "positionText")
   private String positionText;
 
   @Column(name = "wins", nullable = false)
@@ -47,7 +47,7 @@ public final class ConstructorStandings implements Serializable {
   public ConstructorStandings() {
   }
 
-  public ConstructorStandings(Race race, Constructor constructor, double points, int position,
+  public ConstructorStandings(Race race, Constructor constructor, float points, int position,
                               String positionText, int wins) {
     this.race = race;
     this.constructor = constructor;
@@ -57,7 +57,7 @@ public final class ConstructorStandings implements Serializable {
     this.wins = wins;
   }
 
-  public Long getId() {
+  public Integer getId() {
     return this.id;
   }
 

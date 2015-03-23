@@ -7,7 +7,6 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.formulaone.core.model.ConstrainConstants;
-import org.formulaone.core.model.Gender;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.Date;
@@ -23,7 +22,7 @@ import javax.validation.constraints.Size;
 public class DriverDto {
 
   @JsonIgnore
-  private Long id;
+  private Integer id;
 
   @JacksonXmlProperty(isAttribute = true)
   @NotEmpty
@@ -43,8 +42,6 @@ public class DriverDto {
 
   private String nationality;
 
-  private Gender gender;
-
   @JacksonXmlProperty(isAttribute = true)
   @Size(max = ConstrainConstants.MAX_LENGTH_URL)
   private String url;
@@ -63,11 +60,11 @@ public class DriverDto {
     return new Builder();
   }
 
-  public Long getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
@@ -127,14 +124,6 @@ public class DriverDto {
     this.nationality = nationality;
   }
 
-  public Gender getGender() {
-    return this.gender;
-  }
-
-  public void setGender(Gender gender) {
-    this.gender = gender;
-  }
-
   public String getUrl() {
     return this.url;
   }
@@ -148,8 +137,7 @@ public class DriverDto {
     return new ToStringBuilder(this).append("referenceName", this.referenceName)
         .append("number", this.number).append("code", this.code).append("forename", this.forename)
         .append("surname", this.surname).append("birthdate").append(this.birthdate)
-        .append("nationality", this.nationality).append("gender", this.gender)
-        .append("url", this.url).toString();
+        .append("nationality", this.nationality).append("url", this.url).toString();
   }
 
   /**
@@ -157,7 +145,7 @@ public class DriverDto {
    */
   public static class Builder {
 
-    private Long id;
+    private Integer id;
     private String referenceName;
     private String forename;
     private String surname;
@@ -165,7 +153,7 @@ public class DriverDto {
     public Builder() {
     }
 
-    public Builder id(Long id) {
+    public Builder id(Integer id) {
       this.id = id;
       return this;
     }

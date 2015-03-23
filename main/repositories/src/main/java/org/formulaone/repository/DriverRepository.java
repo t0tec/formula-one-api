@@ -12,7 +12,7 @@ import java.util.List;
  * @version $Id$
  * @since 1.0
  */
-public interface DriverRepository extends ReadOnlyRepository<Driver, Long>,
+public interface DriverRepository extends ReadOnlyRepository<Driver, Integer>,
                                           QueryDslPredicateExecutor<Driver> {
 
   @Query(value = "select dr from Driver dr "

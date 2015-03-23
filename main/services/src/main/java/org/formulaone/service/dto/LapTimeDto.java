@@ -1,12 +1,11 @@
 package org.formulaone.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.dozer.Mapping;
-
-import java.util.Date;
 
 /**
  * @author t0tec (t0tec.olmec@gmail.com)
@@ -26,7 +25,10 @@ public class LapTimeDto {
   // TODO: LapTime in core module stores time as Integer as milliseconds,
   // this converts it to a readable time format
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "m:ss.S")
-  private Date time;
+  @JsonIgnore
+  private Integer milliseconds;
+
+  private String time;
 
   public LapTimeDto() {
   }
@@ -55,11 +57,19 @@ public class LapTimeDto {
     this.position = position;
   }
 
-  public Date getTime() {
+  public int getMilliseconds() {
+    return this.milliseconds;
+  }
+
+  public void setMilliseconds(int milliseconds) {
+    this.milliseconds = milliseconds;
+  }
+
+  public String getTime() {
     return this.time;
   }
 
-  public void setTime(Date time) {
+  public void setTime(String time) {
     this.time = time;
   }
 

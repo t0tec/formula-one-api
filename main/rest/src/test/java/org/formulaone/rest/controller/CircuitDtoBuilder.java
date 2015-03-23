@@ -10,14 +10,14 @@ import org.springframework.test.util.ReflectionTestUtils;
  */
 public class CircuitDtoBuilder {
 
-  private Long id;
+  private Integer id;
   private String referenceName = "NOT_IMPORTANT";
   private String name = "NOT_IMPORTANT";
 
   public CircuitDtoBuilder() {
   }
 
-  public CircuitDtoBuilder id(Long id) {
+  public CircuitDtoBuilder id(Integer id) {
     this.id = id;
     return this;
   }

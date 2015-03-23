@@ -15,7 +15,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class ResultDto {
 
   @JsonIgnore
-  private Long id;
+  private Integer id;
 
   @JacksonXmlProperty(isAttribute = true)
   private int driverNumber;
@@ -32,7 +32,7 @@ public class ResultDto {
   private String positionText;
 
   @JacksonXmlProperty(isAttribute = true)
-  private double points;
+  private float points;
 
   private int laps;
 
@@ -49,11 +49,11 @@ public class ResultDto {
   public ResultDto() {
   }
 
-  public Long getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
@@ -97,11 +97,11 @@ public class ResultDto {
     this.positionText = positionText;
   }
 
-  public double getPoints() {
+  public float getPoints() {
     return this.points;
   }
 
-  public void setPoints(double points) {
+  public void setPoints(float points) {
     this.points = points;
   }
 

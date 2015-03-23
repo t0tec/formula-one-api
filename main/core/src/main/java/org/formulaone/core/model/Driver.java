@@ -1,7 +1,5 @@
 package org.formulaone.core.model;
 
-import org.hibernate.annotations.Type;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -22,15 +20,15 @@ import javax.persistence.TemporalType;
  * @since 1.0
  */
 @Entity
-@Table(name = "driver")
+@Table(name = "drivers")
 public final class Driver implements Serializable {
 
   @Id
   @GeneratedValue
-  @Column(name = "id")
-  private Long id;
+  @Column(name = "driverId")
+  private Integer id;
 
-  @Column(name = "reference_name", nullable = false, unique = true)
+  @Column(name = "driverRef", nullable = false, unique = true)
   private String referenceName;
 
   @Column(name = "number")
@@ -46,15 +44,11 @@ public final class Driver implements Serializable {
   private String surname;
 
   @Temporal(TemporalType.DATE)
-  @Column(name = "birthdate")
+  @Column(name = "dob")
   private Date birthdate;
 
   @Column(name = "nationality")
   private String nationality;
-
-  @Type(type = "org.formulaone.core.model.persistence.GenderUserType")
-  @Column(name = "gender")
-  private Gender gender;
 
   @Column(name = "url", length = ConstrainConstants.MAX_LENGTH_URL)
   private String url;
@@ -78,7 +72,7 @@ public final class Driver implements Serializable {
   }
 
   public Driver(String referenceName, Integer number, String code, String forename, String surname,
-                Date birthdate, String nationality, Gender gender, String url) {
+                Date birthdate, String nationality, String url) {
     this.referenceName = referenceName;
     this.number = number;
     this.code = code;
@@ -86,7 +80,6 @@ public final class Driver implements Serializable {
     this.surname = surname;
     this.birthdate = birthdate;
     this.nationality = nationality;
-    this.gender = gender;
     this.url = url;
   }
 
@@ -101,7 +94,7 @@ public final class Driver implements Serializable {
     return new Builder();
   }
 
-  public Long getId() {
+  public Integer getId() {
     return this.id;
   }
 
@@ -131,10 +124,6 @@ public final class Driver implements Serializable {
 
   public String getNationality() {
     return this.nationality;
-  }
-
-  public Gender getGender() {
-    return this.gender;
   }
 
   public String getUrl() {
@@ -169,7 +158,7 @@ public final class Driver implements Serializable {
    */
   public static class Builder {
 
-    private Long id;
+    private Integer id;
     private String referenceName;
     private String forename;
     private String surname;
@@ -177,7 +166,7 @@ public final class Driver implements Serializable {
     public Builder() {
     }
 
-    public Builder id(Long id) {
+    public Builder id(Integer id) {
       this.id = id;
       return this;
     }

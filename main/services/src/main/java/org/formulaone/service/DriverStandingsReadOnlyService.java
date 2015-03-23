@@ -11,7 +11,7 @@ import java.util.List;
  * @since 1.0
  */
 public interface DriverStandingsReadOnlyService
-    extends GenericService<DriverStandings, DriverStandingsDto, Long> {
+    extends GenericService<DriverStandings, DriverStandingsDto, Integer> {
 
   /**
    * Finds all driver standings after a specific race with the year and round method

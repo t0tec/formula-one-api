@@ -14,7 +14,7 @@ import java.util.List;
  * @version $Id$
  * @since 1.0
  */
-public interface StatusRepository extends ReadOnlyRepository<Status, Long> {
+public interface StatusRepository extends ReadOnlyRepository<Status,Integer> {
 
   @Query(value =
       "select new org.formulaone.core.model.Status(st.id, st.status, count(st.id)) from Status st "
@@ -22,21 +22,21 @@ public interface StatusRepository extends ReadOnlyRepository<Status, Long> {
       + "join re.race ra "
       + "where st.id = :id "
       + "group by st.id")
-  Status findOne(@Param("id") Long id);
+  Status findOne(@Param("id") Integer id);
 
   @Query(value =
       "select new org.formulaone.core.model.Status(st.id, st.status, count(st.id)) from Status st "
       + "join st.results re "
       + "join re.race ra "
       + "group by st.id")
-  List<Status> findAll();
+  Iterable<Status> findAll();
 
   @Query(value =
       "select new org.formulaone.core.model.Status(st.id, st.status, count(st.id)) from Status st "
       + "join st.results re "
       + "join re.race ra "
       + "group by st.id")
-  List<Status> findAll(Sort sort);
+  Iterable<Status> findAll(Sort sort);
 
   @Query(value =
       "select new org.formulaone.core.model.Status(st.id, st.status, count(st.id)) from Status st "

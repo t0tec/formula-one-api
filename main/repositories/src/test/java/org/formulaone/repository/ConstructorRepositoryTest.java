@@ -44,7 +44,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DatabaseTearDown("classpath:constructor-no-data.xml")
 public class ConstructorRepositoryTest {
 
-  private static final Long ID = 1L;
+  private static final Integer ID = 1;
   private static final String REFERENCE_NAME = "mclaren";
   private static final String NAME = "McLaren";
 
@@ -56,7 +56,7 @@ public class ConstructorRepositoryTest {
   private static final int ROUND_TOTAL_CONSTRUCTORS = 11;
 
 
-  private static final Long NON_EXISTING_ID = -1L;
+  private static final Integer NON_EXISTING_ID = -1;
   private static final String WRONG_REFERENCE_NAME = "unknown";
 
   private static final String SORT_BY_ID = "id";
@@ -159,18 +159,7 @@ public class ConstructorRepositoryTest {
                   "classpath:season-data.xml", "classpath:circuit-data.xml",
                   "classpath:race-data.xml", "classpath:result-data.xml"})
   public void testReturnConstructorListBySeason() {
-
-//    QConstructor constructor = QConstructor.constructor;
-//
-//    BooleanExpression constructorEqCountry = constructor.country.eq("Italy");
-//    BooleanExpression constructorEqReferenceName = constructor.referenceName.eq(REFERENCE_NAME);
-
-//    List<Constructor> constructorEntries = (List<Constructor>) constructorRepository
-//        .findAll(constructorEqCountry.and(constructorEqReferenceName));
-
-//    List<Constructor> constructorEntries = constructorRepository.findConstructorsBySeason(SEASON_YEAR);
-
-    List<Constructor> constructorEntries = (List<Constructor>) constructorRepository
+    List<Constructor> constructorEntries = constructorRepository
         .findAll(ConstructorSpecifications.constructorsBySeasonYear(SEASON_YEAR));
 
     assertThat(constructorEntries).hasSize(SEASON_TOTAL_CONSTRUCTORS);

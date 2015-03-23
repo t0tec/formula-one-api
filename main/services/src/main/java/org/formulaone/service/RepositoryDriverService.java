@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Transactional(readOnly = true)
 @Service
-public class RepositoryDriverService extends RepositoryGenericService<Driver, DriverDto, Long>
+public class RepositoryDriverService extends RepositoryGenericService<Driver, DriverDto, Integer>
     implements DriverReadOnlyService {
 
   private DriverRepository driverRepository;

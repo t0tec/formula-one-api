@@ -57,7 +57,7 @@ public class StatusController {
       notes = "Finds a single status entry by a unique id")
   @RequestMapping(value = "/status/{id}", method = RequestMethod.GET)
   @ResponseBody
-  StatusResource findById(@PathVariable("id") Long id) {
+  StatusResource findById(@PathVariable("id") Integer id) {
     logger.info("Finding status entry by using id: {}", id);
 
     StatusDto statusEntry = statusReadOnlyService.findById(id);

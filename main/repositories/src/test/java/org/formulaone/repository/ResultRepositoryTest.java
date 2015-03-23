@@ -43,7 +43,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DatabaseTearDown("classpath:result-no-data.xml")
 public class ResultRepositoryTest {
 
-  private static final Long ID = 20779L;
+  private static final Integer ID = 20779;
   private static final int SEASON_YEAR = 2011;
   private static final int ROUND = 1;
   private static final int FIRST_POSITION = 1;
@@ -51,7 +51,7 @@ public class ResultRepositoryTest {
   private static final int TOTAL_ENTRIES = 1758;
   private static final int RESULTS_TOTAL_P1 = 77;
 
-  private static final Long NON_EXISTING_ID = -1L;
+  private static final Integer NON_EXISTING_ID = -1;
   ;
 
   private static final String SORT_BY_ID = "id";

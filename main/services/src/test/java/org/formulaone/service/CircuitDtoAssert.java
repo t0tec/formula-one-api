@@ -23,10 +23,10 @@ public final class CircuitDtoAssert extends AbstractAssert<CircuitDtoAssert, Cir
     return new CircuitDtoAssert(actual);
   }
 
-  CircuitDtoAssert hasId(Long expectedId) {
+  CircuitDtoAssert hasId(Integer expectedId) {
     isNotNull();
 
-    Long actualId = actual.getId();
+    Integer actualId = actual.getId();
     assertThat(actualId)
         .overridingErrorMessage("Expected id to be <%d> but was <%d>",
                                 expectedId,
@@ -40,7 +40,7 @@ public final class CircuitDtoAssert extends AbstractAssert<CircuitDtoAssert, Cir
   CircuitDtoAssert hasNoId() {
     isNotNull();
 
-    Long actualId = actual.getId();
+    Integer actualId = actual.getId();
     assertThat(actualId)
         .overridingErrorMessage("Expected id to be <null> but was <%d>.", actualId)
         .isNull();

@@ -16,7 +16,7 @@ import org.dozer.Mapping;
 public class ConstructorStandingsDto {
 
   @JsonIgnore
-  private Long id;
+  private Integer id;
 
   @Mapping("race.season.year")
   private Integer year;
@@ -41,11 +41,11 @@ public class ConstructorStandingsDto {
   public ConstructorStandingsDto() {
   }
 
-  public Long getId() {
+  public Integer getId() {
     return this.id;
   }
 
-  public void setId(Long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 

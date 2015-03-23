@@ -13,12 +13,13 @@ import java.util.List;
  * @since 1.0
  */
 public interface DriverStandingsRepository
-    extends ReadOnlyRepository<DriverStandings, Long>,
+    extends ReadOnlyRepository<DriverStandings, Integer>,
             QueryDslPredicateExecutor<DriverStandings> {
 
   @Query(value = "select dist from DriverStandings dist "
                  + "where dist.race.season.year = :year and dist.race.round = "
-                 + "(select max(ra.round) from Race ra where ra.season.year = dist.race.season.year) "
+                 + "(select max(ra.round) from Race ra where ra.season.year = dist.race.season.year "
+                 + "and ra.results is not empty) "
                  + "order by dist.position")
   List<DriverStandings> findDriverStandingsBySeason(@Param("year") int year);
 

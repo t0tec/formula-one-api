@@ -15,7 +15,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class StatusDto {
 
   @JacksonXmlProperty(isAttribute = true)
-  private Long id;
+  private Integer id;
 
   @JacksonXmlText
   private String status;
@@ -26,11 +26,11 @@ public class StatusDto {
   public StatusDto() {
   }
 
-  public Long getId() {
+  public Integer getId() {
     return this.id;
   }
 
-  public void setId(Long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 

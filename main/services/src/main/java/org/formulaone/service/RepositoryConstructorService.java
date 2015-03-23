@@ -22,7 +22,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 @Service
 public class RepositoryConstructorService
-    extends RepositoryGenericService<Constructor, ConstructorDto, Long>
+    extends RepositoryGenericService<Constructor, ConstructorDto, Integer>
     implements ConstructorReadOnlyService {
 
   private ConstructorRepository constructorRepository;

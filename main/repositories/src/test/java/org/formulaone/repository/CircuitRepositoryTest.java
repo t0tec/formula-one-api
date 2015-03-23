@@ -40,13 +40,13 @@ import static org.assertj.core.api.Assertions.assertThat;
                          DbUnitTestExecutionListener.class})
 public class CircuitRepositoryTest {
 
-  private static final Long ID = 1L;
+  private static final Integer ID = 1;
   private static final String REFERENCE_NAME = "albert_park";
   private static final String NAME = "Albert Park Grand Prix Circuit";
 
   private static final int TOTAL_ENTRIES = 72;
 
-  private static final Long NON_EXISTING_ID = -1L;
+  private static final Integer NON_EXISTING_ID = -1;
   private static final String WRONG_REFERENCE_NAME = "unknown";
 
   private static final String SORT_BY_ID = "id";

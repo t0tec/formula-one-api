@@ -16,15 +16,15 @@ import javax.persistence.Table;
  * @since 1.0
  */
 @Entity
-@Table(name = "circuit")
+@Table(name = "circuits")
 public final class Circuit implements Serializable {
 
   @Id
   @GeneratedValue
-  @Column(name = "id")
-  private Long id;
+  @Column(name = "circuitId")
+  private Integer id;
 
-  @Column(name = "reference_name", nullable = false, unique = true)
+  @Column(name = "circuitRef", nullable = false, unique = true)
   private String referenceName;
 
   @Column(name = "name", nullable = false)
@@ -39,18 +39,12 @@ public final class Circuit implements Serializable {
   private String location;
 
   @Mapping("location.latitude")
-  @Column(name = "lat", precision = 8, scale = 6, columnDefinition = "decimal(8,6)")
-  private double latitude;
+  @Column(name = "lat", precision = 8, scale = 6) // columnDefinition = "decimal(8,6)
+  private float latitude;
 
   @Mapping("location.longitude")
-  @Column(name = "lng", precision = 9, scale = 6, columnDefinition = "decimal(9,6)")
-  private double longitude;
-
-  @Column(name = "length", precision = 5, scale = 3, columnDefinition = "decimal(5,3)")
-  private Double length;
-
-  @Column(name = "turns", columnDefinition = "smallint")
-  private Integer turns;
+  @Column(name = "lng", precision = 9, scale = 6) //  columnDefinition = "decimal(9,6)
+  private float longitude;
 
   @Column(name = "url", length = ConstrainConstants.MAX_LENGTH_URL)
   private String url;
@@ -59,16 +53,13 @@ public final class Circuit implements Serializable {
   }
 
   public Circuit(String referenceName, String name, String country, String location,
-                 double latitude,
-                 double longitude, Double length, Integer turns, String url) {
+                 float latitude, float longitude, Double length, Integer turns, String url) {
     this.referenceName = referenceName;
     this.name = name;
     this.country = country;
     this.location = location;
     this.latitude = latitude;
     this.longitude = longitude;
-    this.length = length;
-    this.turns = turns;
     this.url = url;
   }
 
@@ -82,7 +73,7 @@ public final class Circuit implements Serializable {
     return new Builder();
   }
 
-  public Long getId() {
+  public Integer getId() {
     return this.id;
   }
 
@@ -108,14 +99,6 @@ public final class Circuit implements Serializable {
 
   public double getLongitude() {
     return this.longitude;
-  }
-
-  public Double getLength() {
-    return this.length;
-  }
-
-  public Integer getTurns() {
-    return this.turns;
   }
 
   public String getUrl() {
@@ -150,14 +133,14 @@ public final class Circuit implements Serializable {
    */
   public static class Builder {
 
-    private Long id;
+    private Integer id;
     private String referenceName;
     private String name;
 
     public Builder() {
     }
 
-    public Builder id(Long id) {
+    public Builder id(Integer id) {
       this.id = id;
       return this;
     }

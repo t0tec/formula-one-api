@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional(readOnly = true)
 @Service
-public class RepositoryCircuitService extends RepositoryGenericService<Circuit, CircuitDto, Long>
+public class RepositoryCircuitService extends RepositoryGenericService<Circuit, CircuitDto, Integer>
     implements CircuitReadOnlyService {
 
   private CircuitRepository circuitRepository;

@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 public class CircuitDto {
 
   @JsonIgnore
-  private Long id;
+  private Integer id;
 
   @JacksonXmlProperty(isAttribute = true)
   @NotEmpty
@@ -28,10 +28,6 @@ public class CircuitDto {
   private String name;
 
   private Location location;
-
-  private Double length;
-
-  private Integer turns;
 
   @JacksonXmlProperty(isAttribute = true)
   @Size(max = ConstrainConstants.MAX_LENGTH_URL)
@@ -50,11 +46,11 @@ public class CircuitDto {
     return new Builder();
   }
 
-  public Long getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
@@ -82,22 +78,6 @@ public class CircuitDto {
     this.location = location;
   }
 
-  public Double getLength() {
-    return this.length;
-  }
-
-  public void setLength(Double length) {
-    this.length = length;
-  }
-
-  public Integer getTurns() {
-    return this.turns;
-  }
-
-  public void setTurns(Integer turns) {
-    this.turns = turns;
-  }
-
   public String getUrl() {
     return this.url;
   }
@@ -109,9 +89,7 @@ public class CircuitDto {
   @Override
   public String toString() {
     return new ToStringBuilder(this).append("referenceName", this.referenceName)
-        .append("name", this.name).append("location", location).append("length", this.length)
-        .append("turns", this.turns).append("url", this.url)
-        .toString();
+        .append("name", this.name).append("location", location).toString();
   }
 
   /**
@@ -119,14 +97,14 @@ public class CircuitDto {
    */
   public static class Builder {
 
-    private Long id;
+    private Integer id;
     private String referenceName;
     private String name;
 
     public Builder() {
     }
 
-    public Builder id(Long id) {
+    public Builder id(Integer id) {
       this.id = id;
       return this;
     }

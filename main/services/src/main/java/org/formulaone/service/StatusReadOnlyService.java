@@ -10,7 +10,7 @@ import java.util.List;
  * @version $Id$
  * @since 1.0
  */
-public interface StatusReadOnlyService extends GenericService<Status, StatusDto, Long> {
+public interface StatusReadOnlyService extends GenericService<Status, StatusDto, Integer> {
 
   List<StatusDto> findAllBySeasonYear(int year);
 

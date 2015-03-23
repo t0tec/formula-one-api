@@ -14,10 +14,10 @@ public class Location {
   private String country;
 
   @JacksonXmlProperty(isAttribute = true)
-  private double latitude;
+  private float latitude;
 
   @JacksonXmlProperty(isAttribute = true)
-  private double longitude;
+  private float longitude;
 
   public Location() {
   }
@@ -38,19 +38,19 @@ public class Location {
     this.country = country;
   }
 
-  public double getLatitude() {
+  public float getLatitude() {
     return this.latitude;
   }
 
-  public void setLatitude(double latitude) {
+  public void setLatitude(float latitude) {
     this.latitude = latitude;
   }
 
-  public double getLongitude() {
+  public float getLongitude() {
     return this.longitude;
   }
 
-  public void setLongitude(double longitude) {
+  public void setLongitude(float longitude) {
     this.longitude = longitude;
   }
 }

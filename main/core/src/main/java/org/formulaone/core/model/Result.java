@@ -19,13 +19,13 @@ import javax.persistence.Table;
  * @since 1.0
  */
 @Entity
-@Table(name = "result")
+@Table(name = "results")
 public final class Result implements Serializable {
 
   @Id
   @GeneratedValue
-  @Column(name = "id")
-  private Long id;
+  @Column(name = "resultId")
+  private Integer id;
 
   @Column(name = "number")
   private int driverNumber;
@@ -36,14 +36,14 @@ public final class Result implements Serializable {
   @Column(name = "position")
   private Integer position;
 
-  @Column(name = "position_text")
+  @Column(name = "positionText")
   private String positionText;
 
-  @Column(name = "position_order")
+  @Column(name = "positionOrder")
   private int positionOrder;
 
   @Column(name = "points")
-  private double points;
+  private float points;
 
   @Column(name = "laps")
   private int laps;
@@ -62,40 +62,40 @@ public final class Result implements Serializable {
 
   // TODO: remove fastestLap and fastestLapTime and introduce LapTime to reference it?
   @Mapping("fastestLap.lap")
-  @Column(name = "fastest_lap")
+  @Column(name = "fastestLap")
   private Integer fastestLap;
 
   @Mapping("fastestLap.time")
-  @Column(name = "fastest_lap_time")
+  @Column(name = "fastestLapTime")
   private String fastestLapTime;
 
   @Mapping("fastestLap.averageSpeed")
-  @Column(name = "average_speed", columnDefinition = "decimal(6,3)")
-  private Double averageSpeed;
+  @Column(name = "fastestLapSpeed") // columnDefinition = "decimal(6,3)"
+  private String averageSpeed;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "race_id", referencedColumnName = "id", nullable = false)
+  @JoinColumn(name = "raceId", referencedColumnName = "raceId", nullable = false)
   private Race race;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "driver_id", referencedColumnName = "id", nullable = false)
+  @JoinColumn(name = "driverId", referencedColumnName = "driverId", nullable = false)
   private Driver driver;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "constructor_id", referencedColumnName = "id", nullable = false)
+  @JoinColumn(name = "constructorId", referencedColumnName = "constructorId", nullable = false)
   private Constructor constructor;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "status_id", referencedColumnName = "id", nullable = false)
+  @JoinColumn(name = "statusId", referencedColumnName = "statusId", nullable = false)
   private Status status;
 
   public Result() {
   }
 
   public Result(int driverNumber, Integer gridPosition, Integer position,
-                String positionText, int positionOrder, double points, int laps, Integer rank,
+                String positionText, int positionOrder, float points, int laps, Integer rank,
                 String time, Integer raceTime, Integer fastestLap, String fastestLapTime,
-                Double averageSpeed, Race race, Driver driver,
+                String averageSpeed, Race race, Driver driver,
                 Constructor constructor, Status status) {
     this.driverNumber = driverNumber;
     this.gridPosition = gridPosition;
@@ -116,7 +116,7 @@ public final class Result implements Serializable {
     this.status = status;
   }
 
-  public Long getId() {
+  public Integer getId() {
     return this.id;
   }
 
@@ -140,7 +140,7 @@ public final class Result implements Serializable {
     return this.positionOrder;
   }
 
-  public double getPoints() {
+  public float getPoints() {
     return this.points;
   }
 
@@ -168,7 +168,7 @@ public final class Result implements Serializable {
     return this.fastestLapTime;
   }
 
-  public Double getAverageSpeed() {
+  public String getAverageSpeed() {
     return this.averageSpeed;
   }
 

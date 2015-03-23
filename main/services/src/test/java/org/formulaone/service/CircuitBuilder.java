@@ -5,14 +5,14 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 public class CircuitBuilder {
 
-  private Long id;
+  private Integer id;
   private String referenceName = "NOT_IMPORTANT";
   private String name = "NOT_IMPORTANT";
 
   public CircuitBuilder() {
   }
 
-  public CircuitBuilder id(Long id) {
+  public CircuitBuilder id(Integer id) {
     this.id = id;
     return this;
   }

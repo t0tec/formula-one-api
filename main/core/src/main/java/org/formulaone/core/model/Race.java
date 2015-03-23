@@ -23,20 +23,20 @@ import javax.persistence.TemporalType;
  * @since 1.0
  */
 @Entity
-@Table(name = "race")
+@Table(name = "races")
 public final class Race implements Serializable {
 
   @Id
   @GeneratedValue
-  @Column(name = "id")
-  private Long id;
+  @Column(name = "raceId")
+  private Integer id;
 
   @OneToOne
   @JoinColumn(name = "year", nullable = false)
   private Season season;
 
   @OneToOne
-  @JoinColumn(name = "circuit_id", referencedColumnName = "id", nullable = false)
+  @JoinColumn(name = "circuitId", referencedColumnName = "circuitId", nullable = false)
   private Circuit circuit;
 
   @Column(name = "round")
@@ -50,7 +50,7 @@ public final class Race implements Serializable {
   private Date date;
 
   @Temporal(TemporalType.TIME)
-  @Column(name = "start_time")
+  @Column(name = "time")
   private Date startTime;
 
   @Column(name = "url", length = 500)
@@ -93,7 +93,7 @@ public final class Race implements Serializable {
     this.url = url;
   }
 
-  public Long getId() {
+  public Integer getId() {
     return this.id;
   }
 

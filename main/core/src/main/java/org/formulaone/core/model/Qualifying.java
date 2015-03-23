@@ -21,19 +21,19 @@ public final class Qualifying implements Serializable {
 
   @Id
   @GeneratedValue
-  @Column(name = "id")
-  private Long id;
+  @Column(name = "qualifyId")
+  private Integer id;
 
   @ManyToOne
-  @JoinColumn(name = "race_id", referencedColumnName = "id", nullable = false)
+  @JoinColumn(name = "raceId", referencedColumnName = "raceId", nullable = false)
   private Race race;
 
   @ManyToOne
-  @JoinColumn(name = "driver_id", referencedColumnName = "id", nullable = false)
+  @JoinColumn(name = "driverId", referencedColumnName = "driverId", nullable = false)
   private Driver driver;
 
   @ManyToOne
-  @JoinColumn(name = "constructor_id", referencedColumnName = "id", nullable = false)
+  @JoinColumn(name = "constructorId", referencedColumnName = "constructorId", nullable = false)
   private Constructor constructor;
 
   @Column(name = "number")
@@ -66,7 +66,7 @@ public final class Qualifying implements Serializable {
     this.q3 = q3;
   }
 
-  public Long getId() {
+  public Integer getId() {
     return this.id;
   }
 

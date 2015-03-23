@@ -58,7 +58,7 @@ public class CircuitController {
       notes = "Finds a single circuit entry by a unique id", position = 1)
   @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
   @ResponseBody
-  CircuitResource findById(@PathVariable("id") Long id) {
+  CircuitResource findById(@PathVariable("id") Integer id) {
     logger.info("Finding circuit entry by using id: {}", id);
 
     CircuitDto circuitEntry = circuitReadOnlyService.findById(id);

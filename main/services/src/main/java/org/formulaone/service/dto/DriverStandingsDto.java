@@ -16,7 +16,7 @@ import org.dozer.Mapping;
 public class DriverStandingsDto {
 
   @JsonIgnore
-  private Long id;
+  private Integer id;
 
   @Mapping("race.season.year")
   private Integer year;
@@ -33,7 +33,7 @@ public class DriverStandingsDto {
   private String positionText;
 
   @JacksonXmlProperty(isAttribute = true)
-  private double points;
+  private float points;
 
   @JacksonXmlProperty(isAttribute = true)
   private int wins;
@@ -41,11 +41,11 @@ public class DriverStandingsDto {
   public DriverStandingsDto() {
   }
 
-  public Long getId() {
+  public Integer getId() {
     return this.id;
   }
 
-  public void setId(Long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
@@ -89,11 +89,11 @@ public class DriverStandingsDto {
     this.positionText = positionText;
   }
 
-  public double getPoints() {
+  public float getPoints() {
     return this.points;
   }
 
-  public void setPoints(double points) {
+  public void setPoints(float points) {
     this.points = points;
   }
 

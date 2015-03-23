@@ -10,7 +10,7 @@ import java.util.List;
  * @version $Id$
  * @since 1.0
  */
-public interface RaceReadOnlyService extends GenericService<Race, RaceDto, Long> {
+public interface RaceReadOnlyService extends GenericService<Race, RaceDto, Integer> {
 
   /**
    * Finds races entry by using the season year given as a method parameter.

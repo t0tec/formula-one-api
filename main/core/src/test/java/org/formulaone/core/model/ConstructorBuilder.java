@@ -9,14 +9,14 @@ import org.springframework.test.util.ReflectionTestUtils;
  */
 public class ConstructorBuilder {
 
-  private Long id;
+  private Integer id;
   private String referenceName = "NOT_IMPORTANT";
   private String name = "NOT_IMPORTANT";
 
   public ConstructorBuilder() {
   }
 
-  public ConstructorBuilder id(Long id) {
+  public ConstructorBuilder id(Integer id) {
     this.id = id;
     return this;
   }

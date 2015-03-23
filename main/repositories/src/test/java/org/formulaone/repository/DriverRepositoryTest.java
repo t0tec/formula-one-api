@@ -43,7 +43,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DatabaseTearDown("classpath:driver-no-data.xml")
 public class DriverRepositoryTest {
 
-  private static final Long ID = 1L;
+  private static final Integer ID = 1;
   private static final String REFERENCE_NAME = "hamilton";
   private static final String FORENAME = "Lewis";
   private static final String SURNAME = "Hamilton";
@@ -55,7 +55,7 @@ public class DriverRepositoryTest {
   private static final int SEASON_TOTAL_DRIVERS = 28;
   private static final int ROUND_TOTAL_DRIVERS = 22;
 
-  private static final Long NON_EXISTING_ID = -1L;
+  private static final Integer NON_EXISTING_ID = -1;
   private static final String WRONG_REFERENCE_NAME = "unknown";
 
   private static final String SORT_BY_ID = "id";

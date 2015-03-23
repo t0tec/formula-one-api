@@ -8,7 +8,7 @@ import org.springframework.data.querydsl.QueryDslPredicateExecutor;
  * @version $Id$
  * @since 1.0
  */
-public interface CircuitRepository extends ReadOnlyRepository<Circuit, Long>,
+public interface CircuitRepository extends ReadOnlyRepository<Circuit, Integer>,
                                            QueryDslPredicateExecutor<Circuit> {
 
 }

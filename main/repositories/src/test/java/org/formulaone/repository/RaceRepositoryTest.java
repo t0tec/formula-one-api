@@ -44,7 +44,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DatabaseTearDown("classpath:race-no-data.xml")
 public class RaceRepositoryTest {
 
-  private static final Long ID = 841L;
+  private static final Integer ID = 841;
   private static final String NAME = "Australian Grand Prix";
   private static final int SEASON_YEAR = 2011;
   private static final int ROUND = 1;
@@ -53,7 +53,7 @@ public class RaceRepositoryTest {
   private static final int SEASON_TOTAL_ENTRIES = 19;
   private static final int RACE_RESULTS_SIZE = 22;
 
-  private static final Long NON_EXISTING_ID = -1L;
+  private static final Integer NON_EXISTING_ID = -1;
   private static final int NON_EXISTING_SEASON_YEAR = 1949;
   private static final int NON_EXISTING_ROUND = -1;
 

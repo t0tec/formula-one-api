@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Transactional(readOnly = true)
 @Service
-public class RepositoryStatusService extends RepositoryGenericService<Status, StatusDto, Long>
+public class RepositoryStatusService extends RepositoryGenericService<Status, StatusDto, Integer>
     implements StatusReadOnlyService {
 
   private StatusRepository statusRepository;
@@ -35,7 +35,7 @@ public class RepositoryStatusService extends RepositoryGenericService<Status, St
 
   // TODO: Override needed because of query in ReadOnlyRepository not including the count.
   @Override
-  public StatusDto findById(Long id) {
+  public StatusDto findById(Integer id) {
     Status entry = statusRepository.findOne(id);
 
     if (entry == null) {

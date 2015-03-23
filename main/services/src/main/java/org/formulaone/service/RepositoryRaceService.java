@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Transactional(readOnly = true)
 @Service
-public class RepositoryRaceService extends RepositoryGenericService<Race, RaceDto, Long>
+public class RepositoryRaceService extends RepositoryGenericService<Race, RaceDto, Integer>
     implements RaceReadOnlyService {
 
   private RaceRepository raceRepository;

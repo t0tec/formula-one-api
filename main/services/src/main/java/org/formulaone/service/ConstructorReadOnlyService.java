@@ -11,7 +11,7 @@ import java.util.List;
  * @since 1.0
  */
 public interface ConstructorReadOnlyService
-    extends GenericService<Constructor, ConstructorDto, Long> {
+    extends GenericService<Constructor,ConstructorDto,Integer> {
 
   /**
    * Finds a constructor entry by using the referenceName given as a method parameter.

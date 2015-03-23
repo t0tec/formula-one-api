@@ -30,11 +30,11 @@ import static org.mockito.Mockito.mock;
 @RunWith(NestedRunner.class)
 public class RepositoryCircuitServiceTest {
 
-  private static final Long ID = 1L;
+  private static final Integer ID = 1;
   private static final String REFERENCE_NAME = "albert_park";
   private static final String NAME = "Albert Park Grand Prix Circuit";
 
-  private static final Long NON_EXISTING_ID = 20L;
+  private static final Integer NON_EXISTING_ID = -1;
 
   private CircuitRepository circuitRepository;
 

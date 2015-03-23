@@ -92,9 +92,11 @@ public class PersistenceJpaConfig {
                       env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_HBM2DDL_AUTO));
 
     // Configures the naming strategy that is used when Hibernate creates
-    // new database objects and schema elements
-    jpaProperties.put(PROPERTY_NAME_HIBERNATE_NAMING_STRATEGY,
-                      env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_NAMING_STRATEGY));
+    // new database objects and schema elements (for testing)
+    if (env.getActiveProfiles()[0].equals(Profiles.INTEGRATION_TEST)) {
+      jpaProperties.put(PROPERTY_NAME_HIBERNATE_NAMING_STRATEGY,
+                        env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_NAMING_STRATEGY));
+    }
 
     // If the value of this property is true, Hibernate writes all SQL
     // statements to the console.
@@ -126,7 +128,6 @@ public class PersistenceJpaConfig {
 
   /**
    * Creates a mapper for mapping source entities to target dto objects
-   *
    */
   @Bean
   public DozerBeanMapper dozerBeanMapper() {

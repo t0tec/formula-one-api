@@ -41,13 +41,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DatabaseTearDown("classpath:status-no-data.xml")
 public class StatusRepositoryTest {
 
-  private static final Long ID = 1L;
+  private static final Integer ID = 1;
   private static final String STATUS = "Finished";
 
   private static final int TOTAL_ENTRIES = 54;
   private static final int FINISHED_COUNT = 890;
 
-  private static final Long NON_EXISTING_ID = -1L;
+  private static final Integer NON_EXISTING_ID = -1;
 
   private static final String SORT_BY_ID = "id";
   private static final Sort.Direction DIRECTION_DESC = Sort.Direction.DESC;
@@ -88,7 +88,7 @@ public class StatusRepositoryTest {
                   "classpath:driver-no-data.xml", "classpath:constructor-no-data.xml",
                   "classpath:result-no-data.xml"})
   public void testReturnEmptyList() {
-    List<Status> statusEntries = statusRepository.findAll();
+    Iterable<Status> statusEntries = statusRepository.findAll();
 
     assertThat(statusEntries).isEmpty();
   }
@@ -99,7 +99,7 @@ public class StatusRepositoryTest {
                   "classpath:driver-data.xml", "classpath:constructor-data.xml",
                   "classpath:result-data.xml"})
   public void testReturnList() {
-    List<Status> statusEntries = statusRepository.findAll();
+    Iterable<Status> statusEntries = statusRepository.findAll();
 
     assertThat(statusEntries).hasSize(TOTAL_ENTRIES);
   }
@@ -112,7 +112,7 @@ public class StatusRepositoryTest {
   public void testReturnListSorted() {
     Sort sort = new Sort(DIRECTION_DESC, SORT_BY_ID);
 
-    List<Status> statusEntries = statusRepository.findAll(sort);
+    List<Status> statusEntries = (List<Status>) statusRepository.findAll(sort);
 
     assertThat(statusEntries).hasSize(TOTAL_ENTRIES);
     assertThat(statusEntries.get(statusEntries.size() - 1).getId()).isEqualTo(ID);

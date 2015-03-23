@@ -10,7 +10,7 @@ import java.util.List;
  * @version $Id$
  * @since 1.0
  */
-public interface DriverReadOnlyService extends GenericService<Driver, DriverDto, Long> {
+public interface DriverReadOnlyService extends GenericService<Driver, DriverDto, Integer> {
 
   /**
    * Finds a driver entry by using the referenceName given as a method parameter.

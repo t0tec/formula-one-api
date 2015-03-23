@@ -16,29 +16,29 @@ import javax.persistence.Table;
  * @since 1.0
  */
 @Entity
-@Table(name = "driver_standings")
+@Table(name = "driverStandings")
 public final class DriverStandings implements Serializable {
 
   @Id
   @GeneratedValue
-  @Column(name = "id")
-  private Long id;
+  @Column(name = "driverStandingsId")
+  private Integer id;
 
   @ManyToOne
-  @JoinColumn(name = "race_id", referencedColumnName = "id", nullable = false)
+  @JoinColumn(name = "raceId", referencedColumnName = "raceId", nullable = false)
   private Race race;
 
   @ManyToOne
-  @JoinColumn(name = "driver_id", referencedColumnName = "id", nullable = false)
+  @JoinColumn(name = "driverId", referencedColumnName = "driverId", nullable = false)
   private Driver driver;
 
   @Column(name = "points", nullable = false)
-  private double points;
+  private float points;
 
   @Column(name = "position")
   private int position;
 
-  @Column(name = "position_text")
+  @Column(name = "positionText")
   private String positionText;
 
   @Column(name = "wins", nullable = false)
@@ -47,7 +47,7 @@ public final class DriverStandings implements Serializable {
   public DriverStandings() {
   }
 
-  public DriverStandings(Race race, Driver driver, double points, int position, String positionText,
+  public DriverStandings(Race race, Driver driver, float points, int position, String positionText,
                          int wins) {
     this.race = race;
     this.driver = driver;
@@ -57,7 +57,7 @@ public final class DriverStandings implements Serializable {
     this.wins = wins;
   }
 
-  public Long getId() {
+  public Integer getId() {
     return this.id;
   }
 
@@ -69,7 +69,7 @@ public final class DriverStandings implements Serializable {
     return this.driver;
   }
 
-  public double getPoints() {
+  public float getPoints() {
     return this.points;
   }
 

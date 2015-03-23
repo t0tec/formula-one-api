@@ -9,7 +9,7 @@ import org.springframework.test.util.ReflectionTestUtils;
  */
 public class DriverBuilder {
 
-  private Long id;
+  private Integer id;
   private String referenceName = "NOT_IMPORTANT";
   private String forename = "NOT_IMPORTANT";
   private String surname = "NOT_IMPORTANT";
@@ -17,7 +17,7 @@ public class DriverBuilder {
   public DriverBuilder() {
   }
 
-  public DriverBuilder id(Long id) {
+  public DriverBuilder id(Integer id) {
     this.id = id;
     return this;
   }

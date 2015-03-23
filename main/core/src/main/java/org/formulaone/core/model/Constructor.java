@@ -17,21 +17,21 @@ import javax.persistence.Table;
  * @since 1.0
  */
 @Entity
-@Table(name = "constructor")
+@Table(name = "constructors")
 public final class Constructor implements Serializable {
 
   @Id
   @GeneratedValue
-  @Column(name = "id")
-  private Long id;
+  @Column(name = "constructorId")
+  private Integer id;
 
-  @Column(name = "reference_name", nullable = false)
+  @Column(name = "constructorRef", nullable = false)
   private String referenceName;
 
   @Column(name = "name", nullable = false, unique = true)
   private String name;
 
-  @Column(name = "country")
+  @Column(name = "nationality")
   private String country;
 
   @Column(name = "url", length = ConstrainConstants.MAX_LENGTH_URL)
@@ -66,7 +66,7 @@ public final class Constructor implements Serializable {
     return new Builder();
   }
 
-  public Long getId() {
+  public Integer getId() {
     return this.id;
   }
 
@@ -114,14 +114,14 @@ public final class Constructor implements Serializable {
    */
   public static class Builder {
 
-    private Long id;
+    private Integer id;
     private String referenceName;
     private String name;
 
     public Builder() {
     }
 
-    public Builder id(Long id) {
+    public Builder id(Integer id) {
       this.id = id;
       return this;
     }

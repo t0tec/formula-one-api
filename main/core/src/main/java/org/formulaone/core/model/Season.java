@@ -13,7 +13,7 @@ import javax.persistence.Table;
  * @since 1.0
  */
 @Entity
-@Table(name = "season")
+@Table(name = "seasons")
 public final class Season implements Serializable {
 
   @Id

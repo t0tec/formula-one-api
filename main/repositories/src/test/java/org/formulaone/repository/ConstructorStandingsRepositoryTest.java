@@ -43,7 +43,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DatabaseTearDown("classpath:constructor_standings-no-data.xml")
 public class ConstructorStandingsRepositoryTest {
 
-  private static final Long ID = 24540L;
+  private static final Integer ID = 24540;
   private static final String CONSTRUCTOR_REFERENCE_NAME = "mclaren";
 
   private static final int SEASON_YEAR = 2011;
@@ -52,7 +52,7 @@ public class ConstructorStandingsRepositoryTest {
   private static final int TOTAL_ENTRIES = 465;
 
 
-  private static final Long NON_EXISTING_ID = -1L;
+  private static final Integer NON_EXISTING_ID = -1;
 
   private static final String SORT_BY_ID = "id";
   private static final Sort.Direction DIRECTION_DESC = Sort.Direction.DESC;

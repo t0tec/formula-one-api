@@ -22,7 +22,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 @Service
 public class RepositoryDriverStandingsService
-    extends RepositoryGenericService<DriverStandings, DriverStandingsDto, Long>
+    extends RepositoryGenericService<DriverStandings, DriverStandingsDto, Integer>
     implements DriverStandingsReadOnlyService {
 
   private DriverStandingsRepository driverStandingsRepository;

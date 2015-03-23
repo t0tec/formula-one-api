@@ -13,12 +13,13 @@ import java.util.List;
  * @since 1.0
  */
 public interface ConstructorStandingsRepository
-    extends ReadOnlyRepository<ConstructorStandings, Long>,
+    extends ReadOnlyRepository<ConstructorStandings, Integer>,
             QueryDslPredicateExecutor<ConstructorStandings> {
 
   @Query(value = "select cost from ConstructorStandings cost "
                  + "where cost.race.season.year = :year and cost.race.round = "
-                 + "(select max(ra.round) from Race ra where ra.season.year = cost.race.season.year) "
+                 + "(select max(ra.round) from Race ra where ra.season.year = cost.race.season.year "
+                 + "and ra.results is not empty) "
                  + "order by cost.position")
   List<ConstructorStandings> findConstructorStandingsBySeason(@Param("year") int year);
 

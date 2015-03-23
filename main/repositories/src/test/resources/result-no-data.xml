@@ -3,8 +3,8 @@
     <status/>
     <driver/>
     <constructor/>
-    <season/>
+    <seasons/>
     <circuit/>
-    <race/>
-    <result/>
+    <races/>
+    <results/>
 </dataset>

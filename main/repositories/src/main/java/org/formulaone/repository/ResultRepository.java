@@ -9,7 +9,7 @@ import java.util.List;
  * @version $Id$
  * @since 1.0
  */
-public interface ResultRepository extends ReadOnlyRepository<Result, Long> {
+public interface ResultRepository extends ReadOnlyRepository<Result, Integer> {
 
   List<Result> findResultByPositionOrder(int positionOrder);
 

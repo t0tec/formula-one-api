@@ -22,8 +22,8 @@ public final class Status implements Serializable {
 
   @Id
   @GeneratedValue
-  @Column(name = "id")
-  private Long id;
+  @Column(name = "statusId")
+  private Integer id;
 
   @Column(name = "status")
   private String status;
@@ -37,13 +37,13 @@ public final class Status implements Serializable {
   public Status() {
   }
 
-  public Status(Long id, String status, Long count) {
+  public Status(Integer id, String status, Long count) {
     this.id = id;
     this.status = status;
     this.count = count != null ? count.intValue() : null;
   }
 
-  public Long getId() {
+  public Integer getId() {
     return this.id;
   }
 

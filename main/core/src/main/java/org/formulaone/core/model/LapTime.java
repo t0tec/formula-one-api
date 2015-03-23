@@ -15,17 +15,17 @@ import javax.persistence.Table;
  * @since 1.0
  */
 @Entity
-@Table(name = "lap_time")
+@Table(name = "lapTimes")
 public final class LapTime implements Serializable {
 
   @Id
   @ManyToOne
-  @JoinColumn(name = "race_id", referencedColumnName = "id", nullable = false)
+  @JoinColumn(name = "raceId", referencedColumnName = "raceId", nullable = false)
   private Race race;
 
   @Id
   @ManyToOne
-  @JoinColumn(name = "driver_id", referencedColumnName = "id", nullable = false)
+  @JoinColumn(name = "driverId", referencedColumnName = "driverId", nullable = false)
   private Driver driver;
 
   @Id
@@ -35,17 +35,21 @@ public final class LapTime implements Serializable {
   @Column(name = "position")
   private int position;
 
+  @Column(name = "milliseconds")
+  private Integer milliseconds;
+
   @Column(name = "time")
-  private int time;
+  private String time;
 
   public LapTime() {
   }
 
-  public LapTime(Race race, Driver driver, int lap, int position, int time) {
+  public LapTime(Race race, Driver driver, int lap, int position, Integer milliseconds, String time) {
     this.race = race;
     this.driver = driver;
     this.lap = lap;
     this.position = position;
+    this.milliseconds = milliseconds;
     this.time = time;
   }
 
@@ -65,7 +69,11 @@ public final class LapTime implements Serializable {
     return this.position;
   }
 
-  public int getTime() {
+  public Integer getMilliseconds() {
+    return this.milliseconds;
+  }
+
+  public String getTime() {
     return this.time;
   }
 

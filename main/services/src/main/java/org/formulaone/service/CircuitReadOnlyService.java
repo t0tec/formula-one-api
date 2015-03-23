@@ -8,7 +8,7 @@ import org.formulaone.service.dto.CircuitDto;
  * @version $Id$
  * @since 1.0
  */
-public interface CircuitReadOnlyService extends GenericService<Circuit, CircuitDto, Long> {
+public interface CircuitReadOnlyService extends GenericService<Circuit, CircuitDto, Integer> {
 
   /**
    * Finds a circuit entry by using the referenceName given as a method parameter.

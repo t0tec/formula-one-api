@@ -18,17 +18,17 @@ import javax.persistence.TemporalType;
  * @since 1.0
  */
 @Entity
-@Table(name = "pit_stop")
+@Table(name = "pitStops")
 public final class PitStop implements Serializable {
 
   @Id
   @ManyToOne
-  @JoinColumn(name = "race_id", referencedColumnName = "id", nullable = false)
+  @JoinColumn(name = "raceId", referencedColumnName = "raceId", nullable = false)
   private Race race;
 
   @Id
   @ManyToOne
-  @JoinColumn(name = "driver_id", referencedColumnName = "id", nullable = false)
+  @JoinColumn(name = "driverId", referencedColumnName = "driverId", nullable = false)
   private Driver driver;
 
   @Id
@@ -42,18 +42,22 @@ public final class PitStop implements Serializable {
   @Column(name = "time")
   private Date time;
 
+  @Column(name = "milliseconds")
+  private Integer milliseconds;
+
   @Column(name = "duration")
-  private int duration;
+  private String duration;
 
   public PitStop() {
   }
 
-  public PitStop(Race race, Driver driver, int stop, int lap, Date time, int duration) {
+  public PitStop(Race race, Driver driver, int stop, int lap, Date time, Integer milliseconds, String duration) {
     this.race = race;
     this.driver = driver;
     this.stop = stop;
     this.lap = lap;
     this.time = time;
+    this.milliseconds = milliseconds;
     this.duration = duration;
   }
 
@@ -77,7 +81,11 @@ public final class PitStop implements Serializable {
     return this.time;
   }
 
-  public int getDuration() {
+  public Integer getMilliseconds() {
+    return this.milliseconds;
+  }
+
+  public String getDuration() {
     return this.duration;
   }
 

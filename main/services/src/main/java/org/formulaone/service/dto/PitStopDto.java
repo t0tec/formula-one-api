@@ -1,6 +1,7 @@
 package org.formulaone.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -31,11 +32,14 @@ public class PitStopDto {
   @JacksonXmlProperty(isAttribute = true)
   private Date time;
 
-  // TODO: PitStop in core module stores duration as Integer as milliseconds,
+  // TODO: PitStop in core module stores milliseconds as Integer as milliseconds,
   // this converts it to a readable time format
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "ss.S")
+  @JsonIgnore
+  private Integer milliseconds;
+
   @JacksonXmlProperty(isAttribute = true)
-  private Date duration;
+  private String duration;
 
   public PitStopDto() {
   }
@@ -72,11 +76,19 @@ public class PitStopDto {
     this.time = time;
   }
 
-  public Date getDuration() {
+  public Integer getMilliseconds() {
+    return this.milliseconds;
+  }
+
+  public void setMilliseconds(Integer milliseconds) {
+    this.milliseconds = milliseconds;
+  }
+
+  public String getDuration() {
     return this.duration;
   }
 
-  public void setDuration(Date duration) {
+  public void setDuration(String duration) {
     this.duration = duration;
   }
 

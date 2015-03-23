@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
     <status/>
-    <driver/>
-    <constructor/>
-    <season/>
-    <circuit/>
-    <race/>
+    <drivers/>
+    <constructors/>
+    <seasons/>
+    <circuits/>
+    <races/>
     <qualifying/>
-    <lap_time/>
-    <pit_stop/>
-    <result/>
+    <lap_times/>
+    <pit_stops/>
+    <results/>
 </dataset>

@@ -42,11 +42,11 @@ public class CircuitControllerTest {
 
   private static final Locale CURRENT_LOCALE = Locale.US;
 
-  private static final Long ID = 1L;
+  private static final Integer ID = 1;
   private static final String REFERENCE_NAME = "albert_park";
   private static final String NAME = "Albert Park Grand Prix Circuit";
 
-  private static final Long NON_EXISTING_ID = -1L;
+  private static final Integer NON_EXISTING_ID = -1;
   private static final String NON_REFERENCE_NAME = "NOT_IMPORTANT";
 
   private static final String ERROR_MESSAGE_KEY_CIRCUIT_ENTRY_NOT_FOUND

@@ -11,7 +11,7 @@ import java.util.List;
  * @since 1.0
  */
 public interface ConstructorStandingsReadOnlyService
-    extends GenericService<ConstructorStandings, ConstructorStandingsDto, Long> {
+    extends GenericService<ConstructorStandings,ConstructorStandingsDto,Integer> {
 
   /**
    * Finds all constructor standings after a specific race with the year and round method
