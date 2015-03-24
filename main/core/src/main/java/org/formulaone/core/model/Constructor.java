@@ -32,7 +32,7 @@ public final class Constructor implements Serializable {
   private String name;
 
   @Column(name = "nationality")
-  private String country;
+  private String nationality;
 
   @Column(name = "url", length = ConstrainConstants.MAX_LENGTH_URL)
   private String url;
@@ -49,10 +49,10 @@ public final class Constructor implements Serializable {
   public Constructor() {
   }
 
-  public Constructor(String referenceName, String name, String country, String url) {
+  public Constructor(String referenceName, String name, String nationality, String url) {
     this.referenceName = referenceName;
     this.name = name;
-    this.country = country;
+    this.nationality = nationality;
     this.url = url;
   }
 
@@ -78,8 +78,8 @@ public final class Constructor implements Serializable {
     return this.name;
   }
 
-  public String getCountry() {
-    return this.country;
+  public String getNationality() {
+    return this.nationality;
   }
 
   public String getUrl() {

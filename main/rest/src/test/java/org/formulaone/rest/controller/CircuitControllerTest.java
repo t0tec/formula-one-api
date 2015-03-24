@@ -110,54 +110,6 @@ public class CircuitControllerTest {
     }
   }
 
-  public class FindById {
-
-    public class WhenCircuitEntryIsNotFound {
-
-      @Ignore
-      @Test
-      public void shouldReturnErrorMessageAsJson() throws Exception {
-        given(circuitReadOnlyService.findById(ID))
-            .willThrow(new NotFoundException(Circuit.class, "id", NON_EXISTING_ID));
-
-        MvcResult
-            result =
-            mockMvc.perform(get("/api/circuits/id/{id}", NON_EXISTING_ID)).andReturn();
-
-        String content = result.getResponse().getContentAsString();
-
-        logger.info("{}", content);
-
-//        TODO: need to fix this test to get error message
-        mockMvc.perform(get("/api/circuits/{id}", NON_EXISTING_ID))
-            .andExpect(status().isNotFound())
-            .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
-            .andExpect(jsonPath("$error.code", is(WebTestConstants.ERROR_CODE_ENTRY_NOT_FOUND)))
-            .andExpect(jsonPath("$error.message", is(ERROR_MESSAGE_KEY_CIRCUIT_ENTRY_NOT_FOUND)));
-      }
-    }
-
-    public class WhenCircuitEntryIsFound {
-
-      @Test
-      public void shouldReturnInformationOfFoundCircuitEntryAsJson() throws Exception {
-        CircuitDto found = new CircuitDtoBuilder()
-            .referenceName(REFERENCE_NAME)
-            .name(NAME)
-            .id(ID)
-            .build();
-
-        given(circuitReadOnlyService.findById(ID)).willReturn(found);
-
-        mockMvc.perform(get("/api/circuits/id/{id}", ID))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
-            .andExpect(jsonPath("$CircuitTable.circuit.referenceName", is(REFERENCE_NAME)))
-            .andExpect(jsonPath("$CircuitTable.circuit.name", is(NAME)));
-      }
-    }
-  }
-
   public class FindByReferenceName {
 
     public class WhenCircuitEntryIsNotFound {
@@ -176,7 +128,7 @@ public class CircuitControllerTest {
         logger.info("{}", content);
 
 //        TODO: need to fix this test to get error message
-        mockMvc.perform(get("/api/circuits/{id}", NON_EXISTING_ID))
+        mockMvc.perform(get("/api/circuits/{referenceName}", "unknown"))
             .andExpect(status().isNotFound())
             .andExpect(content().contentType(WebTestConstants.APPLICATION_JSON_UTF8))
             .andExpect(jsonPath("$error.code", is(WebTestConstants.ERROR_CODE_ENTRY_NOT_FOUND)))

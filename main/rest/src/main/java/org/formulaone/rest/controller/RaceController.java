@@ -31,7 +31,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @version $Id$
  * @since 1.0
  */
-@Api(value = "races", description = "Returns information about the schedule of races, race results, qualifying, lap times and pit stops"
+@Api(value = "races", description = "Returns information about the schedule of races, race results, qualifying(1994+), lap times(2011+) and pit stops (2011+) "
                                     + " in Formula One"
     , position = 4)
 @RestController

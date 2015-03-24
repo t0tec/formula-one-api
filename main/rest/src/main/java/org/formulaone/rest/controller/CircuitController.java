@@ -2,6 +2,7 @@ package org.formulaone.rest.controller;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 
 import org.formulaone.rest.wrapper.CircuitPage;
 import org.formulaone.rest.wrapper.CircuitResource;
@@ -47,30 +48,6 @@ public class CircuitController {
   }
 
   /**
-   * Finds a single circuit entry by id.
-   *
-   * @param id The id of the requested entry.
-   * @return The information of the requested entry.
-   * @throws org.formulaone.core.exception.NotFoundException if no entry is found by using the given
-   *                                                         id.
-   */
-  @ApiOperation(value = "Returns a circuit entry",
-      notes = "Finds a single circuit entry by a unique id", position = 1)
-  @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
-  @ResponseBody
-  CircuitResource findById(@PathVariable("id") Integer id) {
-    logger.info("Finding circuit entry by using id: {}", id);
-
-    CircuitDto circuitEntry = circuitReadOnlyService.findById(id);
-    logger.info("Found circuit entry: {}", circuitEntry);
-
-    CircuitResource resource = new CircuitResource(circuitEntry);
-    resource.add(linkTo(CircuitController.class).slash(circuitEntry.getId()).withSelfRel());
-
-    return resource;
-  }
-
-  /**
    * Finds a single circuit entry by reference name.
    *
    * @param referenceName The referenceName of the requested entry.
@@ -82,7 +59,7 @@ public class CircuitController {
       notes = "Finds a single circuit entry by a unique reference name", position = 2)
   @RequestMapping(value = "/{referenceName}", method = RequestMethod.GET)
   @ResponseBody
-  CircuitResource findByReferenceName(@PathVariable("referenceName") String referenceName) {
+  CircuitResource findByReferenceName(@ApiParam(value = "Unique reference name of circuit", required = true) @PathVariable("referenceName") String referenceName) {
     logger.info("Finding circuit entry by using referenceName: {}", referenceName);
 
     CircuitDto circuitEntry = circuitReadOnlyService.findByReferenceName(referenceName);

@@ -27,7 +27,7 @@ public class ConstructorDto {
 
   private String name;
 
-  private String country;
+  private String nationality;
 
   @JacksonXmlProperty(isAttribute = true)
   @Size(max = ConstrainConstants.MAX_LENGTH_URL)
@@ -70,12 +70,12 @@ public class ConstructorDto {
     this.name = name;
   }
 
-  public String getCountry() {
-    return this.country;
+  public String getNationality() {
+    return this.nationality;
   }
 
-  public void setCountry(String country) {
-    this.country = country;
+  public void setNationality(String nationality) {
+    this.nationality = nationality;
   }
 
   public String getUrl() {
@@ -89,7 +89,7 @@ public class ConstructorDto {
   @Override
   public String toString() {
     return new ToStringBuilder(this).append("referenceName", this.referenceName)
-        .append("name", this.name).append("country", this.country)
+        .append("name", this.name).append("nationality", this.nationality)
         .append("url", this.url).toString();
   }
 
