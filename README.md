@@ -18,6 +18,7 @@ The following topics are covered:
 
 #### MySQL
 In MySQL Workbench:
+
 1. Click on Server tab
 2. Click on Data import menu
 3. Select import from Self-Contained file and navigate to the MySQL sql script
@@ -29,6 +30,7 @@ With command line:
 
 #### Postgresql:
 In pgAdmin3:
+
 1. select the required target schema in object tree
 2. Click on Plugins/PSQL Console
 3. Write: `\i /path/to/yourfile.sql`
