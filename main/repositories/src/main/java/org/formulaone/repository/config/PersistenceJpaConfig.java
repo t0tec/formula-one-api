@@ -61,7 +61,8 @@ public class PersistenceJpaConfig {
 
     if (env.getRequiredProperty(PROPERTY_NAME_DB_DRIVER_CLASS).contains("mysql")) {
       dataSourceConfig.addDataSourceProperty(PROPERTY_NAME_DB_ZERO_DATE_TIME,
-                                             env.getRequiredProperty(PROPERTY_NAME_DB_ZERO_DATE_TIME));
+                                             env.getRequiredProperty(
+                                                 PROPERTY_NAME_DB_ZERO_DATE_TIME));
     }
 
     return new HikariDataSource(dataSourceConfig);

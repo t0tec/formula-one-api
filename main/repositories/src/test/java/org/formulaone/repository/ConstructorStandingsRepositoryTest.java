@@ -168,9 +168,10 @@ public class ConstructorStandingsRepositoryTest {
   }
 
   @Test
-  @DatabaseSetup({"classpath:season-data.xml",
-                  "classpath:circuit-data.xml", "classpath:constructor-data.xml",
-                  "classpath:race-data.xml", "classpath:constructor_standings-data.xml"})
+  @DatabaseSetup({"classpath:status-data.xml", "classpath:driver-data.xml",
+                  "classpath:season-data.xml", "classpath:circuit-data.xml",
+                  "classpath:constructor-data.xml", "classpath:race-data.xml",
+                  "classpath:constructor_standings-data.xml", "classpath:result-data.xml"})
   public void testReturnConstructorStandingsBySeasonYear() {
     List<ConstructorStandings> constructorStandingsEntries = constructorStandingsRepository
         .findConstructorStandingsBySeason(SEASON_YEAR);

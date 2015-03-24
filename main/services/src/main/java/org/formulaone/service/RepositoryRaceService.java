@@ -1,5 +1,7 @@
 package org.formulaone.service;
 
+import com.mysema.query.types.OrderSpecifier;
+
 import org.formulaone.core.exception.NotFoundException;
 import org.formulaone.core.model.QRace;
 import org.formulaone.core.model.Race;
@@ -38,7 +40,9 @@ public class RepositoryRaceService extends RepositoryGenericService<Race, RaceDt
   public List<RaceDto> findBySeasonYear(int year) {
     List<RaceDto> races = new ArrayList<RaceDto>();
 
-    for (Race race : raceRepository.findAll(QRace.race.season.year.eq(year))) {
+    OrderSpecifier<Integer> sortByRound = QRace.race.round.asc();
+
+    for (Race race : raceRepository.findAll(QRace.race.season.year.eq(year), sortByRound)) {
       races.add(mapper.map(race, dtoClass));
     }
 
@@ -238,7 +242,7 @@ public class RepositoryRaceService extends RepositoryGenericService<Race, RaceDt
 
   @Override
   public RaceDto findRaceAndPitStopsBySeasonYearAndRoundAndLap(int year, int round,
-                                                                        int lap) {
+                                                               int lap) {
     Race raceEntry = raceRepository.findRaceAndPitStopsBySeasonYearAndRoundAndLap(year, round, lap);
 
     if (raceEntry == null) {
