@@ -2,6 +2,7 @@ package org.formulaone.rest.controller;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 
 import org.formulaone.rest.wrapper.DriverStandingsTable;
 import org.formulaone.service.DriverStandingsReadOnlyService;
@@ -45,10 +46,11 @@ public class DriverStandingsController {
    */
   @ApiOperation(value = "Returns a list of driver standings after a specific race for a particular season and round",
       notes = "Finds all driver standings after a specific race for a particular season and round", position = 1)
-  @RequestMapping(value = "/{season}/{round}/driverStandings", method = RequestMethod.GET)
+  @RequestMapping(value = "/{year}/{round}/driverStandings", method = RequestMethod.GET)
   @ResponseBody
-  DriverStandingsTable findDriverStandingsBySeason(@PathVariable("season") int year,
-                                                   @PathVariable("round") int round) {
+  DriverStandingsTable findDriverStandingsBySeason(
+      @ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year,
+      @ApiParam(value = "The round of a particular season", required = true) @PathVariable("round") int round) {
     logger.info("Finding all driver standings entries in a particular season({}) and round({})",
                 year,
                 round);
@@ -69,9 +71,11 @@ public class DriverStandingsController {
   @ApiOperation(value = "Returns the driver standings at the end of a particular season",
       notes = "Finds all the driver standings at the end of a particular season. "
               + "If the season has not ended you will get the current standings.", position = 2)
-  @RequestMapping(value = "/{season}/driverStandings", method = RequestMethod.GET)
+  @RequestMapping(value = "/{year}/driverStandings", method = RequestMethod.GET)
   @ResponseBody
-  DriverStandingsTable findDriverStandingsBySeasonYear(@PathVariable("season") int year) {
+  DriverStandingsTable findDriverStandingsBySeasonYear(
+      @ApiParam(value = "The year of a particular season", required = true)
+      @PathVariable("year") int year) {
     logger.info("Finding all driver standings entries in a particular season({})", year);
 
     List<DriverStandingsDto> driverStandingsEntries =
@@ -115,6 +119,7 @@ public class DriverStandingsController {
   @RequestMapping(value = "/driverStandings/{position}", method = RequestMethod.GET)
   @ResponseBody
   DriverStandingsTable findDriverStandingsBySeasonsAndPosition(
+      @ApiParam(value = "The final finishing position in the driver standings", required = true)
       @PathVariable("position") int position) {
     logger.info("Finds all driver standings with the position({}) as a method parameter",
                 position);
@@ -138,6 +143,7 @@ public class DriverStandingsController {
   @RequestMapping(value = "/driverStandings/drivers/{driverReferenceName}", method = RequestMethod.GET)
   @ResponseBody
   DriverStandingsTable findDriverStandingsBySeasonsAndDriver(
+      @ApiParam(value = "Unique driver reference name", required = true)
       @PathVariable("driverReferenceName") String driverReferenceName) {
     logger.info("Finds all driver standings with the driverReferenceName({}) as a method parameter",
                 driverReferenceName);

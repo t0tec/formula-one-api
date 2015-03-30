@@ -2,6 +2,7 @@ package org.formulaone.rest.controller;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 
 import org.formulaone.rest.wrapper.ConstructorPage;
 import org.formulaone.rest.wrapper.ConstructorResource;
@@ -58,7 +59,9 @@ public class ConstructorController {
       notes = "Finds a single constructor entry by a unique reference name")
   @RequestMapping(value = "/constructors/{referenceName}", method = RequestMethod.GET)
   @ResponseBody
-  ConstructorResource findByReferenceName(@PathVariable("referenceName") String referenceName) {
+  ConstructorResource findByReferenceName(
+      @ApiParam(value = "Unique reference name of a constructor", required = true)
+      @PathVariable("referenceName") String referenceName) {
     logger.info("Finding constructor entry by using referenceName: {}", referenceName);
 
     ConstructorDto constructorEntry = constructorReadOnlyService.findByReferenceName(referenceName);
@@ -125,12 +128,16 @@ public class ConstructorController {
    */
   @ApiOperation(value = "Returns a list of constructors entries who have taken part in a particular season",
       notes = "Finds a list of constructor entries who have taken part in a particular season ordered alphabetically")
-  @RequestMapping(value = "/{season}/constructors", method = RequestMethod.GET)
+  @RequestMapping(value = "/{year}/constructors", method = RequestMethod.GET)
   @ResponseBody
-  ConstructorTable findConstructorsBySeason(@PathVariable("season") int year) {
+  ConstructorTable findConstructorsBySeason(
+      @ApiParam(value = "The year of a particular season", required = true)
+      @PathVariable("year") int year) {
     logger.info("Finding all constructors entries in a particular season({})", year);
 
-    List<ConstructorDto> constructorEntries = constructorReadOnlyService.findConstructorsBySeason(year);
+    List<ConstructorDto>
+        constructorEntries =
+        constructorReadOnlyService.findConstructorsBySeason(year);
     logger.info("Found {} constructors entries.", constructorEntries.size());
 
     return new ConstructorTable(constructorEntries);
@@ -143,11 +150,11 @@ public class ConstructorController {
    */
   @ApiOperation(value = "Returns a list of constructors entries who have taken part in a particular season and round",
       notes = "Finds a list of constructor entries who have taken part in a particular season and round ordered alphabetically")
-  @RequestMapping(value = "/{season}/{round}/constructors", method = RequestMethod.GET)
+  @RequestMapping(value = "/{year}/{round}/constructors", method = RequestMethod.GET)
   @ResponseBody
-  ConstructorTable findConstructorsBySeason(@PathVariable("season") int year,
-                                            @PathVariable("round") int round) {
-    logger.info("Finding all constructors entries in a particular season({}) and round({})", year,
+  ConstructorTable findConstructorsBySeason(@ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year,
+                                            @ApiParam(value = "The round of a particular season", required = true) @PathVariable("round") int round) {
+    logger.info("Finding all constructors entries in a particular year({}) and round({})", year,
                 round);
 
     List<ConstructorDto> constructorEntries =

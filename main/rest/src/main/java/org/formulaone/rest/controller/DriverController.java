@@ -2,6 +2,7 @@ package org.formulaone.rest.controller;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 
 import org.formulaone.rest.wrapper.DriverPage;
 import org.formulaone.rest.wrapper.DriverResource;
@@ -58,7 +59,9 @@ public class DriverController {
       notes = "Finds a single driver entry by a unique reference name")
   @RequestMapping(value = "drivers/{referenceName}", method = RequestMethod.GET)
   @ResponseBody
-  DriverResource findByReferenceName(@PathVariable("referenceName") String referenceName) {
+  DriverResource findByReferenceName(
+      @ApiParam(value = "Unique reference name of a driver", required = true)
+      @PathVariable("referenceName") String referenceName) {
     logger.info("Finding driver entry by using referenceName: {}", referenceName);
 
     DriverDto driverEntry = driverReadOnlyService.findByReferenceName(referenceName);
@@ -124,9 +127,11 @@ public class DriverController {
    */
   @ApiOperation(value = "Returns a list of drivers entries who have taken part in a particular season",
       notes = "Finds a list of driver entries who have taken part in a particular season ordered alphabetically")
-  @RequestMapping(value = "/{season}/drivers", method = RequestMethod.GET)
+  @RequestMapping(value = "/{year}/drivers", method = RequestMethod.GET)
   @ResponseBody
-  DriverTable findDriversBySeason(@PathVariable("season") int year) {
+  DriverTable findDriversBySeason(
+      @ApiParam(value = "The year of a particular season", required = true)
+      @PathVariable("year") int year) {
     logger.info("Finding all driver entries in a particular season({})", year);
 
     List<DriverDto> driverEntries = driverReadOnlyService.findDriversBySeason(year);
@@ -142,10 +147,11 @@ public class DriverController {
    */
   @ApiOperation(value = "Returns a list of drivers entries who have taken part in a particular season and round",
       notes = "Finds a list of driver entries who have taken part in a particular season and round ordered alphabetically")
-  @RequestMapping(value = "/{season}/{round}/drivers", method = RequestMethod.GET)
+  @RequestMapping(value = "/{year}/{round}/drivers", method = RequestMethod.GET)
   @ResponseBody
-  DriverTable findDriversBySeason(@PathVariable("season") int year,
-                                  @PathVariable("round") int round) {
+  DriverTable findDriversBySeason(
+      @ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year,
+      @ApiParam(value = "The round of a particular season", required = true) @PathVariable("round") int round) {
     logger.info("Finding all driver entries in a particular season({}) and round({})", year, round);
 
     List<DriverDto> driverEntries = driverReadOnlyService.findDriversBySeasonAndRound(year, round);

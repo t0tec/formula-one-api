@@ -2,6 +2,7 @@ package org.formulaone.rest.controller;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 
 import org.formulaone.rest.wrapper.ConstructorStandingsTable;
 import org.formulaone.service.ConstructorStandingsReadOnlyService;
@@ -46,10 +47,11 @@ public class ConstructorStandingsController {
    */
   @ApiOperation(value = "Returns a list of constructor standings after a specific race for a particular season and round",
       notes = "Finds all constructor standings after a specific race for a particular season and round", position = 1)
-  @RequestMapping(value = "/{season}/{round}/constructorStandings", method = RequestMethod.GET)
+  @RequestMapping(value = "/{year}/{round}/constructorStandings", method = RequestMethod.GET)
   @ResponseBody
-  ConstructorStandingsTable findConstructorsBySeason(@PathVariable("season") int year,
-                                                     @PathVariable("round") int round) {
+  ConstructorStandingsTable findConstructorsBySeason(
+      @ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year,
+      @ApiParam(value = "The round of a particular season", required = true) @PathVariable("round") int round) {
     logger
         .info("Finding all constructors standings entries in a particular season({}) and round({})",
               year,
@@ -71,9 +73,10 @@ public class ConstructorStandingsController {
   @ApiOperation(value = "Returns the constructor standings at the end of a particular season",
       notes = "Finds all the constructor standings at the end of a particular season. "
               + "If the season has not ended you will get the current standings.", position = 2)
-  @RequestMapping(value = "/{season}/constructorStandings", method = RequestMethod.GET)
+  @RequestMapping(value = "/{year}/constructorStandings", method = RequestMethod.GET)
   @ResponseBody
-  ConstructorStandingsTable findConstructorStandingsBySeasonYear(@PathVariable("season") int year) {
+  ConstructorStandingsTable findConstructorStandingsBySeasonYear(
+      @ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year) {
     logger.info("Finding all constructors standings entries in a particular season({})", year);
 
     List<ConstructorStandingsDto> constructorStandingsEntries =
@@ -119,6 +122,7 @@ public class ConstructorStandingsController {
   @RequestMapping(value = "/constructorStandings/{position}", method = RequestMethod.GET)
   @ResponseBody
   ConstructorStandingsTable findConstructorStandingsBySeasonsAndPosition(
+      @ApiParam(value = "The final finishing position in the constructor standings", required = true)
       @PathVariable("position") int position) {
     logger.info("Finds all constructor standings with the position({}) as a method parameter",
                 position);
@@ -143,8 +147,10 @@ public class ConstructorStandingsController {
   @RequestMapping(value = "/constructorStandings/constructors/{constructorReferenceName}", method = RequestMethod.GET)
   @ResponseBody
   ConstructorStandingsTable findConstructorStandingsBySeasonsAndConstructor(
+      @ApiParam(value = "Unique constructor reference name", required = true)
       @PathVariable("constructorReferenceName") String constructorReferenceName) {
-    logger.info("Finds all constructor standings with the constructorReferenceName({}) as a method parameter",
+    logger.info(
+        "Finds all constructor standings with the constructorReferenceName({}) as a method parameter",
         constructorReferenceName);
 
     List<ConstructorStandingsDto> constructorStandingsEntries =

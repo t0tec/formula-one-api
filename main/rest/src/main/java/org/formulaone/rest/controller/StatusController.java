@@ -2,6 +2,7 @@ package org.formulaone.rest.controller;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 
 import org.formulaone.rest.wrapper.StatusPage;
 import org.formulaone.rest.wrapper.StatusResource;
@@ -57,7 +58,8 @@ public class StatusController {
       notes = "Finds a single status entry by a unique id")
   @RequestMapping(value = "/status/{id}", method = RequestMethod.GET)
   @ResponseBody
-  StatusResource findById(@PathVariable("id") Integer id) {
+  StatusResource findById(@ApiParam(value = "The unique id of a status code", required = true)
+                          @PathVariable("id") Integer id) {
     logger.info("Finding status entry by using id: {}", id);
 
     StatusDto statusEntry = statusReadOnlyService.findById(id);
@@ -125,7 +127,9 @@ public class StatusController {
       notes = "Finds a list of status codes in a particular season ")
   @RequestMapping(value = "/{year}/status", method = RequestMethod.GET)
   @ResponseBody
-  StatusTable findAllBySeasonYear(@PathVariable("year") int year) {
+  StatusTable findAllBySeasonYear(
+      @ApiParam(value = "The year of a particular season", required = true)
+      @PathVariable("year") int year) {
     logger.info("Finding all status entries by season year: {}", year);
 
     List<StatusDto> statusEntries = statusReadOnlyService.findAllBySeasonYear(year);
@@ -143,8 +147,9 @@ public class StatusController {
       notes = "Finds a list of status codes in a particular season and round")
   @RequestMapping(value = "/{year}/{round}/status", method = RequestMethod.GET)
   @ResponseBody
-  StatusTable findAllBySeasonYearAndRound(@PathVariable("year") int year,
-                                          @PathVariable("round") int round) {
+  StatusTable findAllBySeasonYearAndRound(
+      @ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year,
+      @ApiParam(value = "The round of a particular season", required = true) @PathVariable("round") int round) {
     logger.info("Finding all status entries by season year and round: {}, {}", year, round);
 
     List<StatusDto> statusEntries = statusReadOnlyService.findAllBySeasonYearAndRound(year, round);

@@ -59,7 +59,9 @@ public class CircuitController {
       notes = "Finds a single circuit entry by a unique reference name", position = 2)
   @RequestMapping(value = "/{referenceName}", method = RequestMethod.GET)
   @ResponseBody
-  CircuitResource findByReferenceName(@ApiParam(value = "Unique reference name of circuit", required = true) @PathVariable("referenceName") String referenceName) {
+  CircuitResource findByReferenceName(
+      @ApiParam(value = "Unique reference name of a circuit", required = true)
+      @PathVariable("referenceName") String referenceName) {
     logger.info("Finding circuit entry by using referenceName: {}", referenceName);
 
     CircuitDto circuitEntry = circuitReadOnlyService.findByReferenceName(referenceName);

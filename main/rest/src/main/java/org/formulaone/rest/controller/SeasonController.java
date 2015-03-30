@@ -2,6 +2,7 @@ package org.formulaone.rest.controller;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 
 import org.formulaone.rest.wrapper.SeasonPage;
 import org.formulaone.rest.wrapper.SeasonResource;
@@ -103,7 +104,8 @@ public class SeasonController {
       notes = "Finds a single seasons entry by the year")
   @RequestMapping(value = "/{year}", method = RequestMethod.GET)
   @ResponseBody
-  SeasonResource findByYear(@PathVariable("year") int year) {
+  SeasonResource findByYear(@ApiParam(value = "The year of a particular season", required = true)
+                            @PathVariable("year") int year) {
     logger.info("Finding season entry by using year: {}", year);
 
     SeasonDto seasonEntry = seasonReadOnlyService.findByYear(year);

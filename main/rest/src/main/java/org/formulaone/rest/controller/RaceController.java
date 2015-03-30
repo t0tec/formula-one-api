@@ -2,6 +2,7 @@ package org.formulaone.rest.controller;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 
 import org.formulaone.rest.wrapper.RacePage;
 import org.formulaone.rest.wrapper.RaceResource;
@@ -31,8 +32,9 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * @version $Id$
  * @since 1.0
  */
-@Api(value = "races", description = "Returns information about the schedule of races, race results, qualifying(1994+), lap times(2011+) and pit stops (2011+) "
-                                    + " in Formula One"
+@Api(value = "races", description =
+    "Returns information about the schedule of races, race results, qualifying(1994+), lap times(2011+) and pit stops (2011+) "
+    + " in Formula One"
     , position = 4)
 @RestController
 @RequestMapping("/api/races")
@@ -103,7 +105,8 @@ public class RaceController {
       notes = "Finds a list of race entries by year ordered alphabetically")
   @RequestMapping(value = "/{year}", method = RequestMethod.GET)
   @ResponseBody
-  RaceTable findBySeason(@PathVariable("year") int year) {
+  RaceTable findBySeason(@ApiParam(value = "The year of a particular season", required = true)
+                         @PathVariable("year") int year) {
     List<RaceDto> raceEntries = raceReadOnlyService.findBySeasonYear(year);
     logger.info("Found {} race entries for year {}.", raceEntries.size(), year);
 
@@ -138,8 +141,9 @@ public class RaceController {
       notes = "Finds a of race entry by year and round")
   @RequestMapping(value = "/{year}/{round}", method = RequestMethod.GET)
   @ResponseBody
-  RaceResource findBySeasonAndRound(@PathVariable("year") int year,
-                                    @PathVariable("round") int round) {
+  RaceResource findBySeasonAndRound(
+      @ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year,
+      @ApiParam(value = "The round of a particular season", required = true) @PathVariable("round") int round) {
     RaceDto raceEntry = raceReadOnlyService.findBySeasonYearAndRound(year, round);
 
     RaceResource resource = new RaceResource(raceEntry);
@@ -163,8 +167,9 @@ public class RaceController {
       notes = "Finds a race entry and the results by year and round")
   @RequestMapping(value = "/{year}/{round}/results", method = RequestMethod.GET)
   @ResponseBody
-  RaceResource findRaceAndResultsBySeasonAndRound(@PathVariable("year") int year,
-                                                  @PathVariable("round") int round) {
+  RaceResource findRaceAndResultsBySeasonAndRound(
+      @ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year,
+      @ApiParam(value = "The round of a particular season", required = true) @PathVariable("round") int round) {
     RaceDto raceEntry = raceReadOnlyService.findRaceAndResultsBySeasonYearAndRound(year, round);
 
     RaceResource resource = new RaceResource(raceEntry);
@@ -205,7 +210,9 @@ public class RaceController {
               + "So you can find who was the winner of the last race by doing: 'api/races/last/results/1' ")
   @RequestMapping(value = "/last/results/{position}", method = RequestMethod.GET)
   @ResponseBody
-  RaceResource findLastRaceAndResultsAndPosition(@PathVariable("position") int position) {
+  RaceResource findLastRaceAndResultsAndPosition(
+      @ApiParam(value = "The finishing position in a race", required = true)
+      @PathVariable("position") int position) {
     RaceDto raceEntry = raceReadOnlyService.findLastRaceAndResultsWithPosition(position);
 
     RaceResource resource = new RaceResource(raceEntry);
@@ -229,9 +236,10 @@ public class RaceController {
               + "So you can find who was the winner of the first race of 2014 by doing: 'api/races/2014/1/results/1' ")
   @RequestMapping(value = "/{year}/{round}/results/{position}", method = RequestMethod.GET)
   @ResponseBody
-  RaceResource findRaceAndResultsBySeasonAndRoundAndPosition(@PathVariable("year") int year,
-                                                             @PathVariable("round") int round,
-                                                             @PathVariable("position") int position) {
+  RaceResource findRaceAndResultsBySeasonAndRoundAndPosition(
+      @ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year,
+      @ApiParam(value = "The round of a particular season", required = true) @PathVariable("round") int round,
+      @ApiParam(value = "The finishing position in a race", required = true) @PathVariable("position") int position) {
     RaceDto raceEntry = raceReadOnlyService.findRaceAndResultsBySeasonYearAndRoundWithPosition(year,
                                                                                                round,
                                                                                                position);
@@ -257,8 +265,9 @@ public class RaceController {
               + "So you can find who were the winners of the races of 2014 by doing: 'api/races/2014/results/1' ")
   @RequestMapping(value = "/{year}/results/{position}", method = RequestMethod.GET)
   @ResponseBody
-  RaceTable findBySeasonAndPosition(@PathVariable("year") int year,
-                                    @PathVariable("position") int position) {
+  RaceTable findBySeasonAndPosition(
+      @ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year,
+      @ApiParam(value = "The finishing position", required = true) @PathVariable("position") int position) {
     List<RaceDto> raceEntries = raceReadOnlyService.findRaceAndResultsBySeasonYearWithPosition(year,
                                                                                                position);
     logger.info("Found {} race entries for year {} with position {}.", raceEntries.size(), year,
@@ -280,8 +289,9 @@ public class RaceController {
       notes = "Finds a race entry and the qualifying results by year and round")
   @RequestMapping(value = "/{year}/{round}/qualifying", method = RequestMethod.GET)
   @ResponseBody
-  RaceResource findRaceAndQualifyingBySeasonAndRound(@PathVariable("year") int year,
-                                                     @PathVariable("round") int round) {
+  RaceResource findRaceAndQualifyingBySeasonAndRound(
+      @ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year,
+      @ApiParam(value = "The round of a particular season", required = true) @PathVariable("round") int round) {
     RaceDto raceEntry = raceReadOnlyService.findRaceAndQualifyingBySeasonYearAndRound(year, round);
 
     RaceResource resource = new RaceResource(raceEntry);
@@ -305,8 +315,9 @@ public class RaceController {
       notes = "Finds a race entry and the lap times by year and round")
   @RequestMapping(value = "/{year}/{round}/laps", method = RequestMethod.GET)
   @ResponseBody
-  RaceResource findRaceAndLapTimesBySeasonAndRound(@PathVariable("year") int year,
-                                                   @PathVariable("round") int round) {
+  RaceResource findRaceAndLapTimesBySeasonAndRound(
+      @ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year,
+      @ApiParam(value = "The round of a particular season", required = true) @PathVariable("round") int round) {
     RaceDto raceEntry = raceReadOnlyService.findRaceAndLapTimesBySeasonYearAndRound(year, round);
 
     RaceResource resource = new RaceResource(raceEntry);
@@ -329,9 +340,10 @@ public class RaceController {
       notes = "Finds a race entry and the lap times by year and round, to find the specific laps add the lap number")
   @RequestMapping(value = "/{year}/{round}/laps/{lapNumber}", method = RequestMethod.GET)
   @ResponseBody
-  RaceResource findRaceAndLapTimesBySeasonYearAndRoundAndLap(@PathVariable("year") int year,
-                                                             @PathVariable("round") int round,
-                                                             @PathVariable("lapNumber") int lapNumber) {
+  RaceResource findRaceAndLapTimesBySeasonYearAndRoundAndLap(
+      @ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year,
+      @ApiParam(value = "The round of a particular season", required = true) @PathVariable("round") int round,
+      @ApiParam(value = "The lap number", required = true) @PathVariable("lapNumber") int lapNumber) {
     RaceDto raceEntry = raceReadOnlyService.findRaceAndLapTimesBySeasonYearAndRoundAndLap(year,
                                                                                           round,
                                                                                           lapNumber);
@@ -358,9 +370,10 @@ public class RaceController {
       notes = "Finds a race entry and the lap times by year and round for a specific driver")
   @RequestMapping(value = "/{year}/{round}/drivers/{driverReferenceName}/laps", method = RequestMethod.GET)
   @ResponseBody
-  RaceResource findRaceAndLapTimesBySeasonYearAndRoundAndDriver(@PathVariable("year") int year,
-                                                                @PathVariable("round") int round,
-                                                                @PathVariable("driverReferenceName") String driverReferenceName) {
+  RaceResource findRaceAndLapTimesBySeasonYearAndRoundAndDriver(
+      @ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year,
+      @ApiParam(value = "The round of a particular season", required = true) @PathVariable("round") int round,
+      @ApiParam(value = "The unique driver reference name", required = true) @PathVariable("driverReferenceName") String driverReferenceName) {
     RaceDto raceEntry = raceReadOnlyService.findRaceAndLapTimesBySeasonYearAndRoundAndDriver(year,
                                                                                              round,
                                                                                              driverReferenceName);
@@ -389,10 +402,10 @@ public class RaceController {
   @RequestMapping(value = "/{year}/{round}/drivers/{driverReferenceName}/laps/{lapNumber}", method = RequestMethod.GET)
   @ResponseBody
   RaceResource findRaceAndLapTimesBySeasonYearAndRoundAndLapAndDriver(
-      @PathVariable("year") int year,
-      @PathVariable("round") int round,
-      @PathVariable("lapNumber") int lapNumber,
-      @PathVariable("driverReferenceName") String driverReferenceName) {
+      @ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year,
+      @ApiParam(value = "The round of a particular season", required = true) @PathVariable("round") int round,
+      @ApiParam(value = "The lap number", required = true) @PathVariable("lapNumber") int lapNumber,
+      @ApiParam(value = "The unique driver reference name", required = true) @PathVariable("driverReferenceName") String driverReferenceName) {
     RaceDto
         raceEntry =
         raceReadOnlyService.findRaceAndLapTimesBySeasonYearAndRoundAndLapAndDriver(year,
@@ -424,8 +437,9 @@ public class RaceController {
       notes = "Finds a race entry and the pit stops by year and round")
   @RequestMapping(value = "/{year}/{round}/pitstops", method = RequestMethod.GET)
   @ResponseBody
-  RaceResource findRaceAndPitStopsBySeasonAndRound(@PathVariable("year") int year,
-                                                   @PathVariable("round") int round) {
+  RaceResource findRaceAndPitStopsBySeasonAndRound(
+      @ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year,
+      @ApiParam(value = "The round of a particular season", required = true) @PathVariable("round") int round) {
     RaceDto raceEntry = raceReadOnlyService.findRaceAndPitStopsBySeasonYearAndRound(year, round);
 
     RaceResource resource = new RaceResource(raceEntry);
@@ -448,9 +462,10 @@ public class RaceController {
       notes = "Finds a race entry and the pit stops by year and round with a specific stop")
   @RequestMapping(value = "/{year}/{round}/pitstops/{stop}", method = RequestMethod.GET)
   @ResponseBody
-  RaceResource findRaceAndPitStopsBySeasonYearAndRoundAndStop(@PathVariable("year") int year,
-                                                              @PathVariable("round") int round,
-                                                              @PathVariable("stop") int stop) {
+  RaceResource findRaceAndPitStopsBySeasonYearAndRoundAndStop(
+      @ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year,
+      @ApiParam(value = "The round of a particular season", required = true) @PathVariable("round") int round,
+      @ApiParam(value = "The stop number (1st stop, 2nd stop etc...)", required = true) @PathVariable("stop") int stop) {
     RaceDto
         raceEntry =
         raceReadOnlyService.findRaceAndPitStopsBySeasonYearAndRoundAndStop(year, round, stop);
@@ -475,9 +490,10 @@ public class RaceController {
       notes = "Finds a race entry and the pit stops by year and round for a specific driver")
   @RequestMapping(value = "/{year}/{round}/drivers/{driverReferenceName}/pitstops", method = RequestMethod.GET)
   @ResponseBody
-  RaceResource findRaceAndPitStopsBySeasonYearAndRoundAndDriver(@PathVariable("year") int year,
-                                                                @PathVariable("round") int round,
-                                                                @PathVariable("driverReferenceName") String driverReferenceName) {
+  RaceResource findRaceAndPitStopsBySeasonYearAndRoundAndDriver(
+      @ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year,
+      @ApiParam(value = "The round of a particular season", required = true) @PathVariable("round") int round,
+      @ApiParam(value = "The uniqe driver reference name", required = true) @PathVariable("driverReferenceName") String driverReferenceName) {
     RaceDto raceEntry = raceReadOnlyService
         .findRaceAndPitStopsBySeasonYearAndRoundAndDriver(year, round, driverReferenceName);
 
@@ -492,7 +508,8 @@ public class RaceController {
   }
 
   /**
-   * Finds a race entry and the pit stops by year and round for a specific driver with a specific stop.
+   * Finds a race entry and the pit stops by year and round for a specific driver with a specific
+   * stop.
    *
    * @param year                The year of the requested entry.
    * @param round               The round of the requested entry.
@@ -505,10 +522,10 @@ public class RaceController {
   @RequestMapping(value = "/{year}/{round}/drivers/{driverReferenceName}/pitstops/{stop}", method = RequestMethod.GET)
   @ResponseBody
   RaceResource findRaceAndPitStopsBySeasonYearAndRoundAndStopAndDriver(
-      @PathVariable("year") int year,
-      @PathVariable("round") int round,
-      @PathVariable("stop") int stop,
-      @PathVariable("driverReferenceName") String driverReferenceName) {
+      @ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year,
+      @ApiParam(value = "The round of a particular season", required = true) @PathVariable("round") int round,
+      @ApiParam(value = "The stop number (1st stop, 2nd stop etc...)", required = true) @PathVariable("stop") int stop,
+      @ApiParam(value = "The unique driver reference name", required = true) @PathVariable("driverReferenceName") String driverReferenceName) {
     RaceDto raceEntry = raceReadOnlyService
         .findRaceAndPitStopsBySeasonYearAndRoundAndStopAndDriver(year, round, stop,
                                                                  driverReferenceName);
@@ -536,9 +553,10 @@ public class RaceController {
       notes = "Finds a race entry and the pit stops by year and round for a specific lap")
   @RequestMapping(value = "/{year}/{round}/laps/{lap}/pitstops", method = RequestMethod.GET)
   @ResponseBody
-  RaceResource findRaceAndPitStopsBySeasonYearAndRoundAndLap(@PathVariable("year") int year,
-                                                             @PathVariable("round") int round,
-                                                             @PathVariable("lap") int lap) {
+  RaceResource findRaceAndPitStopsBySeasonYearAndRoundAndLap(
+      @ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year,
+      @ApiParam(value = "The round of a particular season", required = true) @PathVariable("round") int round,
+      @ApiParam(value = "The lap number on which the car pitted", required = true) @PathVariable("lap") int lap) {
     RaceDto raceEntry =
         raceReadOnlyService.findRaceAndPitStopsBySeasonYearAndRoundAndLap(year, round, lap);
 
@@ -564,10 +582,10 @@ public class RaceController {
   @RequestMapping(value = "/{year}/{round}/drivers/{driverReferenceName}/laps/{lap}/pitstops", method = RequestMethod.GET)
   @ResponseBody
   RaceResource findRaceAndPitStopsBySeasonYearAndRoundAndLapAndDriver(
-      @PathVariable("year") int year,
-      @PathVariable("round") int round,
-      @PathVariable("driverReferenceName") String driverReferenceName,
-      @PathVariable("lap") int lap) {
+      @ApiParam(value = "The year of a particular season", required = true) @PathVariable("year") int year,
+      @ApiParam(value = "The round of a particular season", required = true) @PathVariable("round") int round,
+      @ApiParam(value = "The unique driver reference name", required = true) @PathVariable("driverReferenceName") String driverReferenceName,
+      @ApiParam(value = "The lap number on which the car pitted", required = true) @PathVariable("lap") int lap) {
     RaceDto raceEntry =
         raceReadOnlyService.findRaceAndPitStopsBySeasonYearAndRoundAndLapAndDriver(year, round, lap,
                                                                                    driverReferenceName);
