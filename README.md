@@ -61,12 +61,11 @@ Than navigate to `main/rest` with command line tool to run it
 
 * `mvn clean jetty:run -P dev`
 
-Then point your browser to the Swagger api documentation link available at: `http://localhost:8080/doc/index.html`
+Then point your browser to the Swagger api documentation link available at: `http://localhost:8080/swagger-ui.html`
 
 It will provide an user interface which visualizes an applications JSON api.
 
-Note: still XML representation is also supported but not available in Swagger
-because it only supports JSON.
+Note: still XML representation is also supported in my REST webservice but not available in Swagger because it only supports JSON.
 
 ## Technologies:
 * [Maven](http://maven.apache.org/)
@@ -76,9 +75,8 @@ because it only supports JSON.
 * [Swagger-spring-mvc](https://github.com/springfox/springfox)
 
 ## TODO:
-* Enable and configure travis-ci for running tests
+* Enable and configure travis-ci for running builds/tests
 * A lot more api endpoints that need to be added
-* [Bug](https://github.com/springfox/springfox/issues/610) from Swagger-spring-mvc: positioning controllers/methods not working
 
 ## Attribution
 * Thanks to [Ergast](http://ergast.com/mrd/db) for the usage and keeping the database up to date
