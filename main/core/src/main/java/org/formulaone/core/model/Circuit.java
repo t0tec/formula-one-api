@@ -39,11 +39,11 @@ public final class Circuit implements Serializable {
   private String location;
 
   @Mapping("location.latitude")
-  @Column(name = "lat", precision = 8, scale = 6) // columnDefinition = "decimal(8,6)
+  @Column(name = "lat", precision = 8, scale = 6) // columnDefinition = "decimal(8,6)"
   private float latitude;
 
   @Mapping("location.longitude")
-  @Column(name = "lng", precision = 9, scale = 6) //  columnDefinition = "decimal(9,6)
+  @Column(name = "lng", precision = 9, scale = 6) //  columnDefinition = "decimal(9,6)"
   private float longitude;
 
   @Column(name = "url", length = ConstrainConstants.MAX_LENGTH_URL)
@@ -53,7 +53,7 @@ public final class Circuit implements Serializable {
   }
 
   public Circuit(String referenceName, String name, String country, String location,
-                 float latitude, float longitude, Double length, Integer turns, String url) {
+                 float latitude, float longitude, String url) {
     this.referenceName = referenceName;
     this.name = name;
     this.country = country;

@@ -72,8 +72,8 @@ class WebMvcContext extends WebMvcConfigurerAdapter {
     return converter;
   }
 
-  public static final String WEB_VIEW_RESOLVER_PATTERNS = "classpath:/META-INF/resources/";
-  public static final String WEB_RESOURCE_LOCATION = "classpath:/META-INF/resources/webjars/";
+  private static final String WEB_VIEW_RESOLVER_PATTERNS = "classpath:/META-INF/resources/";
+  private static final String WEB_RESOURCE_LOCATION = "classpath:/META-INF/resources/webjars/";
 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -83,15 +83,6 @@ class WebMvcContext extends WebMvcConfigurerAdapter {
     registry.addResourceHandler("/webjars/**")
         .addResourceLocations(WEB_RESOURCE_LOCATION);
   }
-
-//  @Override
-//  public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//    registry.addResourceHandler(WEB_VIEW_RESOLVER_PATTERNS)
-//        .addResourceLocations(WEB_RESOURCE_LOCATION)
-//        .setCachePeriod(0)
-//        .resourceChain(true)
-//        .addResolver(new PathResourceResolver());
-//  }
 
   @Override
   public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
